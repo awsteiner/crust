@@ -52,8 +52,6 @@
     the data from \ref moller, otherwise it is fit to the
     data from \ref ame.
 
-    The variable \ref lda needs to be set and the function \ref load()
-    needs to be called before using.
  */
 class crust_fit : public o2scl::nucmass_fit {
 
@@ -61,18 +59,8 @@ class crust_fit : public o2scl::nucmass_fit {
 
   crust_fit();
 
-  /** \brief True if the data for the \ref ame and \ref moller objects 
-      has been loaded
-  */
-  bool loaded;
-
   /// Directory containing fit data
   std::string fit_dir;
-
-  /** \brief Load data for the \ref ame and \ref moller objects in 
-      directory \c dir
-  */
-  void load(std::string dir);
 
   /// Pointer to mass formula
   o2scl::ldrop_crust *lda;

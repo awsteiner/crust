@@ -27,17 +27,12 @@ using namespace o2scl_hdf;
 
 ldrop_crust::ldrop_crust() {
   dim=3.0;
-  loaded=false;
   use_ame=true;
   use_moller=true;
   extra_corr=true;
-}
 
-void ldrop_crust::load(string dir) {
-  o2scl_hdf::ame_load(ame,"",dir);
-  o2scl_hdf::mnmsk_load(moller,dir);
-  loaded=true;
-  return;
+  o2scl_hdf::ame_load(ame);
+  o2scl_hdf::mnmsk_load(moller);
 }
 
 int ldrop_crust::test_derivatives() {
@@ -392,11 +387,6 @@ double ldrop_crust::shell_energy(double Z, double N,
 
 double ldrop_crust::drip_binding_energy_full_d
 (double Z, double N, double npout, double nnout, double chi, double T) {
-
-  if (loaded==false) {
-    o2scl_hdf::ame_load(ame,"","indata");
-    o2scl_hdf::mnmsk_load(moller,"indata");
-  }
 
   if (chi<0.0) {
     O2SCL_ERR2("Variable 'chi' is less than zero in ",

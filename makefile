@@ -14,6 +14,11 @@ OBJS = crust.o main.o ldrop_crust.o pyc_rates.o eigen.o \
 
 #----------------------------------------------------------------------
 
+fit_test:
+	crust -model SLy4 -mf
+
+#----------------------------------------------------------------------
+
 crust.o: crust.cpp crust.h
 	$(CXX) $(FLAGS) -o crust.o -c crust.cpp
 

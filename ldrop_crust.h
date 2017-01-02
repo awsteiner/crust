@@ -57,8 +57,6 @@ namespace o2scl {
       \f]
       where \f$ f \f$ is the free energy density of nucleonic matter.
 
-      The function load() should be called before use. 
-
       \note The derivative \ref dcoul_dchi diverges when chi is zero,
       and so the provided derivative is not accurate in that case.
   */
@@ -66,21 +64,11 @@ namespace o2scl {
 
   public:
 
-    /** \brief True if the data for the \ref ame and \ref moller objects 
-	has been loaded (default false)
-    */
-    bool loaded;
-
-    /** \brief Load data for the \ref ame and \ref moller objects in 
-	directory \c dir
-    */
-    void load(std::string dir);
-
     /// The experimental mass model
-    nucmass_ame ame;
+    nucmass_ame_exp ame;
 
     /// Moller et al. mass model
-    nucmass_mnmsk moller;
+    nucmass_mnmsk_exp moller;
 
     /// Exponent for the new density term (default in acc.cpp is 5)
     double new_exp;

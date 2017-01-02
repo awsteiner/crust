@@ -308,7 +308,7 @@ namespace o2scl {
     double ec_heating;
 
     /// Convert units
-    convert_units cng;
+    convert_units &cng;
 
     /// If true, use simplified pycnonuclear rates (default true)
     bool simple_pyc;

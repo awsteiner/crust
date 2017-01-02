@@ -38,6 +38,7 @@ bool o2scl::compare_Z(const nucleus &n1, const nucleus &n2) {
 }
 
 crust_driver::crust_driver() : 
+  cng(o2scl_settings.get_convert_units()),
   dt(cng), nmt(lda,sk,cng), snat(lda,sk,cng) {
   
   input_dir="indata";
@@ -77,7 +78,6 @@ crust_driver::crust_driver() :
   lda.new_exp=5.0;
   lda.new_coeff=0.5;
     
-  cng.units_cmd_string="units -f indata/units_hck.dat";
   Tptr=4.3670374e-5;
   //Tptr=cng.convert("K","1/fm",1.0e8);
   
@@ -2105,8 +2105,6 @@ int crust_driver::set_input_dir(std::vector<std::string> &sv, bool itive_com) {
   skyrme_load(sk,fn,true);
   skyrme_set=true;
 
-  lda.load(input_dir);
-  cf.load(input_dir);
   cf.fit_dir=input_dir;
   pyc.load_data(input_dir);
   tsh.in_dir=input_dir;
@@ -2122,10 +2120,6 @@ int crust_driver::set_input_dir(std::vector<std::string> &sv, bool itive_com) {
 }
 
 int crust_driver::check_fun(std::vector<std::string> &sv, bool itive_com) {
-
-  if (skyrme_set==false) {
-    O2SCL_ERR("Skyrme model not set.",o2scl::exc_efailed);
-  }
 
   //cout << "X3: " << lda.gd.verbose << endl;
 
@@ -2143,6 +2137,11 @@ int crust_driver::check_fun(std::vector<std::string> &sv, bool itive_com) {
     cout << "check_rate2: " << check_rate2 << endl;
     return 0;
   }
+
+  if (skyrme_set==false) {
+    O2SCL_ERR("Model not set.",o2scl::exc_efailed);
+  }
+
   if (o2scl::stoi(sv[1])==check_mass_density) {
     
     cout << "\nChecking mass_density().\n" << endl;
@@ -2565,9 +2564,6 @@ int crust_driver::run(int argc, char *argv[]) {
   // ---------------------------------------
   // Process command-line arguments and run
 
-
-  //cout << "X2: " << lda.gd.verbose << endl;
-    
   cl.run_auto(argc,argv);
     
   return 0;

@@ -26,27 +26,14 @@ using namespace o2scl_const;
 using namespace o2scl_hdf;
 
 crust_fit::crust_fit() {
-  loaded=false;
   fit_moller=true;
   fit_dir=".";
-}
-
-void crust_fit::load(string dir) {
-  if (loaded==false) {
-    o2scl_hdf::ame_load(ame);
-    o2scl_hdf::mnmsk_load(moller);
-    loaded=true;
-  }
-  return;
+  
+  o2scl_hdf::ame_load(ame);
+  o2scl_hdf::mnmsk_load(moller);
 }
 
 int crust_fit::read_fit(std::vector<std::string> &sv, bool itive_com) {
-
-  if (loaded==false) {
-    o2scl_hdf::ame_load(ame);
-    o2scl_hdf::mnmsk_load(moller);
-    loaded=true;
-  }
 
   if (sv.size()<2) {
     cout << "Need filename for read_fit." << endl;
@@ -80,12 +67,6 @@ int crust_fit::read_fit(std::vector<std::string> &sv, bool itive_com) {
 
 int crust_fit::perform_fit(std::vector<std::string> &sv, bool itive_com) {
     
-  if (loaded==false) {
-    o2scl_hdf::ame_load(ame);
-    o2scl_hdf::mnmsk_load(moller);
-    loaded=true;
-  }
-
   cout << "Performing mass fit." << endl;
 
   // Fit quality
@@ -131,7 +112,7 @@ int crust_fit::perform_fit(std::vector<std::string> &sv, bool itive_com) {
   cout << "qual " << qual << endl;
   
   // Try fit a couple more times
-  for(size_t i=0;i<3;i++) {
+  for(size_t i=0;i<5;i++) {
     fit(*lda,qual);
     lda->guess_fun(lda->nfit,x);
     cout << "qual " << qual << endl;
