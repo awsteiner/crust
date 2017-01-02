@@ -100,6 +100,8 @@ int pyc_rates::fusion_times(dist_thermo &dt, matter &m, double T,
 }
 
 int pyc_rates::load_data(string dir) {
+  std::cout << "Missing 31." << std::endl;
+  exit(-1);
 #ifdef O2SCL_NEVER_DEFINED
   hdf_file hf;
   string fn=dir+"/beard10.o2";
@@ -166,13 +168,13 @@ int pyc_rates::test_rate2() {
     double rho=pow(10.0,lrho);
     double nb_CC=rho/m_carbon_g/1.0e39;
     double R_CC=rate(6,6,12,12,m_carbon,m_carbon,
-			    nb_CC,nb_CC,nb_CC,6,12,rho,1.0);
+		     nb_CC,nb_CC,nb_CC,6,12,rho,1.0);
     double nb_CO=rho*2.0/(m_carbon_g+m_oxygen_g)/1.0e39;
     double R_CO=rate(6,8,12,16,m_carbon,m_oxygen,
-			    nb_CO/2.0,nb_CO/2.0,nb_CO,7,14,rho,1.0);
+		     nb_CO/2.0,nb_CO/2.0,nb_CO,7,14,rho,1.0);
     double nb_OO=rho/m_oxygen_g/1.0e39;
     double R_OO=rate(8,8,16,16,m_oxygen,m_oxygen,
-			    nb_OO,nb_OO,nb_OO,8,16,rho,1.0);
+		     nb_OO,nb_OO,nb_OO,8,16,rho,1.0);
     cout << rho << " " << R_CC*1.0e39 << " "
 	 << R_CO*1.0e39 << " "
 	 << R_OO*1.0e39 << endl;
@@ -192,13 +194,13 @@ int pyc_rates::test_rate2() {
     double rho=pow(10.0,lrho);
     double nb_CC=rho/m_carbon_g/1.0e39;
     double R_CC=rate(6,6,12,12,m_carbon,m_carbon,
-			    nb_CC,nb_CC,nb_CC,6,12,rho,1.0);
+		     nb_CC,nb_CC,nb_CC,6,12,rho,1.0);
     double nb_CO=rho*2.0/(m_carbon_g+m_oxygen_g)/1.0e39;
     double R_CO=rate(6,8,12,16,m_carbon,m_oxygen,
-			    nb_CO/2.0,nb_CO/2.0,nb_CO,7,14,rho,1.0);
+		     nb_CO/2.0,nb_CO/2.0,nb_CO,7,14,rho,1.0);
     double nb_OO=rho/m_oxygen_g/1.0e39;
     double R_OO=rate(8,8,16,16,m_oxygen,m_oxygen,
-			    nb_OO,nb_OO,nb_OO,8,16,rho,1.0);
+		     nb_OO,nb_OO,nb_OO,8,16,rho,1.0);
     cout << rho << " " << R_CC*1.0e39 << " "
 	 << R_CO*1.0e39 << " "
 	 << R_OO*1.0e39 << endl;
@@ -211,7 +213,7 @@ int pyc_rates::test_rate2() {
   for(double rho=1.0e10;rho<1.1e14;rho*=sqrt(10.0)) {
     double nb_CC=rho/m_carbon_g/1.0e39;
     double R_CC=rate(6,6,12,12,m_carbon,m_carbon,
-			    nb_CC,nb_CC,nb_CC,6,12,rho,1.0);
+		     nb_CC,nb_CC,nb_CC,6,12,rho,1.0);
     cout << "At higher densities: " << rho << " " << R_CC*1.0e39 << " "
 	 << nb_CC/R_CC << endl;
   }
@@ -220,7 +222,7 @@ int pyc_rates::test_rate2() {
   for(double rho=1.0e10;rho<1.1e14;rho*=sqrt(10.0)) {
     double nb_NN=rho/m_neon_g/1.0e39;
     double R_NN=rate(10,10,20,20,m_neon,m_neon,
-			    nb_NN,nb_NN,nb_NN,10,20,rho,1.0);
+		     nb_NN,nb_NN,nb_NN,10,20,rho,1.0);
     cout << "At higher densities: " << rho << " " << R_NN*1.0e39 << " "
 	 << nb_NN/R_NN << endl;
   }
@@ -229,7 +231,7 @@ int pyc_rates::test_rate2() {
   for(double rho=1.0e10;rho<1.1e14;rho*=sqrt(10.0)) {
     double nb_MM=rho/m_magnesium_g/1.0e39;
     double R_MM=rate(12,12,24,24,m_magnesium,m_magnesium,
-			    nb_MM,nb_MM,nb_MM,12,24,rho,1.0);
+		     nb_MM,nb_MM,nb_MM,12,24,rho,1.0);
     cout << "At higher densities: " << rho << " " << R_MM*1.0e39 << " "
 	 << nb_MM/R_MM << endl;
   }

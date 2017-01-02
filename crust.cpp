@@ -72,6 +72,8 @@ crust_driver::crust_driver() :
   lda.full_surface=true;
   lda.exc_volume=true;
   lda.new_skin_mode=false;
+  std::cout << "Missing 4." << std::endl;
+  exit(-1);
 #ifdef O2SCL_NEVER_DEFINED
   lda.set_hadronic_eos_temp(*het);
 #endif
@@ -257,7 +259,7 @@ int crust_driver::init_dist(string mode, matter &m) {
   // Output baryon density
   dt.baryon_density(m,Tptr);
   if (verbose>0) cout << "Initial baryon density: " 
-       << m.nb << " fm^{-3}" << endl;
+		      << m.nb << " fm^{-3}" << endl;
 
   // Output mass density
   dt.mass_density(m,Tptr);
@@ -351,7 +353,7 @@ int crust_driver::compute_sna(double nb, double T, matter &m, bool debug) {
     
   if (m.dist.size()!=1) {
     O2SCL_ERR("Wrong distribution size in compute_sna().",
-		  o2scl::exc_esanity);
+	      o2scl::exc_esanity);
   }
 
   if (feq_fix_mode) {
@@ -366,6 +368,8 @@ int crust_driver::compute_sna(double nb, double T, matter &m, bool debug) {
   // Function to minimize
   sna_thermo::free_energy_sna_neut func(snat,m,T,nb);
 
+  std::cout << "Missing 5." << std::endl;
+  exit(-1);
 #ifdef O2SCL_NEVER_DEFINED
   // Minimizer
   cern_minimize<sna_thermo::free_energy_sna_neut> cm2;
@@ -526,7 +530,7 @@ int crust_driver::compute_sna_dist(double nb, matter &m, double T,
     
   if (m.dist.size()!=1) {
     O2SCL_ERR("Wrong distribution size in compute_sna_dist().",
-		  o2scl::exc_esanity);
+	      o2scl::exc_esanity);
   }
 
   // Initial guess for Z and N, and the number density of nuclei
@@ -534,6 +538,8 @@ int crust_driver::compute_sna_dist(double nb, matter &m, double T,
   int N_guess=m.dist[0].N;
   m.dist[0].n=nb/(Z_guess+N_guess)/2.0;
 
+  std::cout << "Missing 6." << std::endl;
+  exit(-1);
 #ifdef O2SCL_NEVER_DEFINED
 
   // Set nn and full_min to the minimum with
@@ -711,6 +717,8 @@ int crust_driver::make_table(std::vector<std::string> &sv, bool itive_com) {
     O2SCL_ERR("Skyrme model not set.",o2scl::exc_efailed);
   }
 
+  std::cout << "Missing 7." << std::endl;
+  exit(-1);
 #ifdef O2SCL_NEVER_DEFINED
   
   cout << "Making table." << endl;
@@ -747,7 +755,7 @@ int crust_driver::make_table(std::vector<std::string> &sv, bool itive_com) {
   fermion ne_mt(o2scl_settings.get_convert_units().convert
 		("kg","1/fm",o2scl_mks::mass_neutron),2.0);
   fermion pmt(o2scl_settings.get_convert_units().convert
-		("kg","1/fm",o2scl_mks::mass_proton),2.0);
+	      ("kg","1/fm",o2scl_mks::mass_proton),2.0);
   ne_mt.inc_rest_mass=true;
   pmt.inc_rest_mass=true;
   ne_mt.non_interacting=false;
@@ -855,6 +863,8 @@ int crust_driver::model(std::vector<std::string> &sv, bool itive_com) {
 
   }
 
+  std::cout << "Missing 8." << std::endl;
+  exit(-1);
 #ifdef O2SCL_NEVER_DEFINED
   lda.set_hadronic_eos_temp(*het);
 #endif
@@ -1028,7 +1038,7 @@ int crust_driver::full_eq(std::vector<std::string> &sv, bool itive_com) {
     if (false) {
       if (fabs(fr_check-m.fr)/fabs(m.fr)>1.0e-4) {
 	O2SCL_ERR2("Free energy check failed in ",
-		       "crust_driver::full_eq().",o2scl::exc_efailed);
+		   "crust_driver::full_eq().",o2scl::exc_efailed);
       }
     }
     cout << m.pr << " ";
@@ -1069,6 +1079,8 @@ int crust_driver::full_eq(std::vector<std::string> &sv, bool itive_com) {
     hf.close();
   }
 
+  std::cout << "Missing 9." << std::endl;
+  exit(-1);
 #ifdef O2SCL_NEVER_DEFINED
   
   if (feq.get_nlines()<=2) {
@@ -1284,6 +1296,8 @@ int crust_driver::full_eq2(std::vector<std::string> &sv, bool itive_com) {
     return 0;
   }
 
+  std::cout << "Missing 10." << std::endl;
+  exit(-1);
 #ifdef O2SCL_NEVER_DEFINED
   
   table_units *t2=(table_units *)(&feq);
@@ -1543,10 +1557,10 @@ int crust_driver::test_ndrip(std::vector<std::string> &sv, bool itive_com) {
        << dt.part4-t5 << endl;
   cout << "nN: " << m_new.dist[0].n << " " << m_new.dist[1].n << endl;
   cout << "nn: " << m_new.n->n << endl;
-    cout << "nb2: " 
-	 << m_new.dist[0].n*(m_new.dist[0].Z+m_new.dist[0].N)+
-      m_new.dist[1].n*(m_new.dist[1].Z+m_new.dist[1].N)+
-      m_new.n->n << endl;
+  cout << "nb2: " 
+       << m_new.dist[0].n*(m_new.dist[0].Z+m_new.dist[0].N)+
+    m_new.dist[1].n*(m_new.dist[1].Z+m_new.dist[1].N)+
+    m_new.n->n << endl;
   cout << "gpb: " << m_new.gb/m_new.nb << endl;
   cout << endl;
 
@@ -1564,7 +1578,9 @@ int crust_driver::acc(std::vector<std::string> &sv, bool itive_com) {
   // Matter objects
   matter m(false), m_new(false), nm(false);
 
-  #ifdef O2SCL_NEVER_DEFINED
+  std::cout << "Missing 11." << std::endl;
+  exit(-1);
+#ifdef O2SCL_NEVER_DEFINED
   // Store reaction summaries
   int Zmax=100;
   int Nmax=300;
@@ -1744,7 +1760,7 @@ int crust_driver::acc(std::vector<std::string> &sv, bool itive_com) {
       cnt+=cnt2;
       if (iix==50) {
 	O2SCL_ERR("Non-fusion reactions never stopping in acc().",
-		      o2scl::exc_efailed);
+		  o2scl::exc_efailed);
       }
       iix++;
       if (cnt2==0) done=true;
@@ -1772,7 +1788,7 @@ int crust_driver::acc(std::vector<std::string> &sv, bool itive_com) {
       }
       if (iix==500) {
 	O2SCL_ERR("Fusions never stopping in acc().",
-		      o2scl::exc_efailed);
+		  o2scl::exc_efailed);
       }
       iix++;
       if (cnt2==0) done=true;
@@ -1788,7 +1804,7 @@ int crust_driver::acc(std::vector<std::string> &sv, bool itive_com) {
 	cnt+=cnt2;
 	if (iix==50) {
 	  O2SCL_ERR("Alpha emission never stopping in acc().",
-			o2scl::exc_efailed);
+		    o2scl::exc_efailed);
 	}
 	iix++;
 	if (cnt2==0) done=true;

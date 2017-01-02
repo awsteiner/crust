@@ -33,7 +33,9 @@ crust_fit::crust_fit() {
 
 void crust_fit::eval(nucmass &n, double &fmin) {
 
-  #ifdef O2SCL_NEVER_DEFINED
+  std::cout << "Missing 12." << std::endl;
+  exit(-1);
+#ifdef O2SCL_NEVER_DEFINED
   
   fmin=0.0;    
   size_t nn=0;
@@ -98,6 +100,8 @@ int crust_fit::read_fit(std::vector<std::string> &sv, bool itive_com) {
     return 1;
   }
   
+  std::cout << "Missing 13." << std::endl;
+  exit(-1);
 #ifdef O2SCL_NEVER_DEFINED
   if (!fit_moller) {
     set_exp_mass(ame);
@@ -147,6 +151,8 @@ int crust_fit::perform_fit(std::vector<std::string> &sv, bool itive_com) {
   def_mmin.ntrial*=10;
   even_even=false;
 
+  std::cout << "Missing 14." << std::endl;
+  exit(-1);
 #ifdef O2SCL_NEVER_DEFINED
   if (!fit_moller) {
     set_exp_mass(ame);
@@ -181,6 +187,8 @@ int crust_fit::perform_fit(std::vector<std::string> &sv, bool itive_com) {
   // Perform initial fit
   lda->fit_fun(lda->nfit,x);
   eval(*lda,qual);
+  std::cout << "Missing 15." << std::endl;
+  exit(-1);
 #ifdef O2SCL_NEVER_DEFINED
   cout << "G " << x << "\n" << qual << endl;
   

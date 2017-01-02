@@ -254,11 +254,12 @@ namespace o2scl {
 	x[0]=m.n->n;
 	x[1]=m.dist[0].n;
 
+	std::cout << "Missing 1." << std::endl;
+	exit(-1);
 #ifdef O2SCL_NEVER_DEFINED
-
 	gmh.tol_abs/=1.0e4;
 	gmh.tol_rel/=1.0e4;
-	#endif
+#endif
 
       }
   
@@ -267,6 +268,8 @@ namespace o2scl {
       /** \brief Compute the function at point \c x, with result \c y
        */
       virtual double operator()(double nnhat) {
+	std::cout << "Missing 2." << std::endl;
+	exit(-1);
       #ifdef O2SCL_NEVER_DEFINED
 	mfna.set(*stp,nb_,nnhat,*mp,T_);
 	gmh.msolve(2,x,mfna);

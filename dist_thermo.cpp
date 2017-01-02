@@ -42,7 +42,7 @@ int dist_thermo::free_energy_dist_alpha(matter &m, double &T, double alpha) {
   }
   if (i==20) {
     O2SCL_ERR2("Iteration failed in ",
-		   "dist_thermo::free_energy_dist_alpha().",o2scl::exc_efailed);
+	       "dist_thermo::free_energy_dist_alpha().",o2scl::exc_efailed);
   }
 
   return 0;
@@ -56,7 +56,7 @@ int dist_thermo::free_energy_dist(matter &m, double T, bool eval_chem_pots) {
     cout << "T: " << T << endl;
     cout << m << endl;
     O2SCL_ERR("Not finite in free_energy_dist() [point 1].",
-		  o2scl::exc_efailed);
+	      o2scl::exc_efailed);
   }
 
   vector<nucleus> &dist=m.dist;
@@ -151,7 +151,7 @@ int dist_thermo::free_energy_dist(matter &m, double T, bool eval_chem_pots) {
       cout << "T: " << T << endl;
       cout << m << endl;
       O2SCL_ERR("Not finite in free_energy_dist() [point 2].",
-		    o2scl::exc_efailed);
+		o2scl::exc_efailed);
     }
       
     //if (use_pasta) {
@@ -323,7 +323,7 @@ int dist_thermo::free_energy_dist(matter &m, double T, bool eval_chem_pots) {
 	       << lda->dcoul_dchi << " " << lda->dexc_dchi << " "
 	       << lda->dshell_dchi << endl;
 	  O2SCL_ERR2("Chemical potentials not finite at point 2 in ",
-			 "free_energy_dist().",o2scl::exc_efailed);
+		     "free_energy_dist().",o2scl::exc_efailed);
 	}
       }
     }
@@ -340,10 +340,10 @@ int dist_thermo::free_energy_dist(matter &m, double T, bool eval_chem_pots) {
       double Rn3=lda->Rn*lda->Rn*lda->Rn;
       double Nprime=dist[i].N-geo*Rn3*m.n->n;
       
-    double mass_neutron=o2scl_settings.get_convert_units().convert
-      ("kg","1/fm",o2scl_mks::mass_neutron);
-    double mass_proton=o2scl_settings.get_convert_units().convert
-      ("kg","1/fm",o2scl_mks::mass_proton);
+      double mass_neutron=o2scl_settings.get_convert_units().convert
+	("kg","1/fm",o2scl_mks::mass_neutron);
+      double mass_proton=o2scl_settings.get_convert_units().convert
+	("kg","1/fm",o2scl_mks::mass_proton);
       m.mu[i]+=m.n->mu*dnnout_dni[i]+dist[i].Z*m.e.mu+
 	be+dist[i].Z*mass_proton+Nprime*mass_neutron;
 
@@ -353,7 +353,7 @@ int dist_thermo::free_energy_dist(matter &m, double T, bool eval_chem_pots) {
 	cout << "mue,be,Nprime,mui: " << m.e.mu << " " << be << " " 
 	     << Nprime << " " << m.mu[i] << endl;
 	O2SCL_ERR2("Chemical potentials not finite at point 3 in ",
-		       "free_energy_dist().",o2scl::exc_efailed);
+		   "free_energy_dist().",o2scl::exc_efailed);
       }
     }
 
@@ -390,10 +390,10 @@ int dist_thermo::free_energy_dist(matter &m, double T, bool eval_chem_pots) {
       
       if ((dist[i].Z+dist[i].N)%2==0) dist[i].g=1.0;
       else dist[i].g=3.0;
-    double mass_neutron=o2scl_settings.get_convert_units().convert
-      ("kg","1/fm",o2scl_mks::mass_neutron);
-    double mass_proton=o2scl_settings.get_convert_units().convert
-      ("kg","1/fm",o2scl_mks::mass_proton);
+      double mass_neutron=o2scl_settings.get_convert_units().convert
+	("kg","1/fm",o2scl_mks::mass_neutron);
+      double mass_proton=o2scl_settings.get_convert_units().convert
+	("kg","1/fm",o2scl_mks::mass_proton);
       dist[i].m=dist[i].Z*mass_proton+dist[i].N*mass_neutron+be;
       dist[i].non_interacting=true;
       dist[i].inc_rest_mass=false;
@@ -554,6 +554,8 @@ int dist_thermo::check_pressure(matter &m, double T) {
 
   lda->use_ame=false;
 
+  std::cout << "Missing 16." << std::endl;
+  exit(-1);
 #ifdef O2SCL_NEVER_DEFINED
   
   double mu1, mu2, mu3, mu4, pr1, gb1;
@@ -931,7 +933,7 @@ int dist_thermo::gibbs_energy_dist(matter &m, double T) {
     cout << "T: " << T << endl;
     cout << m << endl;
     O2SCL_ERR("Not finite in gibbs_energy_dist() [point 1].",
-		  o2scl::exc_efailed);
+	      o2scl::exc_efailed);
   }
 
   // Ensure the matter arrays have the correct size
@@ -971,7 +973,7 @@ int dist_thermo::gibbs_energy_dist(matter &m, double T) {
     cout << endl;
     cout << "gb,fr: " << m.gb << " " << m.fr << endl;
     O2SCL_ERR2("Pressure not finite in ",
-		   "dist_thermo::gibbs_energy_dist().",o2scl::exc_efailed);
+	       "dist_thermo::gibbs_energy_dist().",o2scl::exc_efailed);
   }
 
   return 0;
@@ -1018,10 +1020,10 @@ int dist_thermo::free_energy_cell(matter &m, double T, int ix, double &fr,
   // mass which will be added in later
   if ((dist[ix].Z+dist[ix].N)%2==0) dist[ix].g=1.0;
   else dist[ix].g=3.0;
-    double mass_neutron=o2scl_settings.get_convert_units().convert
-      ("kg","1/fm",o2scl_mks::mass_neutron);
-    double mass_proton=o2scl_settings.get_convert_units().convert
-      ("kg","1/fm",o2scl_mks::mass_proton);
+  double mass_neutron=o2scl_settings.get_convert_units().convert
+    ("kg","1/fm",o2scl_mks::mass_neutron);
+  double mass_proton=o2scl_settings.get_convert_units().convert
+    ("kg","1/fm",o2scl_mks::mass_proton);
   dist[ix].m=dist[ix].Z*mass_proton+dist[ix].N*mass_neutron+be;
   dist[ix].non_interacting=true;
   dist[ix].inc_rest_mass=false;
@@ -1137,7 +1139,7 @@ int dist_thermo::gibbs_press_neut_func(double pr, double nnf, double alpha,
 	   << alpha << " " << nn_new << " " << T << endl;
       cout << m_new << endl;
       O2SCL_ERR2("Error in post density.",
-		     "in gibbs_pressure_funct2().",o2scl::exc_efailed);
+		 "in gibbs_pressure_funct2().",o2scl::exc_efailed);
     }
   }
   
@@ -1148,7 +1150,7 @@ int dist_thermo::gibbs_press_neut_func(double pr, double nnf, double alpha,
     cout << "nn_new,phi,alpha,nnf: " 
 	 << nn_new << " " << phi << " " << alpha << " " << nnf << endl;
     O2SCL_ERR2("Variables y1 or y2 not finite in ",
-		   "gibbs_press_neut_func().",o2scl::exc_efailed);
+	       "gibbs_press_neut_func().",o2scl::exc_efailed);
   }
 
   return 0;
@@ -1182,11 +1184,13 @@ int dist_thermo::gibbs_fixp_neutron(double pr_old, double nn_full_old,
   gmh.msolve(2,x,fsp2);
     
   if (x[0]<0.0) {
+    std::cout << "Missing 17." << std::endl;
+    exit(-1);
 #ifdef O2SCL_NEVER_DEFINED
     cout << "alpha, nn: " << x << endl;
 #endif
     O2SCL_ERR2("Variable alpha is negative in",
-		   " gibbs_fixp_neutron().",o2scl::exc_efailed);
+	       " gibbs_fixp_neutron().",o2scl::exc_efailed);
   }
 
   // Ensure m_new has the correct new composition
@@ -1205,7 +1209,7 @@ double dist_thermo::gibbs_pressure_func
   if (n_fact<0.0 || !finite(n_fact)) {
     cout << n_fact << endl;
     O2SCL_ERR("n_fact negative in gibbs_pressure_func().",
-		  o2scl::exc_efailed);
+	      o2scl::exc_efailed);
   }
 
   for(size_t i=0;i<m_new.dist.size();i++) {
@@ -1237,6 +1241,8 @@ int dist_thermo::gibbs_fixp(double pr_target, matter &m_new, double T) {
   // The variable 'corr' is the ratio of old to new densities
   double corr=ll;
 
+  std::cout << "Missing 18." << std::endl;
+  exit(-1);
 #ifdef O2SCL_NEVER_DEFINED
   
   // FIXME: Document why this is better(?) than the alternative
@@ -1284,6 +1290,8 @@ double dist_thermo::dist_sna_solve(double nb, matter &m, double T) {
 
 int dist_thermo::free_energy_dist_sna(double nb, matter &m, double T) {
 
+  std::cout << "Missing 19." << std::endl;
+  exit(-1);
 #ifdef O2SCL_NEVER_DEFINED
   // Using the solver fails at about rho = 2e8 g/cm^3 currently.
   if (false) {

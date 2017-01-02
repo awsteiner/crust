@@ -94,9 +94,11 @@ int ldrop_crust::test_derivatives() {
 }
 
 int ldrop_crust::run_test(double Z, double N, double npout,
-			double nnout, double chi, double T) {
+			  double nnout, double chi, double T) {
   double d1, d2, d3, d4, d5, d6, d7, d8, d9, d10;
 
+  std::cout << "Missing 26." << std::endl;
+  exit(-1);
 #ifdef O2SCL_NEVER_DEFINED
   
   // Derivative object
@@ -331,7 +333,7 @@ double ldrop_crust::shell_energy(double Z, double N,
     }
     if (done==false) {
       O2SCL_ERR2("Failed to do shell model correction ",
-		     "in ldrop_crust::shell_energy().",o2scl::exc_esanity);
+		 "in ldrop_crust::shell_energy().",o2scl::exc_esanity);
     }
   }
 
@@ -357,7 +359,7 @@ double ldrop_crust::shell_energy(double Z, double N,
     }
     if (done==false) {
       O2SCL_ERR2("Failed to do shell model correction ",
-		     "in ldrop_crust::shell_energy().",o2scl::exc_esanity);
+		 "in ldrop_crust::shell_energy().",o2scl::exc_esanity);
     }
   }
 
@@ -515,7 +517,7 @@ double ldrop_crust::drip_binding_energy_full_d
 	cout << "nL,dfdu_dchip,dchip_dchi: " << nL << " " 
 	     << dfdu_dchip << " " << dchip_dchi << endl;
 	O2SCL_ERR2("Variable dcoul_dchi not finite in ",
-		       "ldrop_crust.",o2scl::exc_efailed);
+		   "ldrop_crust.",o2scl::exc_efailed);
       }
 
       dcoul_dnp=-4.0*A*coul_coeff*o2scl_const::pi*o2scl_const::hc_mev_fm*
@@ -778,7 +780,7 @@ double ldrop_crust::drip_binding_energy_full_d
     cout << "chi,dfdu_dchip,dchip_dchi: " << chi << " " 
 	 << dfdu_dchip << " " << dchip_dchi << endl;
     O2SCL_ERR2("Variable dcoul_dchi not finite in ",
-		   "ldrop_crust.",o2scl::exc_efailed);
+	       "ldrop_crust.",o2scl::exc_efailed);
   }
 
   dcoul_dnp=-4.0*A*coul_coeff*o2scl_const::pi*o2scl_const::hc_mev_fm*
@@ -830,7 +832,7 @@ double ldrop_crust::drip_binding_energy_full_d
   }
   
   shell=shell_energy(Z0,N0,pfact,nfact,0.0,dpfact,dnfact,dndc,dpdc,
-		      dshell_dnp,dshell_dnn,dshell_dchi);
+		     dshell_dnp,dshell_dnn,dshell_dchi);
   
   ret+=shell;
 
@@ -845,7 +847,7 @@ double ldrop_crust::nucleus_be(int Z, int N, double npout, double nnout,
     cout << Z << " " << N << " " << npout << "\n\t" << nnout << " "
 	 << T << " " << ne << endl;
     O2SCL_ERR2("Variable 'nnout' not ",
-		   "finite in nucleus_be().",o2scl::exc_efailed);
+	       "finite in nucleus_be().",o2scl::exc_efailed);
   }
     
   // The solver is more elegant but iteration appears faster,
@@ -913,9 +915,11 @@ double ldrop_crust::nucleus_be(int Z, int N, double npout, double nnout,
       }
       if (it==100) {
 	O2SCL_ERR2("Computation of chi boundary failed in ",
-		       "nucleus_be().",o2scl::exc_efailed);
+		   "nucleus_be().",o2scl::exc_efailed);
       }
 	
+      std::cout << "Missing 27." << std::endl;
+      exit(-1);
 #ifdef O2SCL_NEVER_DEFINED
       grb.solve_bkt(chi,ul,fsp);
 #endif
@@ -926,7 +930,7 @@ double ldrop_crust::nucleus_be(int Z, int N, double npout, double nnout,
       cout << Z << " " << N << " " << npout << "\n\t" << nnout << " "
 	   << T << " " << ne << endl;
       O2SCL_ERR2("Variable 'nnout' not finite in ",
-		     "nucleus_be() [point 3].",o2scl::exc_efailed);
+		 "nucleus_be() [point 3].",o2scl::exc_efailed);
     }
     
     // Compute final binding energy
@@ -946,8 +950,8 @@ double ldrop_crust::nucleus_be(int Z, int N, double npout, double nnout,
 }
   
 double ldrop_crust::nucleus_be_pasta(int Z, int N, double npout, double nnout, 
-				   double T, double ne, double &Rws, 
-				   double &chi) {
+				     double T, double ne, double &Rws, 
+				     double &chi) {
 				   
     
   double be_min=1.0e100, dim_min=0.0;

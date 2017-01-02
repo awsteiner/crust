@@ -53,6 +53,8 @@ int nm_thermo::solve_fun(size_t nv, const ubvector &x,
 
 void nm_thermo::calc(matter &nm) {
 
+  std::cout << "Missing 30." << std::endl;
+  exit(-1);
 #ifdef O2SCL_NEVER_DEFINED  
   mm_funct_mfptr_param<nm_thermo,matter> fmp(this,&nm_thermo::solve_fun,nm);
 

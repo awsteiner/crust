@@ -71,7 +71,9 @@ int rxns::ec_summary(crust_driver *a, matter &m, matter &m_new,
 		     double T, ubmatrix &gpb_store,
 		     ubmatrix &m_store) {
 
-  #ifdef O2SCL_NEVER_DEFINED
+  std::cout << "Missing 32." << std::endl;
+  exit(-1);
+#ifdef O2SCL_NEVER_DEFINED
   
   int Zmax=gpb_store.rows();
   int Nmax=gpb_store.cols();
@@ -421,7 +423,9 @@ int rxns::en_summary(crust_driver *a, matter &m, matter &m_new,
 		     double T, ubmatrix &gpb_store,
 		     ubmatrix &m_store) {
 
-  #ifdef O2SCL_NEVER_DEFINED
+  std::cout << "Missing 33." << std::endl;
+  exit(-1);
+#ifdef O2SCL_NEVER_DEFINED
 
   int Zmax=gpb_store.rows();
   int Nmax=gpb_store.cols();

@@ -73,6 +73,8 @@ int shear_eigen::eigen_solve(size_t nv, const ubvector &x,
   shtab->set_unit("B2dsb","1/km^2");
   shtab->set_unit("Bdsb","1/km^2");
 
+  std::cout << "Missing 20." << std::endl;
+  exit(-1);
 #ifdef O2SCL_NEVER_DEFINED  
   
   ode_funct_mfptr<shear_eigen> ofm(this,&shear_eigen::derivs);
@@ -165,6 +167,8 @@ int shear_eigen::compute_freq(table_units<> *shear, double Rc, double R,
 	
     }
 
+    std::cout << "Missing 21." << std::endl;
+    exit(-1);
 #ifdef O2SCL_NEVER_DEFINED
     v_omega.push_back(x[0]);
     v_xip.push_back(y[0]);
@@ -193,6 +197,8 @@ int shear_eigen::compute_freq(table_units<> *shear, double Rc, double R,
     }
   }
 
+  std::cout << "Missing 22." << std::endl;
+  exit(-1);
 #ifdef O2SCL_NEVER_DEFINED
   if (found) {
     int start=row-5, end=row+5;
@@ -262,6 +268,8 @@ int tov_shear::tov(std::vector<std::string> &sv, bool itive_com) {
   cout << "In_dir: " << in_dir << endl;
   table_units<> slb;
   hf.open(in_dir+((string)"/slb11.o2"));
+  std::cout << "Missing 23." << std::endl;
+  exit(-1);
 #ifdef O2SCL_NEVER_DEFINED  
   hdf_input(hf,slb);
 #endif
@@ -320,6 +328,8 @@ int tov_shear::tov(std::vector<std::string> &sv, bool itive_com) {
     }
   }
 
+  std::cout << "Missing 24." << std::endl;
+  exit(-1);
 #ifdef O2SCL_NEVER_DEFINED  
   if (true) {
     if (mag_field>0.0) {
@@ -495,6 +505,8 @@ int tov_shear::shear(std::vector<std::string> &sv, bool itive_com) {
   hf.close();
   if (verbose>0) cout << "Loaded crust table '" << sv[1] << "'." << endl;
 
+  std::cout << "Missing 25." << std::endl;
+  exit(-1);
 #ifdef O2SCL_NEVER_DEFINED  
   if (false) {
 

@@ -43,6 +43,8 @@ double multi_zone::min_fun(size_t nv, const ubvector &x) {
     if (zones[i]->n->n<0.0) return 1.0e3;
   }
   
+  std::cout << "Missing 28." << std::endl;
+  exit(-1);
 #ifdef O2SCL_NEVER_DEFINED
   
   mm_funct_mfptr<multi_zone> mfm(this,&multi_zone::solve_fun);
@@ -207,6 +209,8 @@ int multi_zone::solve_fun(size_t nv, const ubvector &x,
 void multi_zone::test_stability(double T, dist_thermo &dt, 
 				size_t nz, table_units<> &t, size_t fz) {
   
+  std::cout << "Missing 29." << std::endl;
+  exit(-1);
 #ifdef O2SCL_NEVER_DEFINED
 
   cout.precision(6);

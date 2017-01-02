@@ -111,6 +111,8 @@ namespace o2scl {
       double mup1=mup10+(mup11-mup10)*(pr.n-np0)/(np1-np0);
       pr.mu=mup0+(mup1-mup0)*(ne.n-nn0)/(nn1-nn0);
 
+	std::cout << "Missing 3." << std::endl;
+	exit(-1);
 #ifdef O2SCL_NEVER_DEFINED
       th.ed=tab.interp(ne.n,pr.n,"ed");
       th.pr=tab.interp(ne.n,pr.n,"pr");
