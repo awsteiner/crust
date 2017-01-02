@@ -1,0 +1,302 @@
+##############################################################
+# Fundamental units
+m	!
+meter	m
+s	299792458 m
+second	s
+kg	9.4825235516938e+33 s / m^2
+kilogram	kg
+A	!
+ampere	A
+amp	A
+cd	!
+candela	cd
+mol	!
+mole	mol
+K	1.3806503e-23 kg m^2 / s^2
+kelvin	K
+radian	!
+sr	!
+steradian	sr
+US$	!
+bit	!
+
+##############################################################
+# SI and common prefixes
+yotta-		1e24
+zetta-		1e21
+exa-		1e18
+peta-		1e15
+tera-		1e12
+giga-		1e9
+mega-		1e6
+myria-		1e4
+kilo-		1e3
+hecto-		1e2
+deca-		1e1
+deka-		deca
+deci-		1e-1
+centi-		1e-2
+milli-		1e-3
+micro-		1e-6
+nano-		1e-9
+pico-		1e-12
+femto-		1e-15
+atto-		1e-18
+zepto-		1e-21
+yocto-		1e-24
+quarter-	1|4
+semi-		0.5
+demi-		0.5
+hemi-		0.5
+half-		0.5
+double-		2
+triple-		3
+treble-		3
+
+##############################################################
+# SI prefix abbreviations
+Y-                      yotta
+Z-                      zetta
+E-                      exa
+P-                      peta
+T-                      tera
+G-                      giga
+M-                      mega
+k-                      kilo
+h-                      hecto
+da-                     deka
+d-                      deci
+c-                      centi
+m-                      milli
+n-                      nano
+p-                      pico
+f-                      femto
+a-                      atto
+z-                      zepto
+y-                      yocto
+
+##############################################################
+# Basic numbers
+one                     1
+two                     2
+double                  2
+couple                  2
+three                   3
+triple                  3
+four                    4
+quadruple               4
+five                    5
+quintuple               5
+six                     6
+seven                   7
+eight                   8
+nine                    9
+ten                     10
+twenty                  20
+thirty                  30
+forty                   40
+fifty                   50
+sixty                   60
+seventy                 70
+eighty                  80
+ninety                  90
+hundred                 100
+thousand                1000
+million                 1e6
+billion                 1e9
+trillion                1e12
+quadrillion             1e15
+quintillion             1e18
+sextillion              1e21
+septillion              1e24
+octillion               1e27
+nonillion               1e30
+noventillion            nonillion
+decillion               1e33
+undecillion             1e36
+duodecillion            1e39
+tredecillion            1e42
+quattuordecillion       1e45
+quindecillion           1e48
+sexdecillion            1e51
+septendecillion         1e54
+octodecillion           1e57
+novemdecillion          1e60
+vigintillion            1e63
+googol                  1e100
+centillion              1e303
+
+##############################################################
+# Basic SI units
+newton                  kg m / s^2   
+N                       newton
+pascal                  N/m^2        
+Pa                      pascal
+joule                   N m          
+J                       joule
+watt                    J/s          
+W                       watt
+coulomb                 A s          
+C                       coulomb
+volt                    W/A          
+V                       volt
+ohm                     V/A          
+siemens                 A/V          
+S                       siemens
+farad                   C/V          
+F                       farad
+weber                   V s          
+Wb                      weber
+henry                   Wb/A         
+H                       henry
+tesla                   Wb/m^2       
+T                       tesla
+hertz                   1/s           
+Hz                      hertz
+gram                    millikg       
+g                       gram
+
+##############################################################
+# Dimensional analysis units
+LENGTH                  meter
+AREA                    LENGTH^2
+VOLUME                  LENGTH^3
+MASS                    kilogram
+CURRENT                 ampere
+AMOUNT                  mole
+ANGLE                   radian
+SOLID_ANGLE             steradian
+MONEY                   US$
+FORCE                   newton
+PRESSURE                FORCE / AREA
+STRESS                  FORCE / AREA
+CHARGE                  coulomb
+CAPACITANCE             farad
+RESISTANCE              ohm
+CONDUCTANCE             siemens
+INDUCTANCE              henry
+FREQUENCY               hertz
+VELOCITY                LENGTH / TIME
+ACCELERATION            VELOCITY / TIME
+DENSITY                 MASS / VOLUME
+LINEAR_DENSITY          MASS / LENGTH
+VISCOSITY               FORCE TIME / AREA
+KINEMATIC_VISCOSITY     VISCOSITY / DENSITY
+
+##############################################################
+# GSL constants
+schwarzchild_radius		2953.25008 m
+Rschwarz		schwarzchild_radius
+speed_of_light		299792458 m / s
+c		speed_of_light
+gravitational_constant		6.673e-11 m^3 / kg s^2
+G		gravitational_constant
+plancks_constant_h		6.62606876e-34 kg m^2 / s
+h		plancks_constant_h
+plancks_constant_hbar		1.05457159642e-34 kg m^2 / s
+hbar		plancks_constant_hbar
+astronomical_unit		149597870691 m
+au		astronomical_unit
+light_year		9.46053620707e+15 m
+lyr		light_year
+parsec		3.08567758135e+16 m
+pc		parsec
+grav_accel		9.80665 m / s^2
+electron_volt		1.602176487e-19 kg m^2 / s^2
+eV		electron_volt
+mass_electron		9.10938188e-31 kg
+mass_muon		1.88353109e-28 kg
+mass_proton		1.67262158e-27 kg
+mass_neutron		1.67492716e-27 kg
+rydberg		2.17987190389e-18 kg m^2 / s^2
+boltzmann		1.3806503e-23 kg m^2 / K s^2
+bohr_magneton		9.27400899e-24 A m^2
+nuclear_magneton		5.05078317e-27 A m^2
+electron_magnetic_moment		9.28476362e-24 A m^2
+proton_magnetic_moment		1.410606633e-26 A m^2
+molar_gas		8.314472 kg m^2 / K mol s^2
+standard_gas_volume		0.022710981 m^3 / mol
+minute		60 s
+min		minute
+hour		3600 s
+day		86400 s
+week		604800 s
+inch		0.0254 m
+foot		0.3048 m
+yard		0.9144 m
+mile		1609.344 m
+nautical_mile		1852 m
+fathom		1.8288 m
+mil		2.54e-05 m
+point		0.000352777777778 m
+texpoint		0.000351459803515 m
+micron		1e-06 m
+angstrom		1e-10 m
+hectare		10000 m^2
+acre		4046.85642241 m^2
+barn		1e-28 m^2
+liter		0.001 m^3
+us_gallon		0.00378541178402 m^3
+gallon		us_gallon
+quart		0.000946352946004 m^3
+pint		0.000473176473002 m^3
+cup		0.000236588236501 m^3
+fluid_ounce		2.95735295626e-05 m^3
+tablespoon		1.47867647813e-05 m^3
+teaspoon		4.92892159375e-06 m^3
+canadian_gallon		0.00454609 m^3
+uk_gallon		0.004546092 m^3
+miles_per_hour		0.44704 m / s
+mph		miles_per_hour
+kilometers_per_hour		0.277777777778 m / s
+kph		kilometers_per_hour
+knot		0.514444444444 m / s
+pound_mass		0.45359237 kg
+ounce_mass		0.028349523125 kg
+ton		907.18474 kg
+metric_ton		1000 kg
+uk_ton		1016.0469088 kg
+troy_ounce		0.031103475 kg
+carat		0.0002 kg
+unified_atomic_mass		1.66053873e-27 kg
+gram_force		0.00980665 kg m / s^2
+pound_force		4.44822161526 kg m / s^2
+kilopound_force		4448.22161526 kg m / s^2
+poundal		0.138255 kg m / s^2
+calorie		4.1868 kg m^2 / s^2
+btu		1055.05585262 kg m^2 / s^2
+therm		105506000 kg m^2 / s^2
+horsepower		745.7 kg m^2 / s^3
+hp		horsepower
+bar		100000 kg / m s^2
+std_atmosphere		101325 kg / m s^2
+torr		133.322368421 kg / m s^2
+meter_of_mercury		133322.368421 kg / m s^2
+inch_of_mercury		3386.38815789 kg / m s^2
+inch_of_water		249.0889 kg / m s^2
+psi		6894.75729317 kg / m s^2
+poise		0.1 kg / m s 
+stokes		0.0001 m^2 / s
+faraday		96485.3429775 A s / mol
+electron_charge		1.602176487e-19 A s
+gauss		0.0001 kg / A s^2
+stilb		10000 cd / m^2
+lumen		1 cd sr
+lux		1 cd sr / m^2
+phot		10000 cd sr / m^2
+footcandle		10.76 cd sr / m^2
+lambert		10000 cd sr / m^2
+footlambert		10.7639104 cd sr / m^2
+curie		37000000000 1 / s
+roentgen		0.000258 A s / kg
+rad		0.01 m^2 / s^2
+solar_mass		1.98892e+30 kg
+Msun		solar_mass
+bohr_radius		5.291772083e-11 m
+dyne		1e-05 kg m / s^2
+erg		1e-07 kg m^2 / s^2
+stefan_boltzmann_constant		5.67039934436e-08 kg / K^4 s^3
+thomson_cross_section		6.65245853542e-29 m^2
+vacuum_permittivity		8.854187817e-12 A^2 s^4 / kg m^3
+vacuum_permeability		1.25663706144e-06 kg m / A^2 s^2
