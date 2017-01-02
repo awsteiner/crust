@@ -97,17 +97,13 @@ int ldrop_crust::run_test(double Z, double N, double npout,
 			  double nnout, double chi, double T) {
   double d1, d2, d3, d4, d5, d6, d7, d8, d9, d10;
 
-  std::cout << "Missing 26." << std::endl;
-  exit(-1);
-#ifdef O2SCL_NEVER_DEFINED
-  
   // Derivative object
   deriv_gsl<ldrop_be_deriv> gd;
   gd.h=1.0e-4;
   deriv_cern<ldrop_be_deriv> cd;
   // The cern_deriv class doesn't seem to give better results, but we
   // leave the option to use it here.
-  deriv<ldrop_be_deriv> *dp=&gd;
+  deriv_base<ldrop_be_deriv> *dp=&gd;
   double der, dere, xx;
 
   cout.setf(ios::showpos);
@@ -135,69 +131,69 @@ int ldrop_crust::run_test(double Z, double N, double npout,
 
   // dbulk_dchi
   ldrop_be_deriv flc1(*this,Z,N,npout,nnout,chi,T,1,4);
-  dp->calc_err(chi,flc1,der,dere);
+  dp->deriv_err(chi,flc1,der,dere);
   cout << "dbulk_dchi: " 
        << der << " " << dere << " " << d1 << " " << fabs(der-d1) << endl;
   if (fabs(der-d1)>dere*2.0) {
     cout << "Z,N,np,nn,chi,T: " << Z << " " << N << endl;
     cout << "\t" << npout << " " << nnout << " " << chi << " " << T << endl;
-    O2SCL_ERR_RET("Failed at dbulk_dchi",o2scl::exc_efailed);
+    O2SCL_ERR("Failed at dbulk_dchi",o2scl::exc_efailed);
   }
   
   // dcoul_dchi
   ldrop_be_deriv flc2(*this,Z,N,npout,nnout,chi,T,3,4);
-  dp->calc_err(chi,flc2,der,dere);
+  dp->deriv_err(chi,flc2,der,dere);
   cout << "dcoul_dchi: " 
        << der << " " << dere << " " << d2 << " " << fabs(der-d2) << endl;
   if (fabs(der-d2)>dere*2.0) {
     cout << "Z,N,np,nn,chi,T: " << Z << " " << N << endl;
     cout << "\t" << npout << " " << nnout << " " << chi << " " << T << endl;
-    O2SCL_ERR_RET("Failed at dcoul_dchi",o2scl::exc_efailed);
+    O2SCL_ERR("Failed at dcoul_dchi",o2scl::exc_efailed);
   }
 
   // dexc_dchi
   ldrop_be_deriv flc3(*this,Z,N,npout,nnout,chi,T,6,4);
-  dp->calc_err(chi,flc3,der,dere);
+  dp->deriv_err(chi,flc3,der,dere);
   cout << "dexc_dchi : " 
        << der << " " << dere << " " << d7 << " " << fabs(der-d7) << endl;
   if (fabs(der-d7)>dere*2.0) {
     cout << "Z,N,np,nn,chi,T: " << Z << " " << N << endl;
     cout << "\t" << npout << " " << nnout << " " << chi << " " << T << endl;
-    O2SCL_ERR_RET("Failed at dexc_dchi ",o2scl::exc_efailed);
+    O2SCL_ERR("Failed at dexc_dchi ",o2scl::exc_efailed);
   }
 
   // dsurf_dchi
   ldrop_be_deriv flc4(*this,Z,N,npout,nnout,chi,T,2,4);
-  dp->calc_err(chi,flc4,der,dere);
+  dp->deriv_err(chi,flc4,der,dere);
   cout << "dsurf_dchi: " 
        << der << " " << dere << " " << d8 << " " << fabs(der-d8) << endl;
   if (fabs(der-d8)>dere*2.0) {
     cout << "Z,N,np,nn,chi,T: " << Z << " " << N << endl;
     cout << "\t" << npout << " " << nnout << " " << chi << " " << T << endl;
-    O2SCL_ERR_RET("Failed at dsurf_dchi",o2scl::exc_efailed);
+    O2SCL_ERR("Failed at dsurf_dchi",o2scl::exc_efailed);
   }
 
   // dshell_dchi
   ldrop_be_deriv flc4xx(*this,Z,N,npout,nnout,chi,T,5,4);
-  dp->calc_err(chi,flc4xx,der,dere);
+  dp->deriv_err(chi,flc4xx,der,dere);
   cout << "dshel_dchi: " 
        << der << " " << dere << " " << d9 << " " << fabs(der-d9) << endl;
   if (fabs(der-d9)>dere*2.0) {
     cout << "Z,N,np,nn,chi,T: " << Z << " " << N << endl;
     cout << "\t" << npout << " " << nnout << " " << chi << " " << T << endl;
-    O2SCL_ERR_RET("Failed at dshel_dchi",o2scl::exc_efailed);
+    O2SCL_ERR("Failed at dshel_dchi",o2scl::exc_efailed);
   }
   
   // Total of chi derivatives
   ldrop_be_deriv flc4b(*this,Z,N,npout,nnout,chi,T,0,4);
-  dp->calc_err(chi,flc4b,der,dere);
+  dp->deriv_err(chi,flc4b,der,dere);
   cout << "dfull_dchi: " 
        << der << " " << dere << " " << d1+d2+d7+d8+d9 << " " 
        << fabs(der-d1-d2-d7-d8-d9) << endl;
   if (fabs(der-d1-d2-d7-d8-d9)>dere*4.0) {
     cout << "Z,N,np,nn,chi,T: " << Z << " " << N << endl;
     cout << "\t" << npout << " " << nnout << " " << chi << " " << T << endl;
-    O2SCL_ERR_RET("Failed at dfull_dchi",o2scl::exc_efailed);
+    O2SCL_ERR("Failed at dfull_dchi",o2scl::exc_efailed);
   }
 
   cout << endl;
@@ -208,35 +204,35 @@ int ldrop_crust::run_test(double Z, double N, double npout,
 
     // dexc_dnn
     ldrop_be_deriv flc5(*this,Z,N,npout,nnout,chi,T,6,3);
-    dp->calc_err(nnout,flc5,der,dere);
+    dp->deriv_err(nnout,flc5,der,dere);
     cout << "dexc_dnn  : " 
 	 << der << " " << dere << " " << d3 << " " << fabs(der-d3) << endl;
     if (fabs(der-d3)>dere*2.0) {
       cout << "Z,N,np,nn,chi,T: " << Z << " " << N << endl;
       cout << "\t" << npout << " " << nnout << " " << chi << " " << T << endl;
-      O2SCL_ERR_RET("Failed at dexc_dnn  ",o2scl::exc_efailed);
+      O2SCL_ERR("Failed at dexc_dnn  ",o2scl::exc_efailed);
     }
 
     // dshell_dnn
     ldrop_be_deriv flc6(*this,Z,N,npout,nnout,chi,T,5,3);
-    dp->calc_err(nnout,flc6,der,dere);
+    dp->deriv_err(nnout,flc6,der,dere);
     cout << "dshel_dnn : " 
 	 << der << " " << dere << " " << d6 << " " << fabs(der-d6) << endl;
     if (fabs(der-d6)>dere*2.0) {
       cout << "Z,N,np,nn,chi,T: " << Z << " " << N << endl;
       cout << "\t" << npout << " " << nnout << " " << chi << " " << T << endl;
-      O2SCL_ERR_RET("Failed at dshel_dnn ",o2scl::exc_efailed);
+      O2SCL_ERR("Failed at dshel_dnn ",o2scl::exc_efailed);
     }
 
     // Total of nn derivatives
     ldrop_be_deriv flc7(*this,Z,N,npout,nnout,chi,T,0,3);
-    dp->calc_err(nnout,flc7,der,dere);
+    dp->deriv_err(nnout,flc7,der,dere);
     cout << "dfull_dnn : " << der << " " << dere << " " << d6+d3 << " " 
 	 << fabs(der-d6-d3) << endl;
     if (fabs(der-d3-d6)>dere*2.0) {
       cout << "Z,N,np,nn,chi,T: " << Z << " " << N << endl;
       cout << "\t" << npout << " " << nnout << " " << chi << " " << T << endl;
-      O2SCL_ERR_RET("Failed at dfull_dnn ",o2scl::exc_efailed);
+      O2SCL_ERR("Failed at dfull_dnn ",o2scl::exc_efailed);
     }
   
     cout << endl;
@@ -249,55 +245,53 @@ int ldrop_crust::run_test(double Z, double N, double npout,
 
     // dexc_dnp
     ldrop_be_deriv flc8(*this,Z,N,npout,nnout,chi,T,6,2);
-    dp->calc_err(npout,flc8,der,dere);
+    dp->deriv_err(npout,flc8,der,dere);
     cout << "dexc_dnp  : " 
 	 << der << " " << dere << " " << d4 << " " << fabs(der-d4) << endl;
     if (fabs(der-d4)>dere*20.0) {
       cout << "Z,N,np,nn,chi,T: " << Z << " " << N << endl;
       cout << "\t" << npout << " " << nnout << " " << chi << " " << T << endl;
-      O2SCL_ERR_RET("Failed at dexc_dnp.",o2scl::exc_efailed);
+      O2SCL_ERR("Failed at dexc_dnp.",o2scl::exc_efailed);
     }
 
     // dshell_dnp
     ldrop_be_deriv flc9(*this,Z,N,npout,nnout,chi,T,5,2);
-    dp->calc_err(npout,flc9,der,dere);
+    dp->deriv_err(npout,flc9,der,dere);
     cout << "dshel_dnp : " 
 	 << der << " " << dere << " " << d5 << " " << fabs(der-d5) << endl;
     if (fabs(der-d5)>dere*2.0) {
       cout << "Z,N,np,nn,chi,T: " << Z << " " << N << endl;
       cout << "\t" << npout << " " << nnout << " " << chi << " " << T << endl;
-      O2SCL_ERR_RET("Failed at dshel_dnp ",o2scl::exc_efailed);
+      O2SCL_ERR("Failed at dshel_dnp ",o2scl::exc_efailed);
     }
 
     // dcoul_dnp
     ldrop_be_deriv flc9b(*this,Z,N,npout,nnout,chi,T,3,2);
-    dp->calc_err(npout,flc9b,der,dere);
+    dp->deriv_err(npout,flc9b,der,dere);
     cout << "dcoul_dnp : " << der << " " << dere << " "
 	 << d10 << " " << fabs(der-d10) << endl;
     if (fabs(der-d10)>dere*2.0) {
       cout << "Z,N,np,nn,chi,T: " << Z << " " << N << endl;
       cout << "\t" << npout << " " << nnout << " " << chi << " " << T << endl;
-      O2SCL_ERR_RET("Failed at dcoul_dnp ",o2scl::exc_efailed);
+      O2SCL_ERR("Failed at dcoul_dnp ",o2scl::exc_efailed);
     }
 
     // Total of np derivatives
     ldrop_be_deriv flc10(*this,Z,N,npout,nnout,chi,T,0,2);
-    dp->calc_err(npout,flc10,der,dere);
+    dp->deriv_err(npout,flc10,der,dere);
     cout << "dfull_dnp : " 
 	 << der << " " << dere << " " << d5+d4+d10 << " " 
 	 << fabs(der-d5-d4-d10) << endl;
     if (fabs(der-d4-d5-d10)>dere*2.0) {
       cout << "Z,N,np,nn,chi,T: " << Z << " " << N << endl;
       cout << "\t" << npout << " " << nnout << " " << chi << " " << T << endl;
-      O2SCL_ERR_RET("Failed at dfull_dnp ",o2scl::exc_efailed);
+      O2SCL_ERR("Failed at dfull_dnp ",o2scl::exc_efailed);
     }
 
     cout << endl;
 
   }
 
-#endif
-  
   cout.unsetf(ios::showpos);
 
   return 0;

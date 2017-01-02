@@ -53,13 +53,14 @@ int nm_thermo::solve_fun(size_t nv, const ubvector &x,
 
 void nm_thermo::calc(matter &nm) {
 
-  std::cout << "Missing 30." << std::endl;
-  exit(-1);
-#ifdef O2SCL_NEVER_DEFINED  
-  mm_funct_mfptr_param<nm_thermo,matter> fmp(this,&nm_thermo::solve_fun,nm);
+  // Function to solve
+  mm_funct11 fmp=std::bind
+    (std::mem_fn<int(size_t,const ubvector &,ubvector &,matter &)>
+     (&nm_thermo::solve_fun),this,std::placeholders::_1,std::placeholders::_2,
+     std::placeholders::_3,std::ref(nm));
 
   // Generate good guess for neutron density
-  ovector x(1), y(1);
+  ubvector x(1), y(1);
   x[0]=nm.nb*1.0e-1;
   int it=0;
   int ret=solve_fun(1,x,y,nm);
@@ -88,7 +89,6 @@ void nm_thermo::calc(matter &nm) {
   nm.gb=nm.fr+nm.pr;
   nm.mun=nm.n->mu;
   nm.mup=nm.p->mu;
-#endif
 
   return;
 }
