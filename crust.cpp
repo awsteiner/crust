@@ -72,11 +72,7 @@ crust_driver::crust_driver() :
   lda.full_surface=true;
   lda.exc_volume=true;
   lda.new_skin_mode=false;
-  std::cout << "Missing 4." << std::endl;
-  exit(-1);
-#ifdef O2SCL_NEVER_DEFINED
-  lda.set_hadronic_eos_temp(*het);
-#endif
+  lda.set_eos_had_temp_base(*het);
   lda.set_n_and_p(n_lda,p_lda);
   lda.new_exp=5.0;
   lda.new_coeff=0.5;
@@ -783,7 +779,7 @@ int crust_driver::make_table(std::vector<std::string> &sv, bool itive_com) {
   cout << ne_mt.mu << " " << pmt.mu << " " << tab_th.pr << endl;
 
   het=&t3d;
-  lda.set_hadronic_eos_temp(*het);
+  lda.set_eos_had_temp_base(*het);
   
   ne_mt.n=2.0e-3;
   pmt.n=0.165;
@@ -863,11 +859,7 @@ int crust_driver::model(std::vector<std::string> &sv, bool itive_com) {
 
   }
 
-  std::cout << "Missing 8." << std::endl;
-  exit(-1);
-#ifdef O2SCL_NEVER_DEFINED
-  lda.set_hadronic_eos_temp(*het);
-#endif
+  lda.set_eos_had_temp_base(*het);
 
   return 0;
 }

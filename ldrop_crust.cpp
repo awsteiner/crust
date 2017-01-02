@@ -911,12 +911,8 @@ double ldrop_crust::nucleus_be(int Z, int N, double npout, double nnout,
 	O2SCL_ERR2("Computation of chi boundary failed in ",
 		   "nucleus_be().",o2scl::exc_efailed);
       }
-	
-      std::cout << "Missing 27." << std::endl;
-      exit(-1);
-#ifdef O2SCL_NEVER_DEFINED
+      
       grb.solve_bkt(chi,ul,fsp);
-#endif
     }
 	
     if (!finite(nnout)) {

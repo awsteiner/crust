@@ -82,9 +82,6 @@ namespace o2scl {
     /// Moller et al. mass model
     nucmass_mnmsk moller;
 
-    /// Solver for nucleus_be()
-    o2scl::root_brent_gsl<> grb;
-    
     /// Exponent for the new density term (default in acc.cpp is 5)
     double new_exp;
 
@@ -283,6 +280,11 @@ namespace o2scl {
       size_t jx_;
 
     };
+
+  public:
+
+    /// Solver for nucleus_be()
+    o2scl::root_brent_gsl<ldrop_solve_chi> grb;
     
   };
 

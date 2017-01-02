@@ -81,13 +81,10 @@ class crust_fit : public o2scl::nucmass_fit {
   bool fit_moller;
 
   /// The experimental mass model
-  o2scl::nucmass_ame ame;
+  o2scl::nucmass_ame_exp ame;
   
   /// Moller et al. mass model
-  o2scl::nucmass_mnmsk moller;
-
-  /// Evaluate the RMS mass excess of mass formuls \c n returning \c fmin
-  virtual void eval(o2scl::nucmass &n, double &fmin);
+  o2scl::nucmass_mnmsk_exp moller;
 
   /** \brief Read fit from a file
    */
