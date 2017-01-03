@@ -1178,11 +1178,7 @@ int dist_thermo::gibbs_fixp_neutron(double pr_old, double nn_full_old,
   gmh.msolve(2,x,fsp2);
     
   if (x[0]<0.0) {
-    std::cout << "Missing 17." << std::endl;
-    exit(-1);
-#ifdef O2SCL_NEVER_DEFINED
-    cout << "alpha, nn: " << x << endl;
-#endif
+    cout << "alpha, nn: " << x[0] << " " << x[1] << endl;
     O2SCL_ERR2("Variable alpha is negative in",
 	       " gibbs_fixp_neutron().",o2scl::exc_efailed);
   }
@@ -1226,8 +1222,8 @@ int dist_thermo::gibbs_fixp(double pr_target, matter &m_new, double T) {
     
   funct_solve_pressure fsp(*this,m_new,T,pr_target);
 
-  root_cern<> cmr;
-  root_brent_gsl<> grb;
+  root_cern<funct_solve_pressure> cmr;
+  root_brent_gsl<funct_solve_pressure> grb;
 
   double ll=0.5;
   double ul=2.0;
@@ -1235,10 +1231,6 @@ int dist_thermo::gibbs_fixp(double pr_target, matter &m_new, double T) {
   // The variable 'corr' is the ratio of old to new densities
   double corr=ll;
 
-  std::cout << "Missing 18." << std::endl;
-  exit(-1);
-#ifdef O2SCL_NEVER_DEFINED
-  
   // FIXME: Document why this is better(?) than the alternative
   // given below
   if (true) {
@@ -1271,8 +1263,6 @@ int dist_thermo::gibbs_fixp(double pr_target, matter &m_new, double T) {
   m_new.n->n*=corr;
   gibbs_energy_dist(m_new,T);
 
-#endif
-  
   return 0;
 }
 

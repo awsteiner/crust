@@ -71,12 +71,8 @@ int rxns::ec_summary(crust_driver *a, matter &m, matter &m_new,
 		     double T, ubmatrix &gpb_store,
 		     ubmatrix &m_store) {
 
-  std::cout << "Missing 32." << std::endl;
-  exit(-1);
-#ifdef O2SCL_NEVER_DEFINED
-  
-  int Zmax=gpb_store.rows();
-  int Nmax=gpb_store.cols();
+  int Zmax=gpb_store.size1();
+  int Nmax=gpb_store.size2();
   int Zmin=6;
 
   for(int tZ=Zmin;tZ<Zmax;tZ++) {
@@ -130,10 +126,10 @@ int rxns::ec_summary(crust_driver *a, matter &m, matter &m_new,
 	a->dt.baryon_density(m_new,T);
 	gpb2=m_new.gb/m_new.nb;
 	
-	gpb_store.set(tZ,tN,(gpb2-gpb1)*o2scl_const::hc_mev_fm);
+	gpb_store(tZ,tN)=(gpb2-gpb1)*o2scl_const::hc_mev_fm;
 	double mtot1=m_new.dist[ip2].m;
 	double mtot2=m_new.dist[id].m;
-	m_store.set(tZ,tN,(mtot2-mtot1)*o2scl_const::hc_mev_fm);
+	m_store(tZ,tN)=(mtot2-mtot1)*o2scl_const::hc_mev_fm;
 
 	// End of loop for 'if (ret==0)'
       }
@@ -149,8 +145,6 @@ int rxns::ec_summary(crust_driver *a, matter &m, matter &m_new,
     
     // End of loop if 'm.dist[i]>4'
   }
-  
-#endif
   
   return 0;
 }
@@ -423,12 +417,8 @@ int rxns::en_summary(crust_driver *a, matter &m, matter &m_new,
 		     double T, ubmatrix &gpb_store,
 		     ubmatrix &m_store) {
 
-  std::cout << "Missing 33." << std::endl;
-  exit(-1);
-#ifdef O2SCL_NEVER_DEFINED
-
-  int Zmax=gpb_store.rows();
-  int Nmax=gpb_store.cols();
+  int Zmax=gpb_store.size1();
+  int Nmax=gpb_store.size2();
   int Zmin=6;
 
   for(int tZ=Zmin;tZ<Zmax;tZ++) {
@@ -483,10 +473,10 @@ int rxns::en_summary(crust_driver *a, matter &m, matter &m_new,
 	a->dt.baryon_density(m_new,T);
 	gpb2=m_new.gb/m_new.nb;
 	
-	gpb_store.set(tZ,tN,gpb2-gpb1);
+	gpb_store(tZ,tN)=gpb2-gpb1;
 	double mtot1=m_new.dist[ip2].m;
 	double mtot2=m_new.dist[id].m;
-	m_store.set(tZ,tN,mtot2-mtot1);
+	m_store(tZ,tN)=mtot2-mtot1;
 
 	// End of loop for 'if (ret==0)'
       }
@@ -503,8 +493,6 @@ int rxns::en_summary(crust_driver *a, matter &m, matter &m_new,
     
     // End of loop if 'm.dist[i]>4'
   }
-  
-#endif
   
   return 0;
 }

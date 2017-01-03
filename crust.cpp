@@ -701,12 +701,8 @@ int crust_driver::make_table(std::vector<std::string> &sv, bool itive_com) {
     O2SCL_ERR("Skyrme model not set.",o2scl::exc_efailed);
   }
 
-  std::cout << "Missing 7." << std::endl;
-  exit(-1);
-#ifdef O2SCL_NEVER_DEFINED
-  
   cout << "Making table." << endl;
-  ubvector den_grid;
+  vector<double> den_grid;
   thermo tab_th;
   den_grid.push_back(0.0);
   den_grid.push_back(1.0e-6);
@@ -776,8 +772,6 @@ int crust_driver::make_table(std::vector<std::string> &sv, bool itive_com) {
        << (tab_th.ed-0.08*ne_mt.m-0.08*pmt.m)/0.16*hc_mev_fm << " ";
   cout << ne_mt.mu << " " << pmt.mu << " " << tab_th.pr << endl;
 
-#endif
-  
   return 0;
 }
 
@@ -1059,10 +1053,6 @@ int crust_driver::full_eq(std::vector<std::string> &sv, bool itive_com) {
     hf.close();
   }
 
-  std::cout << "Missing 9." << std::endl;
-  exit(-1);
-#ifdef O2SCL_NEVER_DEFINED
-  
   if (feq.get_nlines()<=2) {
 
     cout << "Not enough lines in table for pressure." << endl;
@@ -1092,10 +1082,10 @@ int crust_driver::full_eq(std::vector<std::string> &sv, bool itive_com) {
 	       ("kg","1/fm",o2scl_mks::mass_proton),2.0);
     nx.non_interacting=false;
     px.non_interacting=false;
-    cns.set_n_and_p(nx,px);
+    //cns.set_n_and_p(nx,px);
     cns.set_eos(*het);
     cns.calc_eos();
-    o2_shared_ptr<table_units>::type te=cns.get_eos_results();
+    shared_ptr<table_units<> > te=cns.get_eos_results();
 
     t2->new_column("ed_nm");
     t2->new_column("pr_nm");
@@ -1117,8 +1107,6 @@ int crust_driver::full_eq(std::vector<std::string> &sv, bool itive_com) {
   hf.open(fname);
   hdf_output(hf,feq,"feq");
   hf.close();
-  
-#endif
   
   return 0;
 }
@@ -1276,11 +1264,7 @@ int crust_driver::full_eq2(std::vector<std::string> &sv, bool itive_com) {
     return 0;
   }
 
-  std::cout << "Missing 10." << std::endl;
-  exit(-1);
-#ifdef O2SCL_NEVER_DEFINED
-  
-  table_units *t2=(table_units *)(&feq);
+  table_units<> *t2=(table_units<> *)(&feq);
   t2->function_column("fr/nb","EoA");
   t2->set_unit("EoA","1/fm");
   t2->deriv("nb","EoA","dEoAdnb");
@@ -1288,7 +1272,7 @@ int crust_driver::full_eq2(std::vector<std::string> &sv, bool itive_com) {
   t2->function_column("nb*nb*dEoAdnb","pr");
   t2->set_unit("pr","1/fm^4");
 
-  cold_nstar cns;
+  nstar_cold cns;
   cns.nb_start=0.02;
   cns.include_muons=false;
   
@@ -1298,10 +1282,10 @@ int crust_driver::full_eq2(std::vector<std::string> &sv, bool itive_com) {
 	     ("kg","1/fm",o2scl_mks::mass_proton),2.0);
   nx.non_interacting=false;
   px.non_interacting=false;
-  cns.set_n_and_p(nx,px);
+  //cns.set_n_and_p(nx,px);
   cns.set_eos(*het);
   cns.calc_eos();
-  o2_shared_ptr<table_units>::type te=cns.get_eos_results();
+  shared_ptr<table_units<> > te=cns.get_eos_results();
   
   t2->new_column("ed_nm");
   t2->new_column("pr_nm");
@@ -1324,8 +1308,6 @@ int crust_driver::full_eq2(std::vector<std::string> &sv, bool itive_com) {
   hf.open(fname);
   hdf_output(hf,feq,"feq");
   hf.close();
-  
-#endif
   
   return 0;
 }
