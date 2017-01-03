@@ -78,8 +78,7 @@ crust_driver::crust_driver() :
   lda.new_exp=5.0;
   lda.new_coeff=0.5;
     
-  Tptr=4.3670374e-5;
-  //Tptr=cng.convert("K","1/fm",1.0e8);
+  Tptr=cng.convert("K","1/fm",1.0e8);
   
   // Ensure the SNA minimizer is sufficiently accurate
   cm.tol_abs=1.0e-12;
@@ -363,11 +362,8 @@ int crust_driver::compute_sna(double nb, double T, matter &m, bool debug) {
   // Function to minimize
   sna_thermo::free_energy_sna_neut func(snat,m,T,nb);
 
-  std::cout << "Missing 5." << std::endl;
-  exit(-1);
-#ifdef O2SCL_NEVER_DEFINED
   // Minimizer
-  cern_minimize<sna_thermo::free_energy_sna_neut> cm2;
+  min_cern<sna_thermo::free_energy_sna_neut> cm2;
   cm2.tol_abs=1.0e-12;
 
   // Set nn and full_min to the minimum with
@@ -457,10 +453,10 @@ int crust_driver::compute_sna(double nb, double T, matter &m, bool debug) {
     sna_thermo::free_press_sna_fixed_ye gesy_fr(snat,m,T,dt,true);
     sna_thermo::free_press_sna_fixed_ye gesy_pr(snat,m,T,dt,false);
     
-    o2scl::exc_deriv<> gd;
+    o2scl::deriv_gsl<sna_thermo::free_press_sna_fixed_ye> gd;
     gd.h=nb/1.0e4;
-    m.dPdnb_Ye=gd.calc(nb,gesy_pr);
-    m.dfdnb_Ye=gd.calc(nb,gesy_fr);
+    m.dPdnb_Ye=gd.deriv(nb,gesy_pr);
+    m.dfdnb_Ye=gd.deriv(nb,gesy_fr);
     
   }
 
@@ -498,7 +494,7 @@ int crust_driver::compute_sna(double nb, double T, matter &m, bool debug) {
       double ret=fmna(alpha);
       cout << m.n->n << " " << alpha << " " << ret << endl;
     }
-    cern_minimize<sna_thermo::free_energy_sna_fix_nb_nnhat> cm3;
+    min_cern<sna_thermo::free_energy_sna_fix_nb_nnhat> cm3;
     double min2=0.0;
     //cm3.verbose=2;
     sna_thermo::free_energy_sna_fix_nb_nnhat fmna2(snat,nb,m,T);
@@ -514,8 +510,6 @@ int crust_driver::compute_sna(double nb, double T, matter &m, bool debug) {
 	 << m.dist[0].Z << " " << m.dist[0].N << " " << m.n->n << " " 
 	 << m.dist[0].n << " " << m.fr << endl;
   }
-  
-#endif
   
   return 0;
 }
@@ -533,15 +527,12 @@ int crust_driver::compute_sna_dist(double nb, matter &m, double T,
   int N_guess=m.dist[0].N;
   m.dist[0].n=nb/(Z_guess+N_guess)/2.0;
 
-  std::cout << "Missing 6." << std::endl;
-  exit(-1);
-#ifdef O2SCL_NEVER_DEFINED
-
   // Set nn and full_min to the minimum with
   // the previous nucleus
   double full_min=1.0e100;
   dist_thermo::free_energy_dist_neut func(dt,m,T,nb);
-  cm.min_bkt(m.n->n,0.0,nb,full_min,func);
+  min_cern<dist_thermo::free_energy_dist_neut> cm2;
+  cm2.min_bkt(m.n->n,0.0,nb,full_min,func);
 
   // Storage for the current best minimum
   int Zmin=Z_guess, Nmin=N_guess;
@@ -569,7 +560,7 @@ int crust_driver::compute_sna_dist(double nb, matter &m, double T,
       m.n->n=nn_guess;
       m.dist[0].Z=tZ;
       m.dist[0].N=tN;
-      cm.min_bkt(m.n->n,0.0,nb,min,func);
+      cm2.min_bkt(m.n->n,0.0,nb,min,func);
 
       if (debug) {
 	dt.baryon_density(m,T);
@@ -592,7 +583,7 @@ int crust_driver::compute_sna_dist(double nb, matter &m, double T,
   m.n->n=nn_min;
 
   // Double-check the minimization
-  cm.min_bkt(m.n->n,0.0,nb,m.fr,func);
+  cm2.min_bkt(m.n->n,0.0,nb,m.fr,func);
     
   // Compute the mass density
   dt.mass_density(m,T);
@@ -607,8 +598,6 @@ int crust_driver::compute_sna_dist(double nb, matter &m, double T,
     exit(-1);
   }
 
-#endif
-  
   return 0;
 }
 
@@ -1569,18 +1558,20 @@ int crust_driver::acc(std::vector<std::string> &sv, bool itive_com) {
   // Matter objects
   matter m(false), m_new(false), nm(false);
 
-  std::cout << "Missing 11." << std::endl;
-  exit(-1);
-#ifdef O2SCL_NEVER_DEFINED
   // Store reaction summaries
   int Zmax=100;
   int Nmax=300;
   ubmatrix ec_gpb(Zmax,Nmax), en_gpb(Zmax,Nmax);
   ubmatrix ec_m(Zmax,Nmax), en_m(Zmax,Nmax);
-  ec_gpb.set_all(0.0);
-  ec_m.set_all(0.0);
-  en_gpb.set_all(0.0);
-  en_m.set_all(0.0);
+  for(int i=0;i<Zmax;i++) {
+    for(int j=0;j<Nmax;j++) {
+      ec_gpb(i,j)=0.0;
+      en_gpb(i,j)=0.0;
+      ec_m(i,j)=0.0;
+      en_m(i,j)=0.0;
+    }
+  }
+
   bool wrote_summary=false;
 
   // The current nuclear distribution
@@ -1622,7 +1613,8 @@ int crust_driver::acc(std::vector<std::string> &sv, bool itive_com) {
 	 << density << endl;
     hdf_file hf_in;
     hf_in.open(file);
-    hdf_input(hf_in,dist_tab);
+    string name;
+    hdf_input(hf_in,dist_tab,name);
     hf_in.close();
       
     size_t row=dist_tab.lookup("rho",density);
@@ -1716,7 +1708,6 @@ int crust_driver::acc(std::vector<std::string> &sv, bool itive_com) {
   } else {
     cout << "No heating." << endl;
   }
-  cout << endl;
 
   // Count number of reaction blocks
   int cnt=0;
@@ -1900,7 +1891,8 @@ int crust_driver::acc(std::vector<std::string> &sv, bool itive_com) {
     dist_tab.line_of_data(1,line);
     size_t row=dist_tab.get_nlines()-1;
     for(size_t j=0;j<dist_tab.get_ncolumns();j++) {
-      dist_tab[j][row]=0.0;
+      dist_tab.set(j,row,0.0);
+      //dist_tab[j][row]=0.0;
     }
 
     // For each nucleus in the distribution, set the density
@@ -1930,42 +1922,43 @@ int crust_driver::acc(std::vector<std::string> &sv, bool itive_com) {
 	}
       }
 	
-      dist_tab[col][row]=current[j].n;
+      //dist_tab[col][row]=current[j].n;
+      dist_tab.set(col,row,current[j].n);
     }
 	
-    dist_tab["nb"][row]=m.nb;
-    dist_tab["rho"][row]=rho;
-    dist_tab["Ye"][row]=m.e.n/m.nb;
-    dist_tab["Yn"][row]=m.n->n/m.nb;
-    dist_tab["fr"][row]=m.fr;
-    dist_tab["pr"][row]=m.pr;
-    dist_tab["gb"][row]=m.gb;
-    dist_tab["fr_x"][row]=nm.fr;
-    dist_tab["Z"][row]=aveZ;
-    dist_tab["A"][row]=avgA;
-    dist_tab["a"][row]=avga;
-    dist_tab["heat"][row]=heat;
-    dist_tab["heat_full"][row]=heat_full;
-    dist_tab["nn"][row]=m.n->n;
-    dist_tab["ne"][row]=m.e.n;
-    dist_tab["Q"][row]=Q;
+    dist_tab.set("nb",row,m.nb);
+    dist_tab.set("rho",row,rho);
+    dist_tab.set("Ye",row,m.e.n/m.nb);
+    dist_tab.set("Yn",row,m.n->n/m.nb);
+    dist_tab.set("fr",row,m.fr);
+    dist_tab.set("pr",row,m.pr);
+    dist_tab.set("gb",row,m.gb);
+    dist_tab.set("fr_x",row,nm.fr);
+    dist_tab.set("Z",row,aveZ);
+    dist_tab.set("A",row,avgA);
+    dist_tab.set("a",row,avga);
+    dist_tab.set("heat",row,heat);
+    dist_tab.set("heat_full",row,heat_full);
+    dist_tab.set("nn",row,m.n->n);
+    dist_tab.set("ne",row,m.e.n);
+    dist_tab.set("Q",row,Q);
     if (m.n->n>0.0) {
-      dist_tab["mun"][row]=m.n->mu;
+      dist_tab.set("mun",row,m.n->mu);
     } else {
-      dist_tab["mun"][row]=0.0;
+      dist_tab.set("mun",row,0.0);
     }
-    dist_tab["mue"][row]=m.e.mu;
-    dist_tab["phi"][row]=dt.get_phi(m,T);
-    dist_tab["Nd"][row]=((double)current.size());
+    dist_tab.set("mue",row,m.e.mu);
+    dist_tab.set("phi",row,dt.get_phi(m,T));
+    dist_tab.set("Nd",row,((double)current.size()));
     {
       double t_acc, t_c_fusion, t_o_fusion, t_ne_fusion, t_mg_fusion;
       pyc.fusion_times(dt,m,T,t_acc,t_c_fusion,t_o_fusion,
 		       t_ne_fusion,t_mg_fusion);
-      dist_tab["t_acc"][row]=t_acc;
-      dist_tab["t_C"][row]=t_c_fusion;
-      dist_tab["t_O"][row]=t_o_fusion;
-      dist_tab["t_Ne"][row]=t_ne_fusion;
-      dist_tab["t_Mg"][row]=t_mg_fusion;
+      dist_tab.set("t_acc",row,t_acc);
+      dist_tab.set("t_C",row,t_c_fusion);
+      dist_tab.set("t_O",row,t_o_fusion);
+      dist_tab.set("t_Ne",row,t_ne_fusion);
+      dist_tab.set("t_Mg",row,t_mg_fusion);
     }
 
     // Now that the table has been updated, check the multizone
@@ -2013,10 +2006,10 @@ int crust_driver::acc(std::vector<std::string> &sv, bool itive_com) {
       string fnamex=prefix+"_rxns.o2";
       hdf_file hf;
       hf.open(fnamex);
-      hf.setd_mat("ec_gpb",ec_gpb);
-      hf.setd_mat("ec_m",ec_m);
-      hf.setd_mat("en_gpb",en_gpb);
-      hf.setd_mat("en_m",en_m);
+      hf.setd_mat_copy("ec_gpb",ec_gpb);
+      hf.setd_mat_copy("ec_m",ec_m);
+      hf.setd_mat_copy("en_gpb",en_gpb);
+      hf.setd_mat_copy("en_m",en_m);
       hf.close();
       wrote_summary=true;
     }
@@ -2066,12 +2059,10 @@ int crust_driver::acc(std::vector<std::string> &sv, bool itive_com) {
 
   string fname2x=prefix+"_acc.o2";
   hdf_file hf;
-  hf.open(fname2x);
+  hf.open_or_create(fname2x);
   hdf_output(hf,dist_tab,"acc");
   hf.close();
 
-#endif
-  
   return 0;
 }
 

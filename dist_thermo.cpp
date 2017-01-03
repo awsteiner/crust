@@ -1290,13 +1290,10 @@ double dist_thermo::dist_sna_solve(double nb, matter &m, double T) {
 
 int dist_thermo::free_energy_dist_sna(double nb, matter &m, double T) {
 
-  std::cout << "Missing 19." << std::endl;
-  exit(-1);
-#ifdef O2SCL_NEVER_DEFINED
   // Using the solver fails at about rho = 2e8 g/cm^3 currently.
   if (false) {
       
-    root_cern<> cmr;
+    root_cern<dist_thermo::funct_dist_sna> cmr;
     dist_thermo::funct_dist_sna fda(*this,m,T,nb);
     cmr.solve(m.dist[0].n,fda);
       
@@ -1311,7 +1308,6 @@ int dist_thermo::free_energy_dist_sna(double nb, matter &m, double T) {
     }
 
   }
-#endif
 
   return 0;
 }

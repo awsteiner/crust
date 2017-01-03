@@ -4,3 +4,4 @@
 * check 2 doesn't seem to work, but it's not clear if it really worked
   previously
 * check 6 and 7 seem to work
+* feq and feq2 don't seem to work yet
