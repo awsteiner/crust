@@ -554,10 +554,6 @@ int dist_thermo::check_pressure(matter &m, double T) {
 
   lda->use_ame=false;
 
-  std::cout << "Missing 16." << std::endl;
-  exit(-1);
-#ifdef O2SCL_NEVER_DEFINED
-  
   double mu1, mu2, mu3, mu4, pr1, gb1;
   deriv_gsl<free_dist_deriv_alpha> gd;
   double xn, xnuc, xnuc2, xnuc3;
@@ -595,7 +591,7 @@ int dist_thermo::check_pressure(matter &m, double T) {
   gd.h=1.0e-4;
   free_dist_deriv_alpha fda(*this,m,T);
   double xx=m.n->n*(1.0-get_phi(m,T)), der, dere;
-  gd.calc_err(xx,fda,der,dere);
+  gd.deriv_err(xx,fda,der,dere);
   cout << "alpha,dfda,err: " << xx << " " << der << " " << dere << endl;
   m.mun=der*(1.0-get_phi(m,T));
   cout << "dfdn: " << m.mun << endl;
@@ -604,11 +600,11 @@ int dist_thermo::check_pressure(matter &m, double T) {
   m.n->n=7.0e-3;
   m.dist[0].n=1.0e-5;
   
-  gsl_deriv<free_dist_deriv_nuc> gd2;
+  deriv_gsl<free_dist_deriv_nuc> gd2;
   gd2.h=1.0e-8;
   free_dist_deriv_nuc fdi(*this,m,T,m.n->n*(1.0-get_phi(m,T)),0);
   xx=m.dist[0].n;
-  gd2.calc_err(xx,fdi,der,dere);
+  gd2.deriv_err(xx,fdi,der,dere);
   cout << "n_nuc,dfdi,err: " << xx << " " << der << " " << dere << endl;
   m.mu[0]=der;
   cout << endl;
@@ -673,7 +669,7 @@ int dist_thermo::check_pressure(matter &m, double T) {
   
   gd.h=1.0e-14;
   xx=m.n->n*(1.0-get_phi(m,T));
-  gd.calc_err(xx,fda,der,dere);
+  gd.deriv_err(xx,fda,der,dere);
   cout << "alpha,dfda,err: " << xx << " " << der << " " << dere << endl;
   m.mun=der*(1.0-get_phi(m,T));
   cout << "dfdn: " << m.mun << endl;
@@ -685,7 +681,7 @@ int dist_thermo::check_pressure(matter &m, double T) {
   gd2.h=1.0e-10;
   xx=m.dist[0].n;
   free_dist_deriv_nuc fdi2(*this,m,T,m.n->n*(1.0-get_phi(m,T)),0);
-  gd2.calc_err(xx,fdi2,der,dere);
+  gd2.deriv_err(xx,fdi2,der,dere);
   cout << "n_nuc,dfdi,err: " << xx << " " << der << " " << dere << endl;
   m.mu[0]=der;
   cout << endl;
@@ -753,7 +749,7 @@ int dist_thermo::check_pressure(matter &m, double T) {
   
   xx=m.n->n*(1.0-get_phi(m,T));
   gd.h=1.0e-4;
-  gd.calc_err(xx,fda,der,dere);
+  gd.deriv_err(xx,fda,der,dere);
   cout << "alpha,dfda,err: " << xx << " " << der << " " << dere << endl;
   m.mun=der*(1.0-get_phi(m,T));
   cout << "dfdn: " << m.mun << endl;
@@ -766,7 +762,7 @@ int dist_thermo::check_pressure(matter &m, double T) {
 
   free_dist_deriv_nuc fdi3(*this,m,T,m.n->n*(1.0-get_phi(m,T)),0);
   xx=m.dist[0].n;
-  gd2.calc_err(xx,fdi3,der,dere);
+  gd2.deriv_err(xx,fdi3,der,dere);
   cout << "n_nuc,dfdi,err: " << xx << " " << der << " " << dere << endl;
   m.mu[0]=der;
 
@@ -776,7 +772,7 @@ int dist_thermo::check_pressure(matter &m, double T) {
 
   free_dist_deriv_nuc fdi4(*this,m,T,m.n->n*(1.0-get_phi(m,T)),1);
   xx=m.dist[1].n;
-  gd2.calc_err(xx,fdi4,der,dere);
+  gd2.deriv_err(xx,fdi4,der,dere);
   cout << "n_nuc,dfdi,err: " << xx << " " << der << " " << dere << endl;
   m.mu[1]=der;
   cout << endl;
@@ -850,7 +846,7 @@ int dist_thermo::check_pressure(matter &m, double T) {
   
   xx=m.n->n*(1.0-get_phi(m,T));
   gd.h=1.0e-4;
-  gd.calc_err(xx,fda,der,dere);
+  gd.deriv_err(xx,fda,der,dere);
   cout << "alpha,dfda,err: " << xx << " " << der << " " << dere << endl;
   m.mun=der*(1.0-get_phi(m,T));
   cout << "dfdn: " << m.mun << endl;
@@ -864,7 +860,7 @@ int dist_thermo::check_pressure(matter &m, double T) {
 
   free_dist_deriv_nuc fdi50(*this,m,T,m.n->n*(1.0-get_phi(m,T)),0);
   xx=m.dist[0].n;
-  gd2.calc_err(xx,fdi50,der,dere);
+  gd2.deriv_err(xx,fdi50,der,dere);
   cout << "n_nuc,dfdi,err: " << xx << " " << der << " " << dere << endl;
   m.mu[0]=der;
 
@@ -875,7 +871,7 @@ int dist_thermo::check_pressure(matter &m, double T) {
 
   free_dist_deriv_nuc fdi51(*this,m,T,m.n->n*(1.0-get_phi(m,T)),1);
   xx=m.dist[1].n;
-  gd2.calc_err(xx,fdi51,der,dere);
+  gd2.deriv_err(xx,fdi51,der,dere);
   cout << "n_nuc,dfdi,err: " << xx << " " << der << " " << dere << endl;
   m.mu[1]=der;
 
@@ -886,7 +882,7 @@ int dist_thermo::check_pressure(matter &m, double T) {
 
   free_dist_deriv_nuc fdi52(*this,m,T,m.n->n*(1.0-get_phi(m,T)),2);
   xx=m.dist[2].n;
-  gd2.calc_err(xx,fdi52,der,dere);
+  gd2.deriv_err(xx,fdi52,der,dere);
   cout << "n_nuc,dfdi,err: " << xx << " " << der << " " << dere << endl;
   m.mu[2]=der;
   cout << endl;
@@ -920,8 +916,6 @@ int dist_thermo::check_pressure(matter &m, double T) {
   cout << "gb,fr,pr: " << m.gb << " " << m.fr << " " << m.pr << endl;
   cout << endl;
 
-#endif
-  
   t.report();
   
   return 0;
