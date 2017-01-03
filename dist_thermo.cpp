@@ -503,7 +503,7 @@ int dist_thermo::mass_density(matter &m, double T) {
   if (check==check_mass_density) {
 
     cout.precision(10);
-    cout << endl << "rho: " << m.rho << endl;
+    cout << "rho: " << m.rho << endl;
     double temp=m.rho;
       
     // Compute electron contribution

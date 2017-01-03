@@ -186,7 +186,7 @@ int crust_driver::init_dist(string mode, matter &m) {
 
   } else if (mode=="ashes") {
 
-    if (verbose>0) cout << "X-ray burst ashes" << endl;
+    if (verbose>0) cout << "X-ray burst ashes." << endl;
     ninit=17;
     int Z[17], N[17];
     double den[17];
@@ -261,7 +261,6 @@ int crust_driver::init_dist(string mode, matter &m) {
   dt.mass_density(m,Tptr);
   if (verbose>0) {
     cout << "Initial mass density: " << m.rho << " g/cm^3" << endl;
-    cout << endl;
   }
     
   // Ensure there's enough space in the matter arrays
@@ -852,7 +851,7 @@ int crust_driver::model(std::vector<std::string> &sv, bool itive_com) {
   } else {
 
     cout << "Selected Skyrme model." << endl;
-    skyrme_load(sk,input_dir+"/"+sv[1]+".o2",true);
+    skyrme_load(sk,sv[1]);
     skyrme_set=true;
     het=&sk;
     dt.het=&sk;
@@ -2094,34 +2093,7 @@ int crust_driver::tptr(std::vector<std::string> &sv, bool itive_com) {
   return 0;
 }
 
-int crust_driver::set_input_dir(std::vector<std::string> &sv, bool itive_com) {
-  if (sv.size()<2) {
-    cout << "Need directory argument." << endl;
-    return o2scl::exc_efailed;
-  }
-  input_dir=sv[1];
-
-  string fn=input_dir+"/SLy4.o2";
-  skyrme_load(sk,fn,true);
-  skyrme_set=true;
-
-  cf.fit_dir=input_dir;
-  pyc.load_data(input_dir);
-  tsh.in_dir=input_dir;
-  cng.units_cmd_string=((string)"units -f ")+input_dir+"/units_hck.dat ";
-  tsh.cng.units_cmd_string=((string)"units -f ")+input_dir+"/units_hck.dat ";
-  mz.cng.units_cmd_string=((string)"units -f ")+input_dir+"/units_hck.dat ";
-  pyc.cng.units_cmd_string=((string)"units -f ")+input_dir+"/units_hck.dat ";
-  rn.cng.units_cmd_string=((string)"units -f ")+input_dir+"/units_hck.dat ";
-
-  cout << "Set input directory to: " << input_dir << endl;
-
-  return 0;
-}
-
 int crust_driver::check_fun(std::vector<std::string> &sv, bool itive_com) {
-
-  //cout << "X3: " << lda.gd.verbose << endl;
 
   if (sv.size()<2) {
     cout << "check_none: " << check_none << endl;
@@ -2144,13 +2116,12 @@ int crust_driver::check_fun(std::vector<std::string> &sv, bool itive_com) {
 
   if (o2scl::stoi(sv[1])==check_mass_density) {
     
-    cout << "\nChecking mass_density().\n" << endl;
+    cout << "Checking mass_density()." << endl;
     check=check_mass_density;
     
-    cout << "Initializing for X-ray bust ashes distribution." << endl;
     matter m(false);
     init_dist("ashes",m);
-    
+
     vector<string> a;
     a.push_back("");
     a.push_back("2.0e8");
@@ -2163,7 +2134,7 @@ int crust_driver::check_fun(std::vector<std::string> &sv, bool itive_com) {
   }
   if (o2scl::stoi(sv[1])==check_free_energy_sna) {
 
-    cout << "\nChecking free_energy_sna().\n" << endl;
+    cout << "Checking free_energy_sna()." << endl;
     check=check_free_energy_sna;
 
     cout << "Initializing for X-ray bust ashes distribution." << endl;
@@ -2179,7 +2150,7 @@ int crust_driver::check_fun(std::vector<std::string> &sv, bool itive_com) {
     tptr(a,false);
 
     dt.check=check;
-    snat.free_energy_sna(m,Tptr);
+    snat.check_free_energy_sna();
 
     return 0;
   }
@@ -2286,7 +2257,7 @@ int crust_driver::run(int argc, char *argv[]) {
   // ---------------------------------------
   // Set options
 
-  static const int nopt=14;
+  static const int nopt=13;
   comm_option_s options[nopt]={
     {0,"feq","Construct single-nucleus full_equilibrium crust.",
      1,6,"<filename prefix> <nb> <Z> <N> <nn> <nb_end>",
@@ -2336,10 +2307,6 @@ int crust_driver::run(int argc, char *argv[]) {
     {0,"tptr","Set temperature",
      1,1,"<prefix>",((string)"Help here."),
      new comm_option_mfptr<crust_driver>(this,&crust_driver::tptr),
-     cli::comm_option_both},
-    {0,"set-input-dir","Set input dir",
-     1,1,"<prefix>",((string)"Help here."),
-     new comm_option_mfptr<crust_driver>(this,&crust_driver::set_input_dir),
      cli::comm_option_both},
     {0,"check","Check.",
      0,1,"[index]",((string)"Help here."),

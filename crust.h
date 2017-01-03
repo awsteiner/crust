@@ -76,6 +76,9 @@ namespace o2scl {
     
     typedef boost::numeric::ublas::vector<double> ubvector;
     typedef boost::numeric::ublas::matrix<double> ubmatrix;
+
+    /// Convert units
+    convert_units &cng;
     
   protected:
 
@@ -217,9 +220,6 @@ namespace o2scl {
     */
     double acc_inc_factor;
 
-    /// Set the directory for the input files
-    int set_input_dir(std::vector<std::string> &sv, bool itive_com);
-
     /// Initialize the distribution (called by \ref acc() )
     int init_dist(std::string mode, matter &m);
   
@@ -306,9 +306,6 @@ namespace o2scl {
     //@{
     /// Electron capture heating fraction (default 0.25, typically 1/6 to 1/4)
     double ec_heating;
-
-    /// Convert units
-    convert_units &cng;
 
     /// If true, use simplified pycnonuclear rates (default true)
     bool simple_pyc;

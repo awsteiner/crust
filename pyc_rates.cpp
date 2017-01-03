@@ -100,16 +100,13 @@ int pyc_rates::fusion_times(dist_thermo &dt, matter &m, double T,
 }
 
 int pyc_rates::load_data(string dir) {
-  std::cout << "Missing 31." << std::endl;
-  exit(-1);
-#ifdef O2SCL_NEVER_DEFINED
   hdf_file hf;
-  string fn=dir+"/beard10.o2";
+  string fn="indata/beard10.o2";
+  string name;
   hf.open(fn);
-  hdf_input(hf,b10);
+  hdf_input(hf,b10,name);
   hf.close();
   loaded=true;
-#endif
   return 0;
 }
 
@@ -264,7 +261,7 @@ int pyc_rates::test_Sfactor() {
     t.line_of_data(11,line);
   }
   hdf_file hf;
-  hf.open("Stest.o2");
+  hf.open_or_create("Stest.o2");
   hdf_output(hf,t,"Stest");
   hf.close();
   return 0;
