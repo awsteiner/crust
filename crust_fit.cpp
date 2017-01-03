@@ -28,6 +28,8 @@ using namespace o2scl_hdf;
 crust_fit::crust_fit() {
   fit_moller=true;
   fit_dir=".";
+
+  def_mmin.ntrial*=10;
   
   o2scl_hdf::ame_load(ame);
   o2scl_hdf::mnmsk_load(moller);
@@ -57,6 +59,12 @@ int crust_fit::read_fit(std::vector<std::string> &sv, bool itive_com) {
   // Set parameters from vector 'x'.
   lda->fit_fun(lda->nfit,x);
 
+  if (!fit_moller) {
+    nucdist_set(dist,ame);
+  } else {
+    nucdist_set(dist,moller);
+  }
+
   // Check fit
   double qual;
   eval(*lda,qual);
@@ -73,7 +81,6 @@ int crust_fit::perform_fit(std::vector<std::string> &sv, bool itive_com) {
   double qual;
 
   // Mass fitter object
-  def_mmin.ntrial*=10;
   even_even=false;
   
   if (!fit_moller) {

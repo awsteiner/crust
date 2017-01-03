@@ -72,7 +72,7 @@ class crust_fit : public o2scl::nucmass_fit {
   o2scl::nucmass_ame_exp ame;
   
   /// Moller et al. mass model
-  o2scl::nucmass_mnmsk_exp moller;
+  o2scl::nucmass_mnmsk moller;
 
   /** \brief Read fit from a file
    */

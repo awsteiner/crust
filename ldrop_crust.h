@@ -68,7 +68,7 @@ namespace o2scl {
     nucmass_ame_exp ame;
 
     /// Moller et al. mass model
-    nucmass_mnmsk_exp moller;
+    nucmass_mnmsk moller;
 
     /// Exponent for the new density term (default in acc.cpp is 5)
     double new_exp;
