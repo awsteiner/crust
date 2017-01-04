@@ -1048,7 +1048,7 @@ int crust_driver::full_eq(std::vector<std::string> &sv, bool itive_com) {
 			nm.pr,nm.n->n+nm.p->n,m.dPdnb_Ye,m.dfdnb_Ye};
     feq.line_of_data(ncols,line);
     
-    hf.open(fname);
+    hf.open_or_create(fname);
     hdf_output(hf,feq,"feq");
     hf.close();
   }
@@ -1104,7 +1104,7 @@ int crust_driver::full_eq(std::vector<std::string> &sv, bool itive_com) {
     }
   }
 
-  hf.open(fname);
+  hf.open_or_create(fname);
   hdf_output(hf,feq,"feq");
   hf.close();
   

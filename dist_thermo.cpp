@@ -182,6 +182,8 @@ int dist_thermo::free_energy_dist(matter &m, double T, bool eval_chem_pots) {
       } else {
 	m.zeta[i]=dist[i].N/(dist[i].Z*lda->nn+dist[i].Z*chi*lda->df_dchi);
       }
+      //cout << "Here: " << i << " " << lda->nn << " " << chi << " "
+      //<< lda->df_dchi << " " << m.zeta[i] << " " << lda->Rn << endl;
     }
       
     // Compute Nprime
@@ -318,6 +320,7 @@ int dist_thermo::free_energy_dist(matter &m, double T, bool eval_chem_pots) {
 	  cout << "i,j,distj.n,dnuc_dchij,dchij_dni: " 
 	       << i << " " << j << " " << dist[j].n << " " 
 	       << dnuc_dchij << " " << dchij_dni << endl;
+	  cout << "zeta,Z: " << m.zeta[j] << " " << dist[i].Z << endl;
 	  cout << "bulk,surf,coul,exc,shell: " 
 	       << lda->dbulk_dchi << " " << lda->dsurf_dchi << " "
 	       << lda->dcoul_dchi << " " << lda->dexc_dchi << " "
