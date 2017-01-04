@@ -2348,32 +2348,32 @@ int crust_driver::run(int argc, char *argv[]) {
 
   cli::parameter_double p_feq_nb;
   p_feq_nb.d=&feq_nb;
-  p_feq_nb.help="Feq_Nb (default 2.0e-10).";
+  p_feq_nb.help="full eq initial nb (default 2.0e-10).";
   cl.par_list.insert(make_pair("feq_nb",&p_feq_nb));
 
   cli::parameter_int p_feq_N;
   p_feq_N.i=&feq_N;
-  p_feq_N.help="Feq_N (default 28).";
+  p_feq_N.help="full eq initial N (default 28).";
   cl.par_list.insert(make_pair("feq_N",&p_feq_N));
 
   cli::parameter_int p_feq_Z;
   p_feq_Z.i=&feq_Z;
-  p_feq_Z.help="Feq_Z (default 34).";
+  p_feq_Z.help="full eq initial Z (default 34).";
   cl.par_list.insert(make_pair("feq_Z",&p_feq_Z));
 
   cli::parameter_double p_feq_nn;
   p_feq_nn.d=&feq_nn;
-  p_feq_nn.help="Feq_Nn (default 1.0e-10).";
+  p_feq_nn.help="full eq initial neutron density (default 1.0e-10).";
   cl.par_list.insert(make_pair("feq_nn",&p_feq_nn));
 
   cli::parameter_double p_feq_end;
   p_feq_end.d=&feq_end;
-  p_feq_end.help="Feq_End (default 0.09).";
+  p_feq_end.help="full eq ending baryon density (default 0.09).";
   cl.par_list.insert(make_pair("feq_end",&p_feq_end));
 
   cli::parameter_double p_feq_dnb;
   p_feq_dnb.d=&feq_dnb;
-  p_feq_dnb.help="Feq_Dnb (default 1.1).";
+  p_feq_dnb.help="full eq density step (default 1.1).";
   cl.par_list.insert(make_pair("feq_dnb",&p_feq_dnb));
 
   // Fusion parameters
@@ -2390,12 +2390,12 @@ int crust_driver::run(int argc, char *argv[]) {
 
   cli::parameter_bool p_simple_pyc;
   p_simple_pyc.b=&simple_pyc;
-  p_simple_pyc.help="Simple pyc (default true).";
+  p_simple_pyc.help="Simple pycnonuclear fusion (default false).";
   cl.par_list.insert(make_pair("simple_pyc",&p_simple_pyc));
 
   cli::parameter_double p_Mdot;
   p_Mdot.d=&rn.mdot;
-  p_Mdot.help="Accretion rate (default true).";
+  p_Mdot.help="Accretion rate (1.0e-10).";
   cl.par_list.insert(make_pair("Mdot",&p_Mdot));
 
   // Fit parameters
@@ -2434,12 +2434,12 @@ int crust_driver::run(int argc, char *argv[]) {
 
   cli::parameter_double p_acc_inc_factor;
   p_acc_inc_factor.d=&acc_inc_factor;
-  p_acc_inc_factor.help="Pressure increase in crust (default 1.05).";
+  p_acc_inc_factor.help="Pressure increase in crust (default 1.01).";
   cl.par_list.insert(make_pair("acc_inc_factor",&p_acc_inc_factor));
 
   cli::parameter_string p_dist_type;
   p_dist_type.str=&dist_type;
-  p_dist_type.help="dist_type (default nickel).";
+  p_dist_type.help="Distribution type (default nickel).";
   cl.par_list.insert(make_pair("dist_type",&p_dist_type));
     
   cli::parameter_double p_delta_n;
@@ -2449,14 +2449,15 @@ int crust_driver::run(int argc, char *argv[]) {
 
   cli::parameter_double p_rho_summary;
   p_rho_summary.d=&rho_summary;
-  p_rho_summary.help="Help.";
+  p_rho_summary.help=((std::string)"If the mass density is larger ")
+    +"than this value, summarize electron captures (default 1.0e20).";
   cl.par_list.insert(make_pair("rho_summary",&p_rho_summary));
 
   // Shear parameters
     
   cli::parameter_int p_hd_flag;
   p_hd_flag.i=&tsh.hd_flag;
-  p_hd_flag.help="hd_flag (default 0).";
+  p_hd_flag.help="High-density EOS flag for shear modes (default 0).";
   cl.par_list.insert(make_pair("hd_flag",&p_hd_flag));
     
   cli::parameter_double p_mag_field;
