@@ -19,6 +19,16 @@ fit_test:
 
 #----------------------------------------------------------------------
 
+feq_all:
+	crust -model SLy4 -mf data/SLy4_moller.fit \
+		-rf data/SLy4_moller.fit -feq data/SLy4_moller \
+		> data/SLy4_moller.scr 2> data/SLy4_moller.err &
+	crust -set fit_moller 0 -model SLy4 -mf data/SLy4_ame.fit \
+		-rf data/SLy4_ame.fit -feq data/SLy4_ame \
+		> data/SLy4_ame.scr 2> data/SLy4_ame.err &
+
+#----------------------------------------------------------------------
+
 crust.o: crust.cpp crust.h
 	$(CXX) $(FLAGS) -o crust.o -c crust.cpp
 

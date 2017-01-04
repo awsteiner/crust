@@ -2336,12 +2336,13 @@ int crust_driver::run(int argc, char *argv[]) {
 
   cli::parameter_double p_new_exp;
   p_new_exp.d=&lda.new_exp;
-  p_new_exp.help="New_Exp (default 0).";
+  p_new_exp.help="High-density correction exponent from Eq. 6 (default 5.0).";
   cl.par_list.insert(make_pair("lda.new_exp",&p_new_exp));
 
   cli::parameter_double p_new_coeff;
   p_new_coeff.d=&lda.new_coeff;
-  p_new_coeff.help="New_Coeff (default 0).";
+  p_new_coeff.help=((string)"High-density correction coefficient ")
+    +"from Eq. 6 (default 0.5).";
   cl.par_list.insert(make_pair("lda.new_coeff",&p_new_coeff));
 
   // Equilibrium crust parameters
