@@ -1183,15 +1183,25 @@ int dist_thermo::gibbs_fixp_neutron(double pr_old, double nn_full_old,
   int ret=fsp2(2,x,y);
   if (ret!=0) return -2;
 
-  gmh.err_nonconv=false;
-  int retx=gmh.msolve(2,x,fmp);
-  gmh.err_nonconv=true;
-  if (x[1]>1.0e-12 && retx!=0) {
-    cout << "Solver failing in gibbs_fixp_neutron()." << endl;
-    gmh.verbose=1;
+  if (false) {
+
+    // 1/5/17: In order to make 'acc' work, this basically
+    // ignores the solver if x[1] is sufficiently small. I'm not
+    // sure if this is a good idea yet. 
+    gmh.err_nonconv=false;
     int retx=gmh.msolve(2,x,fmp);
-    gmh.verbose=0;
-    cout << "Solver succeeded()." << endl;
+    gmh.err_nonconv=true;
+    
+    if (x[1]>1.0e-12 && retx!=0) {
+      cout << "Solver failing in gibbs_fixp_neutron()." << endl;
+      gmh.verbose=1;
+      int retx=gmh.msolve(2,x,fmp);
+      gmh.verbose=0;
+      cout << "Solver succeeded()." << endl;
+    }
+
+  } else {
+    gmh.msolve(2,x,fmp);
   }
     
   if (x[0]<0.0) {

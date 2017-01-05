@@ -28,7 +28,8 @@ feq_all:
 		> data/SLy4_ame.scr 2> data/SLy4_ame.err &
 
 acc:
-	crust -model SLy4 -rf data/SLy4_moller.fit -acc data/SLy4_moller
+	crust -set dist_type ashes \
+		-model SLy4 -rf data/SLy4_moller.fit -acc data/SLy4_moller
 #		> data/SLy4_moller_acc.scr 2> data/SLy4_moller_acc.err &
 
 #----------------------------------------------------------------------
