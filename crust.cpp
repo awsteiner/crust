@@ -1706,7 +1706,7 @@ int crust_driver::acc(std::vector<std::string> &sv, bool itive_com) {
 
   // Increase the density slowly
   for(size_t i=0;rho<max_rho;i++) {
-    
+
     // Sort (This is important for pynonuclear reactions,
     // since low Z fusions happen first)
     std::sort(current.begin(),current.end(),compare_Z);
@@ -1866,7 +1866,6 @@ int crust_driver::acc(std::vector<std::string> &sv, bool itive_com) {
       heat_full=0.0;
     }
 
-
     // Add a row to the table and zero it out, store the row index
     // in 'row'
     double line[1]={0.0};
@@ -1958,7 +1957,7 @@ int crust_driver::acc(std::vector<std::string> &sv, bool itive_com) {
     if (rho>max_rho*0.9 || rho>1.0e12 || i%10==0) {
       string fname2=prefix+"_acc.o2";
       hdf_file hf;
-      hf.open(fname2);
+      hf.open_or_create(fname2);
       hdf_output(hf,dist_tab,"acc");
       hf.close();
     }

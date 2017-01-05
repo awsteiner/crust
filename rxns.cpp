@@ -34,9 +34,6 @@ rxns::rxns() {
   fused_8=false;
   fused_10=false;
   fused_12=false;
-
-  cng.units_cmd_string="units -f indata/units_hck.dat ";
-
 }
 
 int rxns::add_missing(vector<nucleus> &trial, int newZ, int newN,
@@ -386,7 +383,7 @@ int rxns::emit_neutron(crust_driver *a, matter &m, matter &m_new,
 	//gibbs_fixp(m,m_new,T);
 	a->dt.gibbs_energy_dist(m,T);
 	double phi_old=a->dt.get_phi(m,T);
-	
+      
 	int ret=a->dt.gibbs_fixp_neutron(m.pr,m.n->n*(1.0-phi_old)+nshift,
 					 m_new,T,nshift);
 	

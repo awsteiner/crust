@@ -1166,9 +1166,14 @@ int dist_thermo::gibbs_fixp_neutron(double pr_old, double nn_full_old,
   }
     
   funct_solve_pressure2 fsp2(*this,m_new,T,pr_old,nn_full_old);
+  mm_funct11 fmp=std::bind
+    (std::mem_fn<int(size_t,const ubvector &,ubvector &)>
+     (&funct_solve_pressure2::operator()),&fsp2,
+     std::placeholders::_1,std::placeholders::_2,
+     std::placeholders::_3);
     
   mroot_hybrids<> gmh;
-  //gmh.verbose=2;
+  gmh.ntrial*=10;
   ubvector x(2), y(2);
   x[0]=1.0;
   x[1]=nn_full_old+nn_shift;
@@ -1178,7 +1183,16 @@ int dist_thermo::gibbs_fixp_neutron(double pr_old, double nn_full_old,
   int ret=fsp2(2,x,y);
   if (ret!=0) return -2;
 
-  gmh.msolve(2,x,fsp2);
+  gmh.err_nonconv=false;
+  int retx=gmh.msolve(2,x,fmp);
+  gmh.err_nonconv=true;
+  if (x[1]>1.0e-12 && retx!=0) {
+    cout << "Solver failing in gibbs_fixp_neutron()." << endl;
+    gmh.verbose=1;
+    int retx=gmh.msolve(2,x,fmp);
+    gmh.verbose=0;
+    cout << "Solver succeeded()." << endl;
+  }
     
   if (x[0]<0.0) {
     cout << "alpha, nn: " << x[0] << " " << x[1] << endl;
@@ -1236,7 +1250,11 @@ int dist_thermo::gibbs_fixp(double pr_target, matter &m_new, double T) {
 
   // FIXME: Document why this is better(?) than the alternative
   // given below
-  if (true) {
+
+  // 1/5/17: Using the GSL Brent solver seems to work better for
+  // accreted crusts than the CERN solver, so I switched this
+  // to 'false'.
+  if (false) {
     corr=1.0;
     cmr.solve(corr,fsp);
   } else {

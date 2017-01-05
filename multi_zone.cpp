@@ -26,7 +26,6 @@ using namespace o2scl_const;
 
 multi_zone::multi_zone() {
 
-  cng.units_cmd_string="units -f indata/units_hck.dat ";
   //conv=cng.convert("1/fm^4","Msun/km^3",1.0);
   conv=1.7684743e-4;
   

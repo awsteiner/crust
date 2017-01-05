@@ -125,7 +125,7 @@ namespace o2scl {
     o2scl::table<> b10;
   
     /// Convert units
-    o2scl::convert_units cng;
+    o2scl::convert_units &cng;
     
     /// If true, use debug mode (default false)
     bool debug;

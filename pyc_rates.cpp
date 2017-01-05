@@ -25,7 +25,7 @@ using namespace o2scl;
 using namespace o2scl_const;
 using namespace o2scl_hdf;
 
-pyc_rates::pyc_rates() {
+pyc_rates::pyc_rates() : cng(o2scl_settings.get_convert_units()) {
   Cpyc=3.9;
   Cexp=2.638;
   Cpl=1.25;
@@ -33,8 +33,6 @@ pyc_rates::pyc_rates() {
   use_fit=false;
 
   set_fit();
-
-  cng.units_cmd_string="units -f indata/units_hck.dat ";
 
   allow_highZ=true;
   loaded=false;

@@ -27,6 +27,10 @@ feq_all:
 		-rf data/SLy4_ame.fit -feq data/SLy4_ame \
 		> data/SLy4_ame.scr 2> data/SLy4_ame.err &
 
+acc:
+	crust -model SLy4 -rf data/SLy4_moller.fit -acc data/SLy4_moller
+#		> data/SLy4_moller_acc.scr 2> data/SLy4_moller_acc.err &
+
 #----------------------------------------------------------------------
 
 crust.o: crust.cpp crust.h
