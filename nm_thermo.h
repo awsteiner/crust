@@ -28,7 +28,7 @@
 #include "ldrop_crust.h"
 
 #ifndef DOXYGENP
-namespace o2scl {
+namespace crust {
 #endif
 
   /** \brief Compute the properties of nuclear matter

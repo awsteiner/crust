@@ -24,6 +24,7 @@
 
 using namespace std;
 using namespace o2scl;
+using namespace crust;
 using namespace o2scl_const;
 using namespace o2scl_hdf;
 

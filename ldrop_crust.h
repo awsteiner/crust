@@ -45,7 +45,7 @@
 #include <o2scl/hdf_io.h>
 
 #ifndef DOXYGENP
-namespace o2scl {
+namespace crust {
 #endif
   
   /** \brief Liquid droplet model for the neutron star crust
@@ -65,10 +65,10 @@ namespace o2scl {
   public:
 
     /// The experimental mass model
-    nucmass_ame_exp ame;
+    o2scl::nucmass_ame_exp ame;
 
     /// Moller et al. mass model
-    nucmass_mnmsk moller;
+    o2scl::nucmass_mnmsk moller;
 
     /// Exponent for the new density term (default in acc.cpp is 5)
     double new_exp;
@@ -98,7 +98,7 @@ namespace o2scl {
     bool extra_corr;
 
     /// Use FRDM to compute the central densities 
-    nucmass_frdm frdm;
+    o2scl::nucmass_frdm frdm;
     
     /// \name Derivatives wrt volume fraction, \f$ \chi \f$
     //@{

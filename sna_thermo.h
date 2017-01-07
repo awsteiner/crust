@@ -28,7 +28,7 @@
 #include "dist_thermo.h"
 
 #ifndef DOXYGENP
-namespace o2scl {
+namespace crust {
 #endif
 
   /** \brief Thermodynamics in the single-nucleus approximation
@@ -81,13 +81,13 @@ namespace o2scl {
 	unit conversion class
     */
     sna_thermo(ldrop_crust &lc, o2scl::eos_had_temp_base &he, 
-	       convert_units &conv) {
+	       o2scl::convert_units &conv) {
 
       cng=&conv;
       het=&he;
       lda=&lc;
 
-      elec_B.init(o2scl_settings.get_convert_units().convert
+      elec_B.init(o2scl::o2scl_settings.get_convert_units().convert
 		  ("kg","1/fm",o2scl_mks::mass_electron),2.0);
       elec_B.inc_rest_mass=true;
       elec_B.non_interacting=true;
@@ -264,12 +264,14 @@ namespace o2scl {
        */
       virtual double operator()(double nnhat) {
 	mfna.set(*stp,nb_,nnhat,*mp,T_);
-	mm_funct11 fmp=std::bind
+	o2scl::mm_funct11 fmp=std::bind
 	  (std::mem_fn<int(size_t,const ubvector &,ubvector &)>
 	   (&solve_nn_ni_fixed_nb_nnhat::operator()),&mfna,
 	   std::placeholders::_1,std::placeholders::_2,
 	   std::placeholders::_3);
+	std::cout << "H1." << std::endl;
 	gmh.msolve(2,x,fmp);
+	std::cout << "H2." << std::endl;
 	stp->free_energy_sna(*mp,T_);
 	return mp->fr;
       }
@@ -277,7 +279,7 @@ namespace o2scl {
     protected:
 
       /// The solver
-      mroot_hybrids<> gmh;
+      o2scl::mroot_hybrids<> gmh;
 
       /// Hold the solution for the neutron and nuclear densities
       ubvector x;

@@ -22,6 +22,7 @@
 
 using namespace std;
 using namespace o2scl;
+using namespace crust;
 
 int main(int argc, char *argv[]) {
   cout.setf(ios::scientific);

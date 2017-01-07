@@ -25,10 +25,11 @@
 
 using namespace std;
 using namespace o2scl;
+using namespace crust;
 using namespace o2scl_const;
 using namespace o2scl_hdf;
 
-bool o2scl::compare_density(const nucleus &n1, const nucleus &n2) {
+bool crust::compare_density(const nucleus &n1, const nucleus &n2) {
   return (n1.n>n2.n);
 }
 

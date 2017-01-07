@@ -47,7 +47,7 @@
 #include "ldrop_crust.h"
 
 #ifndef DOXYGENP
-namespace o2scl {
+namespace crust {
 #endif
 
   /** \brief An object which describes the composition and 
@@ -60,13 +60,13 @@ namespace o2scl {
     typedef boost::numeric::ublas::vector<double> ubvector;
 
     /// Quasi-free neutrons
-    fermion *n;
+    o2scl::fermion *n;
     /// Quasi-free protons
-    fermion *p;
+    o2scl::fermion *p;
     /// Distribution of nuclei
-    std::vector<nucleus> dist;
+    std::vector<o2scl::nucleus> dist;
     /// Electrons
-    fermion e;
+    o2scl::fermion e;
     /// Temperature
     double T;
     /// Energy density
@@ -90,7 +90,7 @@ namespace o2scl {
     /// Ratio for \f$ d \chi_i / d n_i \f$ 
     ubvector zeta;
     /// Thermodynamic information for dripped particles
-    thermo drip_th;
+    o2scl::thermo drip_th;
 
     /// \name For speed of sound at constant Ye
     //@{

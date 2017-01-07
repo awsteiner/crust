@@ -44,7 +44,7 @@
 #include "dist_thermo.h"
 
 #ifndef DOXYGENP
-namespace o2scl {
+namespace crust {
 #endif
 
   /** \brief Compute pycnonuclear reaction rates

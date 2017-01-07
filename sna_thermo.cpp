@@ -23,6 +23,7 @@
 #include <o2scl/test_mgr.h>
 
 using namespace std;
+using namespace crust;
 using namespace o2scl;
 using namespace o2scl_const;
 using namespace o2scl_hdf;

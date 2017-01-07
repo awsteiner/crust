@@ -47,7 +47,7 @@
 #include "matter.h"
 
 #ifndef DOXYGENP
-namespace o2scl {
+namespace crust {
 #endif
 
   // Forward definition
@@ -62,8 +62,8 @@ namespace o2scl {
     typedef boost::numeric::ublas::matrix<double> ubmatrix;
     
     /// Convert units
-    convert_units cng;
-
+    o2scl::convert_units cng;
+    
     /** \brief Compute electron captures by considering only one cell
 	(default false)
      */
@@ -114,7 +114,7 @@ namespace o2scl {
     /** \brief Add a nucleus to the distribution if it's missing, and 
 	return its index in \c ix
     */
-    int add_missing(std::vector<nucleus> &trial, int newZ, int newN,
+    int add_missing(std::vector<o2scl::nucleus> &trial, int newZ, int newN,
 		    size_t &ix);
 
     /// Beta decay

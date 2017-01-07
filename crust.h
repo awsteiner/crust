@@ -57,16 +57,16 @@
 #include "multi_zone.h"
 
 #ifndef DOXYGENP
-namespace o2scl {
+namespace crust {
 #endif
 
   /// To sort the nuclear distribution with density (currently unused)
-  bool compare_density(const nucleus &n1, const nucleus &n2);
+  bool compare_density(const o2scl::nucleus &n1, const o2scl::nucleus &n2);
 
   /** \brief To sort the nuclear distribution with proton number and then 
       neutron number
   */
-  bool compare_Z(const nucleus &n1, const nucleus &n2);
+  bool compare_Z(const o2scl::nucleus &n1, const o2scl::nucleus &n2);
 
   /** \brief Main crust driver class
    */
@@ -78,7 +78,7 @@ namespace o2scl {
     typedef boost::numeric::ublas::matrix<double> ubmatrix;
 
     /// Convert units
-    convert_units &cng;
+    o2scl::convert_units &cng;
     
   protected:
 
@@ -150,8 +150,8 @@ namespace o2scl {
 
     /// \name The neutron and proton objects used by the ldrop_mass object
     //@{
-    fermion n_lda, p_lda;
-    fermion n_rel_lda, p_rel_lda;
+    o2scl::fermion n_lda, p_lda;
+    o2scl::fermion n_rel_lda, p_rel_lda;
     //@}
 
     /// The hadronic eos (default points to \c sk)
@@ -177,12 +177,12 @@ namespace o2scl {
     double Tptr;
 
     /// To convert elements to strings
-    nucmass_info nmi;
+    o2scl::nucmass_info nmi;
 
     /** \brief Minimizer for full equilibrium crust (used in \ref
 	compute_sna() and \ref compute_sna_dist()).
     */
-    min_cern<> cm;
+    o2scl::min_cern<> cm;
     
     /// Verbosity (default 1)
     int verbose;
@@ -282,7 +282,7 @@ namespace o2scl {
 
 	Used by \ref dist_switch_gb() and in rxns for summary functions.
      */
-    int prune_distribution(std::vector<nucleus> &dist);
+    int prune_distribution(std::vector<o2scl::nucleus> &dist);
 
     /// Compute shear modulus in a neutron star crust
     tov_shear tsh;

@@ -27,7 +27,7 @@
 #include <o2scl/table_units.h>
 
 #ifndef DOXYGENP
-namespace o2scl {
+namespace crust {
 #endif
 
   /** \brief Multi-zone stability test
@@ -42,10 +42,10 @@ namespace o2scl {
     double schwarz_km;
 
     /// Object to convert units
-    convert_units cng;
+    o2scl::convert_units cng;
 
     /// To interpret element labels in accreted crust table
-    nucmass_info nmi;
+    o2scl::nucmass_info nmi;
 
     /// Number of nuclei
     ubvector nN;

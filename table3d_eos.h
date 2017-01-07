@@ -29,7 +29,7 @@
 #include <o2scl/table3d.h>
 
 #ifndef DOXYGENP
-namespace o2scl {
+namespace crust {
 #endif
 
   /** \brief EOS from a table3d for the NS crust
@@ -42,7 +42,7 @@ namespace o2scl {
   public:
 
     /// The table which stores the EOS
-    table3d tab;
+    o2scl::table3d tab;
 
     table3d_eos() {
     }
@@ -52,7 +52,8 @@ namespace o2scl {
 
     /** \brief Equation of state as a function of density
     */
-    virtual int calc_e(fermion &ne, fermion &pr, thermo &th) {
+    virtual int calc_e(o2scl::fermion &ne, o2scl::fermion &pr,
+		       o2scl::thermo &th) {
       size_t ix, iy, ix2, iy2;
 
       // Manually perform two-dimensional linear interpolation
@@ -126,16 +127,18 @@ namespace o2scl {
     }
 
     /// A wrapper for calc_e() since this is only zero temperature
-    virtual int calc_temp_e(fermion &ne, fermion &pr, double T,
-			    thermo &th) {
+    virtual int calc_temp_e(o2scl::fermion &ne, o2scl::fermion &pr, double T,
+			    o2scl::thermo &th) {
       return calc_e(ne,pr,th);
     }
 
-    virtual int calc_p(fermion &ne, fermion &pr, thermo &th) {
+    virtual int calc_p(o2scl::fermion &ne, o2scl::fermion &pr,
+		       o2scl::thermo &th) {
       return 0;
     }
     
-    virtual int calc_temp_p(fermion &ne, fermion &pr, double T, thermo &th) {
+    virtual int calc_temp_p(o2scl::fermion &ne, o2scl::fermion &pr,
+			    double T, o2scl::thermo &th) {
       return 0;
     }
     

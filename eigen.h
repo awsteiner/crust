@@ -42,7 +42,7 @@
 #include <o2scl/hdf_io.h>
 
 #ifndef DOXYGENP
-namespace o2scl {
+namespace crust {
 #endif
 
   /** \brief Compute eigenfrequencies from a crust table
@@ -203,7 +203,7 @@ namespace o2scl {
     }
 
     /// Convert units
-    convert_units cng;
+    o2scl::convert_units cng;
 
     /// If true, include GR effects in frequency calculation (default false)
     bool freq_gr;

@@ -46,7 +46,9 @@
 
 #include "ldrop_crust.h"
 
-/** \brief Fit a \ref ldrop_crust object to nuclear mass data
+namespace crust {
+
+/** \brief Fit a \ref crust::ldrop_crust object to nuclear mass data
 
     If \ref fit_moller is true, then the model is fit to
     the data from \ref moller, otherwise it is fit to the
@@ -63,7 +65,7 @@ class crust_fit : public o2scl::nucmass_fit {
   std::string fit_dir;
 
   /// Pointer to mass formula
-  o2scl::ldrop_crust *lda;
+  crust::ldrop_crust *lda;
   
   /// If true, fit FRDM instead of AME (default true)
   bool fit_moller;
@@ -84,4 +86,6 @@ class crust_fit : public o2scl::nucmass_fit {
 
 };
 
+}
+ 
 #endif

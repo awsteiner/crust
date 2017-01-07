@@ -68,8 +68,43 @@
     - Always use solver in nucleus_be()?
     - Move the hadronic_eos pointer and temperature into the matter object?
 
-    <b>Generic Documentation</b>
+    <b>Basic parts of call stack</b>
 
+    Full equilibrium crust (T=0):
+    <ul>
+    <li>\ref crust::crust_driver::full_eq()</li>
+    <ul>
+    <li>\ref crust::crust_driver::compute_sna()</li>
+    <ul>
+    <li>\ref crust::crust_driver::delta_ZN()</li>
+    <li>Minimize \ref crust::sna_thermo::free_energy_sna_neut::operator()()</li>
+    <ul>
+    <li>\ref crust::sna_thermo::free_energy_sna_fix_nb_nn()</li>
+    <li>\ref crust::sna_thermo::baryon_density_sna()</li>
+    <li>\ref crust::sna_thermo::free_energy_sna()</li>
+    </ul>
+    </ul>
+    </ul>
+    </ul>
+    
+    Accreted crust:
+    <ul>
+    <li>\ref crust::crust_driver::acc()</li>
+    <ul>
+    <li>\ref crust::rxns::emit_neutron()</li>
+    <ul>
+    <li>\ref crust::dist_thermo::gibbs_energy_per_baryon_cell()</li>
+    </ul>
+    <li>\ref crust::rxns::elec_capture()</li>
+    <li>\ref crust::rxns::beta_decay()</li>
+    <li>\ref crust::rxns::pyc_fusion()</li>
+    <li>\ref crust::dist_thermo::free_energy_dist()</li>
+    <li>\ref crust::dist_thermo::gibbs_energy_dist()</li>
+    </ul>
+    </ul>
+
+    <b>Generic Documentation</b>
+    
     From the TOV equations
     \f[
     \frac{dP}{dr} = - \frac{G \varepsilon m}{r^2} 

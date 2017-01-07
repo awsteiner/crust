@@ -25,6 +25,7 @@
 
 using namespace std;
 using namespace o2scl;
+using namespace crust;
 using namespace o2scl_const;
 using namespace o2scl_hdf;
 
@@ -1258,16 +1259,13 @@ int dist_thermo::gibbs_fixp(double pr_target, matter &m_new, double T) {
   // The variable 'corr' is the ratio of old to new densities
   double corr=ll;
 
-  // FIXME: Document why this is better(?) than the alternative
-  // given below
-
-  // 1/5/17: Using the GSL Brent solver seems to work better for
-  // accreted crusts than the CERN solver, so I switched this
-  // to 'false'.
-  if (false) {
-    corr=1.0;
-    cmr.solve(corr,fsp);
-  } else {
+  // 1/7/17: Just try the CERN solver first, then fall back to the
+  // GSL one if the CERN solver fails
+  cmr.err_nonconv=false;
+  corr=1.0;
+  int cret=cmr.solve(corr,fsp);
+  
+  if (cret!=0) {
     for(size_t i=0;i<3;i++) {
       if (fsp(ll)*fsp(ul)>0.0) {
 	ll=sqrt(ll);

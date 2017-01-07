@@ -30,7 +30,7 @@
 #include "ldrop_crust.h"
 
 #ifndef DOXYGENP
-namespace o2scl {
+namespace crust {
 #endif
 
   /** \brief An object to compute the thermodynamic properties
@@ -59,7 +59,7 @@ namespace o2scl {
     /// For neutron and protons
     o2scl::fermion_nonrel nrelf;
     /// For the thermodynamics of the nuclei
-    classical cla;
+    o2scl::classical cla;
     /// Thermodynamics in the magnetic field
     o2scl::fermion_mag_zerot mfz;
     /// Electron in a magnetic field
@@ -110,7 +110,7 @@ namespace o2scl {
     };
     
     /// Convert units
-    convert_units *cng;
+    o2scl::convert_units *cng;
 
     /** \brief Solve for the pressure
 	
@@ -193,8 +193,8 @@ namespace o2scl {
 
     /** \brief Create with the specified unit conversion class
     */
-    dist_thermo(convert_units &conv) {
-      elec_B.init(o2scl_settings.get_convert_units().convert
+    dist_thermo(o2scl::convert_units &conv) {
+      elec_B.init(o2scl::o2scl_settings.get_convert_units().convert
 		  ("kg","1/fm",o2scl_mks::mass_electron),2.0);
       elec_B.inc_rest_mass=true;
       elec_B.non_interacting=true;
