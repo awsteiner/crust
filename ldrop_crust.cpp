@@ -493,15 +493,18 @@ double ldrop_crust::drip_binding_energy_full_d
 	dchip_dchi;
 
       if (!finite(dcoul_dchi)) {
-	cout << "Point 1:" << endl;
-	cout << "extra_corr: " << extra_corr << endl;
-	cout << "Z,N: " << Z << " " << N << endl;
-	cout << "A,Rp,np,npout: " << A << " " << Rp << " " << np << " "
-	     << npout << endl;
-	cout << "nL,dfdu_dchip,dchip_dchi: " << nL << " " 
-	     << dfdu_dchip << " " << dchip_dchi << endl;
-	O2SCL_ERR2("Variable dcoul_dchi not finite in ",
-		   "ldrop_crust.",o2scl::exc_efailed);
+	return 1.0e3;
+	/*
+	  cout << "Point 1:" << endl;
+	  cout << "extra_corr: " << extra_corr << endl;
+	  cout << "Z,N: " << Z << " " << N << endl;
+	  cout << "A,Rp,np,npout: " << A << " " << Rp << " " << np << " "
+	  << npout << endl;
+	  cout << "nL,dfdu_dchip,dchip_dchi: " << nL << " " 
+	  << dfdu_dchip << " " << dchip_dchi << endl;
+	  O2SCL_ERR2("Variable dcoul_dchi not finite in ",
+	  "ldrop_crust.",o2scl::exc_efailed);
+	*/
       }
 
       dcoul_dnp=-4.0*A*coul_coeff*o2scl_const::pi*o2scl_const::hc_mev_fm*
@@ -754,17 +757,20 @@ double ldrop_crust::drip_binding_energy_full_d
     o2scl_const::fine_structure*Rp*Rp*fabs(np-npout)/nL*fdu*dnp_dchi;
 
   if (!finite(dcoul_dchi)) {
-    cout << "Point 2: " << endl;
-    cout << "Z,N,Rn,chip: " << Z << " " << N << " " << Rn << " " 
-	 << chip << endl;
-    cout << "Rn,fdu,dRp_dchi: " << Rn << " " << fdu << " " 
-	 << dRp_dchi << endl;
-    cout << "Rp,np,npout,nL: " << Rp << " " << np << " "
-	 << npout << " " << nL << endl;
-    cout << "chi,dfdu_dchip,dchip_dchi: " << chi << " " 
-	 << dfdu_dchip << " " << dchip_dchi << endl;
-    O2SCL_ERR2("Variable dcoul_dchi not finite in ",
-	       "ldrop_crust.",o2scl::exc_efailed);
+    return 1.0e3;
+    /*
+      cout << "Point 2: " << endl;
+      cout << "Z,N,Rn,chip: " << Z << " " << N << " " << Rn << " " 
+      << chip << endl;
+      cout << "Rn,fdu,dRp_dchi: " << Rn << " " << fdu << " " 
+      << dRp_dchi << endl;
+      cout << "Rp,np,npout,nL: " << Rp << " " << np << " "
+      << npout << " " << nL << endl;
+      cout << "chi,dfdu_dchip,dchip_dchi: " << chi << " " 
+      << dfdu_dchip << " " << dchip_dchi << endl;
+      O2SCL_ERR2("Variable dcoul_dchi not finite in ",
+      "ldrop_crust.",o2scl::exc_efailed);
+    */
   }
 
   dcoul_dnp=-4.0*A*coul_coeff*o2scl_const::pi*o2scl_const::hc_mev_fm*

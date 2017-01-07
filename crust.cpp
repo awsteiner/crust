@@ -399,20 +399,29 @@ int crust_driver::compute_sna(double nb, double T, matter &m, bool debug) {
 	m.dist[0].N=tN;
 
 	cm2.min_bkt(m.n->n,0.0,nb,min,func);
-	
-	if (debug) {
+
+	/*
+	  if (debug) {
 	  dt.baryon_density(m,T);
 	  cout << "Z,N,nn,n_nuc,fr: " 
-	       << tZ << " " << tN << " " << m.n->n << " " 
-	       << m.dist[0].n << " " << min << endl;
-	}
-	
+	  << tZ << " " << tN << " " << m.n->n << " " 
+	  << m.dist[0].n << " " << min << endl;
+	  }
+	*/
 	if (min<full_min) {
 	  Zmin=tZ;
 	  Nmin=tN;
 	  nn_min=m.n->n;
 	  full_min=min;
 	}
+
+	if (verbose>1) {
+	  cout << "crust_driver::compute_sna(): Z,N,nn,n_nuc,fr,Zmin,Nmin:\n"
+	       << "  " << tZ << " " << tN << " " << m.n->n << " " 
+	       << m.dist[0].n << " " << min << " " << Zmin << " "
+	       << Nmin << " " << nn_min << " " << full_min << endl;
+	}
+	
       }
     }
 
@@ -886,6 +895,7 @@ int crust_driver::full_eq(std::vector<std::string> &sv, bool itive_com) {
   m.dist.push_back(nuc);
   m.mu.resize(1);
   m.n->n=feq_nn;
+  m.p->n=0.0;
 
   table_units<> feq;
   feq.line_of_names("nb rho N Z nn bulk surf coul pair shell exc");

@@ -254,13 +254,8 @@ namespace o2scl {
 	x[0]=m.n->n;
 	x[1]=m.dist[0].n;
 
-	std::cout << "Missing 1." << std::endl;
-	exit(-1);
-#ifdef O2SCL_NEVER_DEFINED
 	gmh.tol_abs/=1.0e4;
 	gmh.tol_rel/=1.0e4;
-#endif
-
       }
   
       virtual ~free_energy_sna_fix_nb_nnhat() {};
@@ -268,23 +263,21 @@ namespace o2scl {
       /** \brief Compute the function at point \c x, with result \c y
        */
       virtual double operator()(double nnhat) {
-	std::cout << "Missing 2." << std::endl;
-	exit(-1);
-      #ifdef O2SCL_NEVER_DEFINED
 	mfna.set(*stp,nb_,nnhat,*mp,T_);
-	gmh.msolve(2,x,mfna);
+	mm_funct11 fmp=std::bind
+	  (std::mem_fn<int(size_t,const ubvector &,ubvector &)>
+	   (&solve_nn_ni_fixed_nb_nnhat::operator()),&mfna,
+	   std::placeholders::_1,std::placeholders::_2,
+	   std::placeholders::_3);
+	gmh.msolve(2,x,fmp);
 	stp->free_energy_sna(*mp,T_);
 	return mp->fr;
-	#endif
-	return 0.0;
       }
 
     protected:
 
       /// The solver
-      #ifdef O2SCL_NEVER_DEFINED
-      mroot_hybrids<solve_nn_ni_fixed_nb_nnhat> gmh;
-      #endif
+      mroot_hybrids<> gmh;
 
       /// Hold the solution for the neutron and nuclear densities
       ubvector x;
