@@ -149,13 +149,14 @@ int rxns::ec_summary(crust_driver *a, matter &m, matter &m_new,
 
 int rxns::elec_capture(crust_driver *a, matter &m, matter &m_new, 
 		       double T, int &cnt, double &heat) {
-  
+
   bool restart=true;
   while (restart==true) {
 
     restart=false;
     // Try an electron capture for each nucleus in the distribution
-    for(int ii=m.dist.size()-1;ii>0;ii--) {
+    for(int ii=m.dist.size()-1;ii>=0;ii--) {
+      
       size_t i=(size_t)ii;
       //for(size_t i=0;i<m.dist.size();i++) {
       
@@ -191,7 +192,7 @@ int rxns::elec_capture(crust_driver *a, matter &m, matter &m_new,
 	
 	m_new.dist[i].n-=nshift;
 	m_new.dist[ix].n+=nshift;
-	
+
 	if (nshift>0.0) {
           
           // Fix pressure of new distribution
@@ -205,7 +206,7 @@ int rxns::elec_capture(crust_driver *a, matter &m, matter &m_new,
             a->dt.gibbs_energy_dist(m,T);
             a->dt.gibbs_fixp(m.pr,m_new,T);
           }
-          
+
           if (ret==0) {
             
             double gpb1, gpb2;
@@ -223,7 +224,7 @@ int rxns::elec_capture(crust_driver *a, matter &m, matter &m_new,
               gpb2=m_new.gb/m_new.nb;
             }
             
-            if (gpb2<gpb1) {
+	    if (gpb2<gpb1) {
 	      // It's important that update_flow() is before
 	      // dist_switch_gb() because dist_switch_gb() 
 	      // rearranges the distribution
