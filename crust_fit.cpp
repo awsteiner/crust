@@ -28,7 +28,6 @@ using namespace o2scl_hdf;
 
 crust_fit::crust_fit() {
   fit_moller=true;
-  fit_dir=".";
 
   def_mmin.ntrial*=10;
   
@@ -48,9 +47,13 @@ int crust_fit::read_fit(std::vector<std::string> &sv, bool itive_com) {
   lda->guess_fun(lda->nfit,x);
 
   // If present, load guess from file
-  string fn=fit_dir+"/"+sv[1];
+  string fn=sv[1];
   cout << "Reading fit from file named '" << fn << "'." << endl;
   ifstream fin(fn.c_str());
+  if (!fin) {
+    cerr << "Failed to read file." << endl;
+    return 2;
+  }
   double temp;
   for(size_t i=0;i<lda->nfit && (fin >> temp);i++) {
     x[i]=temp;

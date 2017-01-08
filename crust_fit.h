@@ -61,9 +61,6 @@ class crust_fit : public o2scl::nucmass_fit {
 
   crust_fit();
 
-  /// Directory containing fit data
-  std::string fit_dir;
-
   /// Pointer to mass formula
   crust::ldrop_crust *lda;
   

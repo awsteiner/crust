@@ -189,6 +189,49 @@ namespace crust {
 
     };
 
+    /** \brief Solve for the pressure
+    
+	Used in crust_driver::gibbs_energy_pressure_neutron()
+    */
+    class funct_solve_pressure3 : public o2scl::mm_funct11, dt_funct_base {
+  
+    public:
+  
+      /** \brief Specify the member function pointer
+       */
+    funct_solve_pressure3(dist_thermo &dt, matter &m, double T,
+			  double pr0, double nn_full) : 
+      dt_funct_base(dt,m,T) {
+	
+	ppr0=pr0;
+	nnfull=nn_full;
+      }
+      
+      virtual ~funct_solve_pressure3() {};
+      
+      /** \brief Compute the function at point \c x, with result \c y
+       */
+      virtual int operator()(size_t nv, const ubvector &x, 
+			     ubvector &y) {
+	// It's important not to return zero here because the 
+	// function gibbs_pressure_func2 can return an error code 
+	return dtp->gibbs_press_neut_func
+	  (ppr0,nnfull,x[0],exp(x[1]),*mp,Tv,y[0],y[1]);
+      }
+
+#ifndef DOXYGEN_INTERNAL
+    
+    protected:
+  
+      /// \name The parameters
+      //@{
+      double ppr0, nnfull;
+      //@}
+
+#endif
+
+    };
+
   public:
 
     /** \brief Create with the specified unit conversion class

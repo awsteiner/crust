@@ -33,7 +33,7 @@ bool crust::compare_density(const nucleus &n1, const nucleus &n2) {
   return (n1.n>n2.n);
 }
 
-bool o2scl::compare_Z(const nucleus &n1, const nucleus &n2) {
+bool crust::compare_Z(const nucleus &n1, const nucleus &n2) {
   if (n1.Z==n2.Z) return n1.N<n2.N;
   return (n1.Z<n2.Z);
 }

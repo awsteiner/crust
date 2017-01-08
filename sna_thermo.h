@@ -269,9 +269,7 @@ namespace crust {
 	   (&solve_nn_ni_fixed_nb_nnhat::operator()),&mfna,
 	   std::placeholders::_1,std::placeholders::_2,
 	   std::placeholders::_3);
-	std::cout << "H1." << std::endl;
 	gmh.msolve(2,x,fmp);
-	std::cout << "H2." << std::endl;
 	stp->free_energy_sna(*mp,T_);
 	return mp->fr;
       }

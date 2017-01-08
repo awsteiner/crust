@@ -1167,9 +1167,15 @@ int dist_thermo::gibbs_fixp_neutron(double pr_old, double nn_full_old,
   }
     
   funct_solve_pressure2 fsp2(*this,m_new,T,pr_old,nn_full_old);
-  mm_funct11 fmp=std::bind
+  mm_funct11 fmp2=std::bind
     (std::mem_fn<int(size_t,const ubvector &,ubvector &)>
      (&funct_solve_pressure2::operator()),&fsp2,
+     std::placeholders::_1,std::placeholders::_2,
+     std::placeholders::_3);
+  funct_solve_pressure3 fsp3(*this,m_new,T,pr_old,nn_full_old);
+  mm_funct11 fmp3=std::bind
+    (std::mem_fn<int(size_t,const ubvector &,ubvector &)>
+     (&funct_solve_pressure3::operator()),&fsp3,
      std::placeholders::_1,std::placeholders::_2,
      std::placeholders::_3);
     
@@ -1184,27 +1190,35 @@ int dist_thermo::gibbs_fixp_neutron(double pr_old, double nn_full_old,
   int ret=fsp2(2,x,y);
   if (ret!=0) return -2;
 
-  if (false) {
+  gmh.err_nonconv=false;
+  int retx=gmh.msolve(2,x,fmp2);
+  gmh.err_nonconv=true;
 
-    // 1/5/17: In order to make 'acc' work, this basically
-    // ignores the solver if x[1] is sufficiently small. I'm not
-    // sure if this is a good idea yet. 
-    gmh.err_nonconv=false;
-    int retx=gmh.msolve(2,x,fmp);
-    gmh.err_nonconv=true;
-    
-    if (x[1]>1.0e-12 && retx!=0) {
-      cout << "Solver failing in gibbs_fixp_neutron()." << endl;
-      gmh.verbose=1;
-      int retx=gmh.msolve(2,x,fmp);
-      gmh.verbose=0;
-      cout << "Solver succeeded()." << endl;
+  // 1/7/17: I'm not sure if this is a good idea, but this
+  // just bypasses the solver if the neutron density is very small
+  if (retx!=0) {
+    if (nn_full_old<1.0e-10) {
+      return -3;
+    } else {
+      O2SCL_ERR("Solver failed in gibbs_fixp_neutron().",o2scl::exc_efailed);
     }
-
-  } else {
-    gmh.msolve(2,x,fmp);
   }
-    
+
+  /*
+  if (retx!=0 && nn_full_old<1.0e-8) {
+    cout << nn_full_old+nn_shift << " " << x[1] << endl;
+    x[0]=1.0;
+    if (x[1]<0.0) x[1]=log(1.0e-13);
+    x[1]=log(nn_full_old+nn_shift);
+    gmh.err_nonconv=false;
+    int retx2=gmh.msolve(2,x,fmp3);
+    x[1]=exp(x[1]);
+    cout << "retx2: " << retx2 << " " << x[1] << endl;
+    cout << x[1] << endl;
+    exit(-1);
+  }
+  */
+
   if (x[0]<0.0) {
     cout << "alpha, nn: " << x[0] << " " << x[1] << endl;
     O2SCL_ERR2("Variable alpha is negative in",
@@ -1277,8 +1291,10 @@ int dist_thermo::gibbs_fixp(double pr_target, matter &m_new, double T) {
 	cout << corr << " " << fsp(corr) << endl;
       }
       cout << ul << " " << fsp(ul) << endl;
-      O2SCL_ERR("Endpoints don't straddle y=0.",o2scl::exc_efailed);
+      O2SCL_ERR("Couldn't bracket root in dist_thermo::gibbs_fixp().",
+		o2scl::exc_efailed);
     }
+    corr=ll;
     grb.solve_bkt(corr,ul,fsp);
     if (corr<ll || corr>ul) {
       O2SCL_ERR("Out of range in gibbs_fixp().",o2scl::exc_efailed);

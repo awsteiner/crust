@@ -494,6 +494,8 @@ double ldrop_crust::drip_binding_energy_full_d
 	dchip_dchi;
 
       if (!finite(dcoul_dchi)) {
+	dcoul_dchi=0.0;
+	dcoul_dnp=0.0;
 	return 1.0e3;
 	/*
 	  cout << "Point 1:" << endl;
@@ -758,6 +760,8 @@ double ldrop_crust::drip_binding_energy_full_d
     o2scl_const::fine_structure*Rp*Rp*fabs(np-npout)/nL*fdu*dnp_dchi;
 
   if (!finite(dcoul_dchi)) {
+    dcoul_dchi=0.0;
+    dcoul_dnp=0.0;
     return 1.0e3;
     /*
       cout << "Point 2: " << endl;

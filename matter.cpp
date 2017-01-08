@@ -98,7 +98,7 @@ double matter::impurity() {
   return sum/ntot;
 }
 
-std::ostream &o2scl::operator<<(std::ostream &os, const matter &m) {
+std::ostream &crust::operator<<(std::ostream &os, const matter &m) {
   os << "----------------------------------------------------------" 
      << std::endl;
   os << "nn,np,ne: " << m.n->n << " " << m.p->n << " "
