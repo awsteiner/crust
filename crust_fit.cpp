@@ -72,7 +72,7 @@ int crust_fit::read_fit(std::vector<std::string> &sv, bool itive_com) {
   // Check fit
   double qual;
   eval(*lda,qual);
-  cout << "Fit quality " << qual << "\n" << endl;
+  cout << "Fit quality " << qual << endl;
 
   return 0;
 }

@@ -1860,13 +1860,20 @@ int crust_driver::acc(std::vector<std::string> &sv, bool itive_com) {
     cout.width(3);
     cout << current.size() << " ";
 
-    double nbnuc=0.0;
-    for(size_t j=0;j<current.size();j++) {
-      nbnuc+=current[j].n*(current[j].Z+current[j].N);
-    }
-    for(size_t j=0;j<current.size() && j<2;j++) {
-      cout << "(" << current[j].Z << "," << current[j].N << ") ";
-      cout << current[j].n*(current[j].Z+current[j].N)/(nbnuc) << " ";
+    {
+      // Sort with decreasing density so we can output only
+      // the most populous nuclei
+      vector<nucleus> sorted=current;
+      std::sort(sorted.begin(),sorted.end(),compare_density);
+      
+      double nbnuc=0.0;
+      for(size_t j=0;j<sorted.size();j++) {
+	nbnuc+=sorted[j].n*(sorted[j].Z+sorted[j].N);
+      }
+      for(size_t j=0;j<sorted.size() && j<2;j++) {
+	cout << "(" << sorted[j].Z << "," << sorted[j].N << ") ";
+	cout << sorted[j].n*(sorted[j].Z+sorted[j].N)/(nbnuc) << " ";
+      }
     }
     cout << cnt << endl;
 
@@ -2440,7 +2447,7 @@ int crust_driver::run(int argc, char *argv[]) {
 
   cli::parameter_double p_ec_heating;
   p_ec_heating.d=&ec_heating;
-  p_ec_heating.help="Electron capture Heating (default 0.25).";
+  p_ec_heating.help="Electron capture heating fraction (default 0.25).";
   cl.par_list.insert(make_pair("ec_heating",&p_ec_heating));
 
   cli::parameter_double p_acc_inc_factor;

@@ -60,11 +60,13 @@
 namespace crust {
 #endif
 
-  /// To sort the nuclear distribution with density (currently unused)
+  /** \brief To sort the nuclear distribution with decreasing 
+      density (currently unused)
+  */
   bool compare_density(const o2scl::nucleus &n1, const o2scl::nucleus &n2);
 
-  /** \brief To sort the nuclear distribution with proton number and then 
-      neutron number
+  /** \brief To sort the nuclear distribution with increasing
+      proton number and then increasing neutron number
   */
   bool compare_Z(const o2scl::nucleus &n1, const o2scl::nucleus &n2);
 
@@ -314,7 +316,9 @@ namespace crust {
     pyc_rates pyc;
     //@}
 
-    /// Compute loop sizes for compute_sna()
+    /** \brief Compute loop sizes for compute_sna() or 
+	\ref crust::rxns::gen_reaction()
+    */
     int delta_ZN(int &Z, int &N, int &deltaZ_lo, int &deltaZ_hi, 
 		 int &deltaN_lo, int &deltaN_hi);
     

@@ -61,9 +61,6 @@ namespace crust {
     typedef boost::numeric::ublas::vector<double> ubvector;
     typedef boost::numeric::ublas::matrix<double> ubmatrix;
     
-    /// Convert units
-    o2scl::convert_units cng;
-    
     /** \brief Compute electron captures by considering only one cell
 	(default false)
      */
@@ -95,13 +92,18 @@ namespace crust {
     
     /** \brief Electron capture
 
-        Tries to electron catpure for every nucleus in the 
+        Tries to electron capture for every nucleus in the 
 	distribution. 
 
+	\comment
+
+	1/9/17: I think it's always fixed pressure now
+	
 	By default, the new configuration is computed at fixed
-	particle number. If \ref
-	crust_driver::gibbs_press is true, then the new configuration is
-	computed at fixed pressure. 
+	particle number. If \ref crust_driver::gibbs_press is true,
+	then the new configuration is computed at fixed pressure.
+
+	\endcomment
     */
     int elec_capture(crust_driver *a, matter &m, matter &m_new, double T, 
 		     int &cnt, double &heat);
