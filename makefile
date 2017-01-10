@@ -78,6 +78,10 @@ crust: $(OBJS)
 #----------------------------------------------------------------------
 
 doc: empty
+	cd doc; cat refs_head.txt > refs.dox
+	cd doc; btmanip -p crust.bib -dox /tmp/btmanip
+	cd doc; cat /tmp/btmanip >> refs.dox
+	cd doc; cat refs_foot.txt >> refs.dox
 	cd doc; doxygen doxyfile
 
 empty:

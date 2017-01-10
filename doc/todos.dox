@@ -1,0 +1,16 @@
+/** \page page_3x Other todos
+
+    \todo
+    - The computation of the pressure using gibbs_energy_density()
+    in compute_sna() may be overkill, and it's possible that this
+    function could be simplified
+    - Move some public functions to protected
+    - It would be great if full_eq2() was as accurate and or
+    nearly as fast as full_eq()
+    - Compute one proton separation energy
+    - Directly compute entropy
+    - Rewrite full_eq_dist() to properly handle constant baryon density?
+    - Always use solver in nucleus_be()?
+    - Move the hadronic_eos pointer and temperature into the matter object?
+
+*/

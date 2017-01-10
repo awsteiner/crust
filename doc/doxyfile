@@ -32,7 +32,7 @@ DOXYFILE_ENCODING      = UTF-8
 # title of most generated pages and in a few other places.
 # The default value is: My Project.
 
-PROJECT_NAME           = "Neutron star crust"
+PROJECT_NAME           = "Neutron Star Crust"
 
 # The PROJECT_NUMBER tag can be used to enter a project or revision number. This
 # could be handy for archiving the generated documentation or if some version
@@ -238,7 +238,13 @@ TAB_SIZE               = 4
 # "Side Effects:". You can put \n's in the value part of an alias to insert
 # newlines.
 
-ALIASES                =
+ALIASES = "nothing="
+ALIASES += "hline=\htmlonly<hr>\endhtmlonly\latexonly\vspace*{0.5cm}\hrule\endlatexonly"
+ALIASES += "comment=\if o2sclneverdefined"
+ALIASES += "endcomment=\endif"
+ALIASES += "o2=\htmlonly O<span style='position: relative; top: 0.3em; font-size: 0.8em'>2</span>scl \endhtmlonly \latexonly O$_2$scl \endlatexonly"
+ALIASES += "o2p=\htmlonly <a href='../part/html/index.html'>O<span style='position: relative; top: 0.3em; font-size: 0.8em'>2</span>scl_part</a> \endhtmlonly \latexonly O$_2$scl\_part \endlatexonly"
+ALIASES += "o2e=\htmlonly <a href='../eos/html/index.html'>O<span style='position: relative; top: 0.3em; font-size: 0.8em'>2</span>scl_eos</a> \endhtmlonly \latexonly O$_2$scl\_eos \endlatexonly"
 
 # This tag can be used to specify a number of word-keyword mappings (TCL only).
 # A mapping has the form "name=value". For example adding "class=itcl::class"
@@ -790,7 +796,7 @@ WARN_LOGFILE           =
 # spaces. See also FILE_PATTERNS and EXTENSION_MAPPING
 # Note: If this tag is empty the current directory is searched.
 
-INPUT                  = ..
+INPUT                  = .. .
 
 # This tag can be used to specify the character encoding of the source files
 # that doxygen parses. Internally doxygen uses the UTF-8 encoding. Doxygen uses
@@ -815,7 +821,7 @@ INPUT_ENCODING         = UTF-8
 # *.m, *.markdown, *.md, *.mm, *.dox, *.py, *.pyw, *.f90, *.f95, *.f03, *.f08,
 # *.f, *.for, *.tcl, *.vhd, *.vhdl, *.ucf and *.qsf.
 
-FILE_PATTERNS          = *.h *.cpp
+FILE_PATTERNS          = *.h *.cpp *.dox
 
 # The RECURSIVE tag can be used to specify whether or not subdirectories should
 # be searched for input files as well.
@@ -1105,7 +1111,7 @@ HTML_HEADER            =
 # that doxygen normally uses.
 # This tag requires that the tag GENERATE_HTML is set to YES.
 
-HTML_FOOTER            =
+HTML_FOOTER            = footer.html
 
 # The HTML_STYLESHEET tag can be used to specify a user-defined cascading style
 # sheet that is used by each HTML page. It can be used to fine-tune the look of
