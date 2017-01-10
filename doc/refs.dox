@@ -62,4 +62,13 @@
     Title: A simple analytic model for astrophysical S-factors
     \endcomment
 
+    \anchor Horowitz07 Horowitz07:
+    \anchor Steiner09 Steiner09:
+    <a href="http://dx.doi.org/10.1103/PhysRevLett.103.181101">
+    Andrew W. Steiner and Anna L. Watts</a>,
+    Phys. Rev. Lett. \b 103 (2009) 181101.
+    \comment
+    Title: Constraints on Neutron Star Crusts from Oscillations in Giant Flares
+    \endcomment
+
 */

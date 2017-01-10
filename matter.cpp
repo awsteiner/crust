@@ -25,7 +25,7 @@ using namespace o2scl;
 using namespace crust;
 using namespace o2scl_const;
 
-matter::matter(bool rel) {
+matter::matter() {
   
   n=new fermion(o2scl_settings.get_convert_units().convert
 		("kg","1/fm",o2scl_mks::mass_neutron),2.0);

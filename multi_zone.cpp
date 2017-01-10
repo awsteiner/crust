@@ -347,7 +347,7 @@ void multi_zone::read_zones(size_t nz, table_units<> &tab, size_t fz) {
     cout << "Zone " << i << "." << endl;
 
     // Create the matter object
-    matter *mx=new matter(false);
+    matter *mx=new matter;
     zones.push_back(mx);
     matter &m=*zones[i];
 

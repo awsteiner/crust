@@ -49,7 +49,7 @@ eigen.o: eigen.cpp eigen.h
 ldrop_crust.o: ldrop_crust.cpp ldrop_crust.h
 	$(CXX) $(FLAGS) -o ldrop_crust.o -c ldrop_crust.cpp
 
-main.o: main.cpp main.h
+main.o: main.cpp 
 	$(CXX) $(FLAGS) -o main.o -c main.cpp
 
 matter.o: matter.cpp matter.h

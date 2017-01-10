@@ -181,7 +181,7 @@ int sna_thermo::free_energy_sna_fix_nb_nnuc(double nb, matter &m, double T) {
 
 int sna_thermo::check_free_energy_sna() {
   
-  matter m(false);
+  matter m;
   double T=0.0;
 
   double rest=0.0, be=0.0, Rws=0.0, chi=0.0;

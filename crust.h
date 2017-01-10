@@ -61,7 +61,7 @@ namespace crust {
 #endif
 
   /** \brief To sort the nuclear distribution with decreasing 
-      density (currently unused)
+      density
   */
   bool compare_density(const o2scl::nucleus &n1, const o2scl::nucleus &n2);
 
@@ -153,7 +153,6 @@ namespace crust {
     /// \name The neutron and proton objects used by the ldrop_mass object
     //@{
     o2scl::fermion n_lda, p_lda;
-    o2scl::fermion n_rel_lda, p_rel_lda;
     //@}
 
     /// The hadronic eos (default points to \c sk)
@@ -331,6 +330,8 @@ namespace crust {
 
     /** \brief Update reaction flow with a reaction between 
 	\f$ (Z_1,N_1) \rightarrow (Z_2,N_2) \f$
+
+	This function is called by the \ref crust::rxns object .
     */
     int update_flow(int Z1, int N1, int Z2, int N2, std::string type,
 		    double dheat, double rho);

@@ -98,10 +98,9 @@ namespace crust {
     double dfdnb_Ye;
     //@}
 
-    /** \brief Create a matter object (if \c rel is true, then ensure
-	particles are relatvistic
+    /** \brief Create a matter object
     */
-    matter(bool rel);
+    matter();
   
     /// Compute an average inter-ionic spacing
     double average_a();
@@ -116,9 +115,6 @@ namespace crust {
     double impurity();
 
   private:
-
-    // Make default constructor private
-    matter();
 
     // Make default copy constructor private
     matter(const matter &m);

@@ -42,7 +42,7 @@ namespace crust {
       \chi_i \equiv \left( \frac{R_{n,i}}{R_{\mathrm{WS},i}} \right)^3
       \f]
 
-      \future It would be nice to simplify free_energy_dist(),
+      \todo It would be nice to simplify free_energy_dist(),
       free_energy_sna(), and other related functions so there
       isn't so much code repetition.
   */
@@ -284,7 +284,7 @@ namespace crust {
 	chemical potentials and stores them in \ref matter::mu and
 	\ref matter::mun.
 
-	\future Offer a direct method of computing derivatives
+	\todo Offer a direct method of computing derivatives
 	from an o2scl deriv object.
     */
     int free_energy_dist(matter &m, double T, bool eval_chem_pots=false);
@@ -347,10 +347,10 @@ namespace crust {
 	
 	Uses gibbs_pressure_func().
 	
-	Currently, this function uses a local \ref
-	cern_mroot_root object to solve for pressure equality,
-	but there is some legacy code for using \ref gsl_root_brent to
-	do the solution.
+	Currently, this function uses a local \ref o2scl::root_cern
+	object to solve for pressure equality, but there is some
+	legacy code for using \ref o2scl::root_brent_gsl to do the
+	solution.
     */
     int gibbs_fixp(double pr_target, matter &m_new, double T);
 

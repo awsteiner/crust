@@ -269,11 +269,8 @@ int tov_shear::tov(std::vector<std::string> &sv, bool itive_com) {
   cout << "In_dir: " << in_dir << endl;
   table_units<> slb;
   hf.open(in_dir+((string)"/slb11.o2"));
-  std::cout << "Missing 23." << std::endl;
-  exit(-1);
-#ifdef O2SCL_NEVER_DEFINED  
-  hdf_input(hf,slb);
-#endif
+  std::string name;
+  hdf_input(hf,slb,name);
   hf.close();
   cout << "Loaded core table 'slb11.o2'." << endl;
 
@@ -329,17 +326,14 @@ int tov_shear::tov(std::vector<std::string> &sv, bool itive_com) {
     }
   }
 
-  std::cout << "Missing 24." << std::endl;
-  exit(-1);
-#ifdef O2SCL_NEVER_DEFINED  
   if (true) {
     if (mag_field>0.0) {
       for(size_t i=0;i<te.get_nlines();i++) {
 	double corr=o2scl_const::gauss2_fm4*mag_field*mag_field/8.0/pi;
 	if (corr>te["ed"][i]) corr=te["ed"][i];
 	if (corr>te["pr"][i]) corr=te["pr"][i];
-	te["ed"][i]+=corr;
-	te["pr"][i]+=corr;
+	te.set("ed",i,te.get("ed",i)+corr);
+	te.set("pr",i,te.get("pr",i)+corr);
       }
     }
   }
@@ -350,8 +344,8 @@ int tov_shear::tov(std::vector<std::string> &sv, bool itive_com) {
   hf.close();
   cout << "Wrote EOS for TOV in '" << fname1 << "'." << endl;
 
-  tov_interp_eos teos;
-  teos.set_units("1/fm^4","1/fm^4","");
+  eos_tov_interp teos;
+  //teos.set_units("1/fm^4","1/fm^4","");
   teos.read_table(te,"ed","pr","");
 
   tov_solve ts;
@@ -363,7 +357,7 @@ int tov_shear::tov(std::vector<std::string> &sv, bool itive_com) {
     cout << "Going to mvsr." << endl;
     ts.mvsr();
     cout << "Done with mvsr." << endl;
-    o2_shared_ptr<table_units<>>::type mr=ts.get_results();
+    shared_ptr<table_units<> > mr=ts.get_results();
       
     string fname2=prefix+"_mvsr_out.o2";
     hf.open(fname2);
@@ -374,7 +368,7 @@ int tov_shear::tov(std::vector<std::string> &sv, bool itive_com) {
     cout << "Going to 1.0" << endl;
     ts.fixed(1.0);
     cout << "Done with 1.0" << endl;
-    o2_shared_ptr<table_units<>>::type mr=ts.get_results();
+    shared_ptr<table_units<> > mr=ts.get_results();
 
     string fname3=prefix+"_m10.o2";
     hf.open(fname3);
@@ -385,7 +379,7 @@ int tov_shear::tov(std::vector<std::string> &sv, bool itive_com) {
     cout << "Going to 1.1" << endl;
     ts.fixed(1.1);
     cout << "Done with 1.1" << endl;
-    o2_shared_ptr<table_units<>>::type mr=ts.get_results();
+    shared_ptr<table_units<> > mr=ts.get_results();
       
     string fname3=prefix+"_m11.o2";
     hf.open(fname3);
@@ -396,7 +390,7 @@ int tov_shear::tov(std::vector<std::string> &sv, bool itive_com) {
     cout << "Going to 1.2" << endl;
     ts.fixed(1.2);
     cout << "Done with 1.2" << endl;
-    o2_shared_ptr<table_units<>>::type mr=ts.get_results();
+    shared_ptr<table_units<> > mr=ts.get_results();
       
     string fname3=prefix+"_m12.o2";
     hf.open(fname3);
@@ -407,7 +401,7 @@ int tov_shear::tov(std::vector<std::string> &sv, bool itive_com) {
     cout << "Going to 1.3" << endl;
     ts.fixed(1.3);
     cout << "Done with 1.3" << endl;
-    o2_shared_ptr<table_units<>>::type mr=ts.get_results();
+    shared_ptr<table_units<> > mr=ts.get_results();
       
     string fname3=prefix+"_m13.o2";
     hf.open(fname3);
@@ -418,7 +412,7 @@ int tov_shear::tov(std::vector<std::string> &sv, bool itive_com) {
     cout << "Going to 1.4" << endl;
     ts.fixed(1.4);
     cout << "Done with 1.4" << endl;
-    o2_shared_ptr<table_units<>>::type mr=ts.get_results();
+    shared_ptr<table_units<> > mr=ts.get_results();
     cout << "Rad 1.4: " << mr->max("r") << endl;
       
     string fname3=prefix+"_m14.o2";
@@ -430,7 +424,7 @@ int tov_shear::tov(std::vector<std::string> &sv, bool itive_com) {
     cout << "Going to 1.5" << endl;
     ts.fixed(1.5);
     cout << "Done with 1.5" << endl;
-    o2_shared_ptr<table_units<>>::type mr=ts.get_results();
+    shared_ptr<table_units<> > mr=ts.get_results();
       
     string fname3=prefix+"_m15.o2";
     hf.open(fname3);
@@ -441,7 +435,7 @@ int tov_shear::tov(std::vector<std::string> &sv, bool itive_com) {
     cout << "Going to 1.6" << endl;
     ts.fixed(1.6);
     cout << "Done with 1.6" << endl;
-    o2_shared_ptr<table_units<>>::type mr=ts.get_results();
+    shared_ptr<table_units<> > mr=ts.get_results();
       
     string fname3=prefix+"_m16.o2";
     hf.open(fname3);
@@ -452,7 +446,7 @@ int tov_shear::tov(std::vector<std::string> &sv, bool itive_com) {
     cout << "Going to 1.7" << endl;
     ts.fixed(1.7);
     cout << "Done with 1.7" << endl;
-    o2_shared_ptr<table_units<>>::type mr=ts.get_results();
+    shared_ptr<table_units<> > mr=ts.get_results();
       
     string fname3=prefix+"_m17.o2";
     hf.open(fname3);
@@ -463,7 +457,7 @@ int tov_shear::tov(std::vector<std::string> &sv, bool itive_com) {
     cout << "Going to 1.8" << endl;
     ts.fixed(1.8);
     cout << "Done with 1.8" << endl;
-    o2_shared_ptr<table_units<>>::type mr=ts.get_results();
+    shared_ptr<table_units<> > mr=ts.get_results();
       
     string fname3=prefix+"_m18.o2";
     hf.open(fname3);
@@ -474,7 +468,7 @@ int tov_shear::tov(std::vector<std::string> &sv, bool itive_com) {
     cout << "Going to 1.9" << endl;
     ts.fixed(1.9);
     cout << "Done with 1.9" << endl;
-    o2_shared_ptr<table_units<>>::type mr=ts.get_results();
+    shared_ptr<table_units<> > mr=ts.get_results();
       
     string fname3=prefix+"_m19.o2";
     hf.open(fname3);
@@ -482,8 +476,6 @@ int tov_shear::tov(std::vector<std::string> &sv, bool itive_com) {
     hf.close();
   }
 
-#endif
-  
   return 0;
 }
 
@@ -718,7 +710,7 @@ int tov_shear::shear(std::vector<std::string> &sv, bool itive_com) {
 
   // Compute maximum mass and check 
   ts.mvsr();
-  o2_shared_ptr<table_units<>>::type mr0=ts.get_results();
+  shared_ptr<table_units<> > mr0=ts.get_results();
   if (freq_mass>mr0->max("gm")) {
     cout << mr0->max("gm") << endl;
     O2SCL_ERR_RET("Requested mass greater than maximum mass.",
@@ -729,7 +721,7 @@ int tov_shear::shear(std::vector<std::string> &sv, bool itive_com) {
   if (fabs(freq_mass-1.0)<1.0e-4) {
     
     ts.mvsr();
-    o2_shared_ptr<table_units<>>::type mr=ts.get_results();
+    shared_ptr<table_units<> > mr=ts.get_results();
     
     string mvsr_fn=prefix+"_mvsr.o2";
     hf.open(mvsr_fn);
@@ -739,7 +731,7 @@ int tov_shear::shear(std::vector<std::string> &sv, bool itive_com) {
 
   // Compute structure for requested mass
   ts.fixed(freq_mass);
-  o2_shared_ptr<table_units<>>::type mr=ts.get_results();
+  shared_ptr<table_units<> > mr=ts.get_results();
 
   // Output solution 
   string mfixed_fn=prefix+"_mfixed.o2";

@@ -213,16 +213,13 @@ namespace crust {
 
     /** \brief High-density EOS flag (default 0)
 
-        Used in tov().
+        Used in \ref tov().
 
-        - 0 - most probable
-	- 1: +1 sigma
-	- 2: +2 sigma
-	- 3: -1 sigma
-	- 4: -2 sigma
-     */
+        0 is most probable, 1 is plus 1 sigma, 2 is plus 2 sigma,
+	3 is minus 1 sigma, and 4 in minus 2 sigma
+    */
     int hd_flag;
-
+    
     /// Compute crust in full_equilibrium with a distribution
     int tov(std::vector<std::string> &sv, bool itive_com);
     

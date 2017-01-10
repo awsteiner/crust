@@ -60,15 +60,6 @@ crust_driver::crust_driver() :
   n_lda.non_interacting=false;
   p_lda.non_interacting=false;
 
-  n_rel_lda.init(o2scl_settings.get_convert_units().convert
-		 ("kg","1/fm",o2scl_mks::mass_neutron),2.0);
-  p_rel_lda.init(o2scl_settings.get_convert_units().convert
-		 ("kg","1/fm",o2scl_mks::mass_proton),2.0);
-  n_rel_lda.inc_rest_mass=true;
-  p_rel_lda.inc_rest_mass=true;
-  n_rel_lda.non_interacting=false;
-  p_rel_lda.non_interacting=false;
-
   het=&sk;
 
   lda.full_surface=true;
@@ -186,6 +177,7 @@ int crust_driver::init_dist(string mode, matter &m) {
 
   } else if (mode=="ashes") {
 
+    // From Table 1 in Horowitz (2007)
     if (verbose>0) cout << "X-ray burst ashes." << endl;
     ninit=17;
     int Z[17], N[17];
@@ -207,6 +199,11 @@ int crust_driver::init_dist(string mode, matter &m) {
     Z[14]=34;
     Z[15]=36;
     Z[16]=47;
+    den[0]=0.0301;
+    den[1]=0.0116;
+    den[2]=0.0023;
+    den[3]=0.0023;
+    den[4]=0.0023;
     den[5]=0.0046;
     den[6]=0.0810;
     den[7]=0.0718;
@@ -215,11 +212,6 @@ int crust_driver::init_dist(string mode, matter &m) {
     den[10]=0.0764;
     den[11]=0.0856;
     den[12]=0.0116;
-    den[0]=0.0301;
-    den[1]=0.0116;
-    den[2]=0.0023;
-    den[3]=0.0023;
-    den[4]=0.0023;
     den[13]=0.1250;
     den[14]=0.3866;
     den[15]=0.0023;
@@ -314,7 +306,7 @@ int crust_driver::check_free_energy_cell_fun() {
 
   // Distribution
   cout << "Initializing for distribution." << endl;
-  matter m(false);
+  matter m;
   init_dist("ashes",m);
 
   double T=Tptr;
@@ -837,7 +829,6 @@ int crust_driver::model(std::vector<std::string> &sv, bool itive_com) {
     dt.het=&rmf;
     snat.het=&rmf;
     nmt.het=&rmf;
-    lda.set_n_and_p(n_rel_lda,p_rel_lda);
 
     hf.close();
 
@@ -862,8 +853,6 @@ int crust_driver::full_eq(std::vector<std::string> &sv, bool itive_com) {
     O2SCL_ERR("Skyrme model not set.",o2scl::exc_efailed);
   }
 
-  rmf.verbose=1;
-
   if (tsh.mag_field>0.0) dt.mag_field=tsh.mag_field;
 
   if (sv.size()<2) {
@@ -887,7 +876,7 @@ int crust_driver::full_eq(std::vector<std::string> &sv, bool itive_com) {
 
   double T=0.0;
     
-  matter m(false);
+  matter m;
     
   // Set initial values
   nucleus nuc;
@@ -1028,7 +1017,7 @@ int crust_driver::full_eq(std::vector<std::string> &sv, bool itive_com) {
     }
     cout << m.pr << " ";
       
-    matter nm(false);
+    matter nm;
     if (m.rho>1.0e9) {
       m.T=T;
       nmt.calc_dist_x(m,nm);
@@ -1144,7 +1133,7 @@ int crust_driver::full_eq2(std::vector<std::string> &sv, bool itive_com) {
 
   double T=0.0;
     
-  matter m(false);
+  matter m;
     
   // Set initial values
   nucleus nuc;
@@ -1241,7 +1230,7 @@ int crust_driver::full_eq2(std::vector<std::string> &sv, bool itive_com) {
     double fr_check=mnuc*m.dist[0].n+(1.0-chi)*
       (m.n->n*mass_neutron+fr_neutron)+m.e.ed;
 
-    matter nm(false);
+    matter nm;
     m.T=T;
     nmt.calc_dist_x(m,nm);
       
@@ -1343,7 +1332,7 @@ int crust_driver::full_eq_dist(std::vector<std::string> &sv, bool itive_com) {
   double T=Tptr;
   //double T=0.0;
     
-  matter m(false), m_new(false);
+  matter m, m_new;
   m.p->n=0.0;
   m.n->n=0.0;
   m_new.p->n=0.0;
@@ -1453,7 +1442,7 @@ int crust_driver::test_ndrip(std::vector<std::string> &sv, bool itive_com) {
     O2SCL_ERR("Skyrme model not set.",o2scl::exc_efailed);
   }
 
-  matter m(false);
+  matter m;
 
   cout << "T: " << Tptr << endl;
   cout << endl;
@@ -1500,7 +1489,7 @@ int crust_driver::test_ndrip(std::vector<std::string> &sv, bool itive_com) {
   
   // -----------------------------------------------
 
-  matter m_new(false);
+  matter m_new;
 
   nuc.Z=tZ;
   nuc.N=tN;
@@ -1549,7 +1538,7 @@ int crust_driver::acc(std::vector<std::string> &sv, bool itive_com) {
   }
 
   // Matter objects
-  matter m(false), m_new(false), nm(false);
+  matter m, m_new, nm;
 
   // Store reaction summaries
   int Zmax=100;
@@ -1891,7 +1880,6 @@ int crust_driver::acc(std::vector<std::string> &sv, bool itive_com) {
     size_t row=dist_tab.get_nlines()-1;
     for(size_t j=0;j<dist_tab.get_ncolumns();j++) {
       dist_tab.set(j,row,0.0);
-      //dist_tab[j][row]=0.0;
     }
 
     // For each nucleus in the distribution, set the density
@@ -2109,7 +2097,7 @@ int crust_driver::check_fun(std::vector<std::string> &sv, bool itive_com) {
     cout << "Checking mass_density()." << endl;
     check=check_mass_density;
     
-    matter m(false);
+    matter m;
     init_dist("ashes",m);
 
     vector<string> a;
@@ -2128,7 +2116,7 @@ int crust_driver::check_fun(std::vector<std::string> &sv, bool itive_com) {
     check=check_free_energy_sna;
 
     cout << "Initializing for X-ray bust ashes distribution." << endl;
-    matter m(false);
+    matter m;
     init_dist("ashes",m);
     for(size_t i=0;i<m.dist.size();i++) {
       m.dist[i].n*=1.0e5;
@@ -2150,7 +2138,7 @@ int crust_driver::check_fun(std::vector<std::string> &sv, bool itive_com) {
     check=check_free_energy_dist;
     
     cout << "Initializing for X-ray bust ashes distribution." << endl;
-    matter m(false);
+    matter m;
     init_dist("ashes",m);
     for(size_t i=0;i<m.dist.size();i++) {
       m.dist[i].n*=1.0e5;
@@ -2172,7 +2160,7 @@ int crust_driver::check_fun(std::vector<std::string> &sv, bool itive_com) {
     cout << "\nChecking free_energy_nm_x().\n" << endl;
     check=check_free_energy_nm_x;
 
-    matter m(false), nm(false);
+    matter m, nm;
     nucleus nuc;
     nuc.Z=26;
     nuc.N=30;
@@ -2219,7 +2207,7 @@ int crust_driver::check_fun(std::vector<std::string> &sv, bool itive_com) {
   }
   if (o2scl::stoi(sv[1])==check_pressure) {
     check=check_pressure;
-    matter m(false);
+    matter m;
     dt.check_pressure(m,0.0);
     return 0;
   }
