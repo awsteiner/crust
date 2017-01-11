@@ -67,8 +67,8 @@ crust_driver::crust_driver() :
   lda.new_skin_mode=false;
   lda.set_eos_had_temp_base(*het);
   lda.set_n_and_p(n_lda,p_lda);
-  lda.new_exp=5.0;
-  lda.new_coeff=0.5;
+  lda.hd_exp=5.0;
+  lda.hd_coeff=0.5;
     
   Tptr=cng.convert("K","1/fm",1.0e8);
   
@@ -832,6 +832,20 @@ int crust_driver::model(std::vector<std::string> &sv, bool itive_com) {
 
     hf.close();
 
+  } else if (sv[1]=="skyrme") {
+
+    cout << "Selecting Skyrme with specified coefficients." << endl;
+    skyrme_load(sk,"NRAPR");
+    sk.t0=o2scl::stod(sv[2])/hc_mev_fm;
+    sk.t1=o2scl::stod(sv[3])/hc_mev_fm;
+    sk.t2=o2scl::stod(sv[4])/hc_mev_fm;
+    sk.t3=o2scl::stod(sv[5])/hc_mev_fm;
+    sk.x0=o2scl::stod(sv[6]);
+    sk.x1=o2scl::stod(sv[7]);
+    sk.x2=o2scl::stod(sv[8]);
+    sk.x3=o2scl::stod(sv[9]);
+    sk.alpha=o2scl::stod(sv[10]);
+    
   } else {
 
     cout << "Selected Skyrme model." << endl;
@@ -2331,24 +2345,25 @@ int crust_driver::run(int argc, char *argv[]) {
 
   cli::parameter_bool p_new_skin_mode;
   p_new_skin_mode.b=&lda.new_skin_mode;
-  p_new_skin_mode.help="New skin in bulk energy (default false).";
+  p_new_skin_mode.help=((string)"New skin in bulk energy ")
+    +"(probably not working; default false).";
   cl.par_list.insert(make_pair("lda.new_skin_mode",&p_new_skin_mode));
 
   cli::parameter_bool p_use_pasta;
   p_use_pasta.b=&use_pasta;
-  p_use_pasta.help="Pasta (default false).";
+  p_use_pasta.help="Pasta (probably not working; default false).";
   cl.par_list.insert(make_pair("lda.use_pasta",&p_use_pasta));
 
-  cli::parameter_double p_new_exp;
-  p_new_exp.d=&lda.new_exp;
-  p_new_exp.help="High-density correction exponent from Eq. 6 (default 5.0).";
-  cl.par_list.insert(make_pair("lda.new_exp",&p_new_exp));
+  cli::parameter_double p_hd_exp;
+  p_hd_exp.d=&lda.hd_exp;
+  p_hd_exp.help="High-density correction exponent from Eq. 6 (default 5.0).";
+  cl.par_list.insert(make_pair("lda.hd_exp",&p_hd_exp));
 
-  cli::parameter_double p_new_coeff;
-  p_new_coeff.d=&lda.new_coeff;
-  p_new_coeff.help=((string)"High-density correction coefficient ")
+  cli::parameter_double p_hd_coeff;
+  p_hd_coeff.d=&lda.hd_coeff;
+  p_hd_coeff.help=((string)"High-density correction coefficient ")
     +"from Eq. 6 (default 0.5).";
-  cl.par_list.insert(make_pair("lda.new_coeff",&p_new_coeff));
+  cl.par_list.insert(make_pair("lda.hd_coeff",&p_hd_coeff));
 
   // Equilibrium crust parameters
 

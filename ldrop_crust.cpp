@@ -541,19 +541,19 @@ double ldrop_crust::drip_binding_energy_full_d
 
   // Determine the inner densities
   nL=n0+n1*I*I;
-  double fchi=new_coeff*(1.0-exp(new_exp*chi))/(1.0-exp(new_exp));
+  double fchi=hd_coeff*(1.0-exp(hd_exp*chi))/(1.0-exp(hd_exp));
   np=nL*(1.0-delta)/2.0-fchi;
   nn=nL*(1.0+delta)/2.0+fchi;
   // Try this instead:
   // 
-  // double g2=(1.0-exp(new_exp*(chi-1.0)))/(1.0-exp(-new_exp));
+  // double g2=(1.0-exp(hd_exp*(chi-1.0)))/(1.0-exp(-hd_exp));
   // np=nL*(1.0-delta)/2.0*g2;
   // nn=nL*(1.0+delta)/2.0/g2;
   // 
-  // and maybe increase new_exp to something like 8.0
+  // and maybe increase hd_exp to something like 8.0
   // and rewrite the derivatives. 
 
-  df_dchi=-new_coeff/(1.0-exp(new_exp))*new_exp*exp(new_exp*chi);
+  df_dchi=-hd_coeff/(1.0-exp(hd_exp))*hd_exp*exp(hd_exp*chi);
   double dnn_dchi=df_dchi;
   double dnp_dchi=-df_dchi;
 
@@ -561,8 +561,8 @@ double ldrop_crust::drip_binding_energy_full_d
     cout << "Z,N,nL,I: " << Z << " " << N << " " << nL << " " << I << endl;
     cout << "delta, np, nn, chi: " << delta << " " << np << " " 
 	 << nn << " " << chi << endl;
-    cout << "fchi, exp, coeff: " << fchi << " " << new_exp << " "
-	 << new_coeff << endl;
+    cout << "fchi, exp, coeff: " << fchi << " " << hd_exp << " "
+	 << hd_coeff << endl;
     O2SCL_ERR2("Neutron or proton density not finite in ",
 	       "ldrop_crust::drip_binding_energy_full_d().",o2scl::exc_efailed);
     return 0.0;

@@ -70,13 +70,15 @@ namespace crust {
     /// Moller et al. mass model
     o2scl::nucmass_mnmsk moller;
 
-    /// Exponent for the new density term (default in acc.cpp is 5)
-    double new_exp;
-
-    /** \brief Coefficient for the new density term 
-	(default in acc.cpp is 0.5)
+    /** \brief Exponent for the high-density correction to 
+	the internal densities (default in acc.cpp is 5)
     */
-    double new_coeff;
+    double hd_exp;
+
+    /** \brief Coefficient for the high-density correction to 
+	the internal densities (default in acc.cpp is 0.5)
+    */
+    double hd_coeff;
 
     /** \brief If true, include excluded volume correction 
 	(default in acc.cpp is true)
