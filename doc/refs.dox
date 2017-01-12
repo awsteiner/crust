@@ -1,5 +1,5 @@
 // This page is automatically generated. Do not edit.
-/** \page ref_section Bibliography
+/** \page crustref_section Bibliography
 
     Some of the references which contain links should direct you to
     the work referred to directly through <tt>dx.doi.org</tt> for journal
@@ -63,6 +63,13 @@
     \endcomment
 
     \anchor Horowitz07 Horowitz07:
+    <a href="http://dx.doi.org/10.1103/PhysRevE.75.066101">
+    Charles J. Horowitz, D. K. Berry, and E. F. Brown</a>,
+    Phys. Rev. E \b 75 (2007) 066101.
+    \comment
+    Title: Phase separation in the crust of accreting neutron stars
+    \endcomment
+
     \anchor Steiner09 Steiner09:
     <a href="http://dx.doi.org/10.1103/PhysRevLett.103.181101">
     Andrew W. Steiner and Anna L. Watts</a>,

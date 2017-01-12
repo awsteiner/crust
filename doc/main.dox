@@ -23,6 +23,9 @@
     A code for computing the structure of a neutron star 
     crust. 
 
+    This documentation is generated based on commit 
+    \htmlinclude rev.txt
+
     Based partially on work in \ref Steiner08, this code was written
     for use in \ref Steiner12 and then used again in \ref Deibel14
     (which was itself based on \ref Steiner09).
@@ -31,7 +34,7 @@
     - <b><a href="annotated.html">Class List</a></b>
     - <b><a href="todo.html">Todo List</a></b>
     - <b><a href="files.html">File List</a></b>
-    - \ref ref_section \n
+    - \ref crustref_section \n
 
 */
 

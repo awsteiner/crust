@@ -836,15 +836,15 @@ int crust_driver::model(std::vector<std::string> &sv, bool itive_com) {
 
     cout << "Selecting Skyrme with specified coefficients." << endl;
     skyrme_load(sk,"NRAPR");
-    sk.t0=o2scl::stod(sv[2])/hc_mev_fm;
-    sk.t1=o2scl::stod(sv[3])/hc_mev_fm;
-    sk.t2=o2scl::stod(sv[4])/hc_mev_fm;
-    sk.t3=o2scl::stod(sv[5])/hc_mev_fm;
-    sk.x0=o2scl::stod(sv[6]);
-    sk.x1=o2scl::stod(sv[7]);
-    sk.x2=o2scl::stod(sv[8]);
-    sk.x3=o2scl::stod(sv[9]);
-    sk.alpha=o2scl::stod(sv[10]);
+    sk.t0=o2scl::function_to_double(sv[2])/hc_mev_fm;
+    sk.t1=o2scl::function_to_double(sv[3])/hc_mev_fm;
+    sk.t2=o2scl::function_to_double(sv[4])/hc_mev_fm;
+    sk.t3=o2scl::function_to_double(sv[5])/hc_mev_fm;
+    sk.x0=o2scl::function_to_double(sv[6]);
+    sk.x1=o2scl::function_to_double(sv[7]);
+    sk.x2=o2scl::function_to_double(sv[8]);
+    sk.x3=o2scl::function_to_double(sv[9]);
+    sk.alpha=o2scl::function_to_double(sv[10]);
     
   } else {
 
@@ -2274,7 +2274,7 @@ int crust_driver::run(int argc, char *argv[]) {
      new comm_option_mfptr<crust_driver>(this,&crust_driver::full_eq_dist),
      cli::comm_option_both},
     {0,"model","Select model EOS (default is SLy4).",
-     1,2,"<model>",((string)"Help here."),
+     1,10,"<model>",((string)"Help here."),
      new comm_option_mfptr<crust_driver>(this,&crust_driver::model),
      cli::comm_option_both},
     {0,"make-table","",

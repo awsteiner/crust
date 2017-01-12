@@ -78,10 +78,20 @@ crust: $(OBJS)
 #----------------------------------------------------------------------
 
 doc: empty
+# Copy most recent tag files
+	cd doc; cp ~/o2scl/doc/o2scl/o2scl.tag .
+	cd doc; cp ~/o2scl/doc/o2scl/part/o2scl_part.tag .
+	cd doc; cp ~/o2scl/doc/o2scl/eos/o2scl_eos.tag .
+# Get most recent commit hash
+	git rev-parse HEAD | awk \
+		'{print "<a href=\"http://github.com/awsteiner/crust/tree/" $$1 "\">" $$1 "</a> ."}' \
+		 > doc/rev.txt
+# Parse bibliography
 	cd doc; cat refs_head.txt > refs.dox
 	cd doc; btmanip -p crust.bib -dox /tmp/btmanip
 	cd doc; cat /tmp/btmanip >> refs.dox
 	cd doc; cat refs_foot.txt >> refs.dox
+# Run Doxygen
 	cd doc; doxygen doxyfile
 
 empty:

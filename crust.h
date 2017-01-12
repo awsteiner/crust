@@ -143,7 +143,11 @@ namespace crust {
 
     /** \brief Initial distribution type (default "nickel")
       
-	Either "nickel", "heavy", or "ashes"
+	Either "nickel", "heavy", "schatz" or "ashes" .
+
+	Option "ashes" gives the X-ray burst ashes from
+	\ref Horowitz07
+
     */
     std::string dist_type;
 
