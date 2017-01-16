@@ -5,15 +5,16 @@
     the work referred to directly through <tt>dx.doi.org</tt> for journal
     articles or <tt>worldcat.org</tt> for books.
 
-    \anchor Steiner08 Steiner08:
-    <a href="http://dx.doi.org/10.1103/PhysRevC.77.035805">
-    A. W. Steiner</a>,
-    Phys. Rev. C \b 77 (2008) 035805.
+    \anchor crust_Beard10 crust_Beard10:
+    <a href="http://dx.doi.org/10.1016/j.adt.2010.02.005">
+    M. Beard, A. V. Afanasjev, L. C. Chamon, L. R. Gasques, M. Wiescher, and D. G. Yakovlev</a>,
+    Atom. Data Nucl. Data Tables \b 96 (2010) 541.
     \comment
-    Title: Neutron Star Crust: Nuclear Physics Input
+    Title: {Astrophysical S factors for fusion reactions involving C, O, Ne, and
+    Mg isotopes}
     \endcomment
 
-    \anchor Deibel14 Deibel14:
+    \anchor crust_Deibel14 crust_Deibel14:
     <a href="http://dx.doi.org/10.1103/PhysRevC.90.025802">
     A. T. Deibel, A. W. Steiner, and E. F. Brown</a>,
     Phys. Rev. C \b 90 (2014) 025802.
@@ -21,48 +22,7 @@
     Title: Magnetar giant flare oscillations and the nuclear symmetry energy
     \endcomment
 
-    \anchor Steiner12 Steiner12:
-    <a href="http://dx.doi.org/10.1103/PhysRevC.85.055804">
-    A. W. Steiner</a>,
-    Phys. Rev. C \b 85 (2012) 055804.
-    \comment
-    Title: Deep crustal heating in a multicomponent accreted neutron star crust
-    \endcomment
-
-    \anchor Beard10 Beard10:
-    <a href="http://dx.doi.org/10.1016/j.adt.2010.02.005">
-    M. Beard, A. V. Afanasjev, L. C. Chamon, L. R. Gasques, M. Wiescher, and D. G. Yakovlev</a>,
-    Atomic Data and Nuclear Data Tables \b 96 (2010) 541.
-    \comment
-    Title: {Astrophysical S factors for fusion reactions involving C, O, Ne, and
-    Mg isotopes}
-    \endcomment
-
-    \anchor Yakovlev06 Yakovlev06:
-    <a href="http://dx.doi.org/10.1103/PhysRevC.74.035803">
-    D. G. Yakovlev, L. R. Gasques, A. V. Afanasjev, M. Beard, and M. Wiescher</a>,
-    Phys. Rev. C \b 74 (2006) 035803.
-    \comment
-    Title: Fusion reactions in multicomponent dense matter
-    \endcomment
-
-    \anchor Yakovlev06b Yakovlev06b:
-    <a href="http://dx.doi.org/10.1111/j.1365-2966.2006.10753.x">
-    D. G. Yakovlev, L. Gasques, and M. Wiescher</a>,
-    Mon. Not. R. Astron Soc. \b 371 (2006) 1322.
-    \comment
-    Title: Pycnonuclear burning of Ne-34 in accreting neutron stars
-    \endcomment
-
-    \anchor Yakovlev10 Yakovlev10:
-    <a href="http://dx.doi.org/10.1103/PhysRevC.82.044609">
-    D. G. Yakovlev, M. Beard, L. R. Gasques, and M. Wiescher</a>,
-    Phys. Rev. C \b C82 (2010) 044609.
-    \comment
-    Title: A simple analytic model for astrophysical S-factors
-    \endcomment
-
-    \anchor Horowitz07 Horowitz07:
+    \anchor crust_Horowitz07 crust_Horowitz07:
     <a href="http://dx.doi.org/10.1103/PhysRevE.75.066101">
     Charles J. Horowitz, D. K. Berry, and E. F. Brown</a>,
     Phys. Rev. E \b 75 (2007) 066101.
@@ -70,12 +30,52 @@
     Title: Phase separation in the crust of accreting neutron stars
     \endcomment
 
-    \anchor Steiner09 Steiner09:
+    \anchor crust_Steiner08 crust_Steiner08:
+    <a href="http://dx.doi.org/10.1103/PhysRevC.77.035805">
+    A. W. Steiner</a>,
+    Phys. Rev. C \b 77 (2008) 035805.
+    \comment
+    Title: Neutron Star Crust: Nuclear Physics Input
+    \endcomment
+
+    \anchor crust_Steiner09 crust_Steiner09:
     <a href="http://dx.doi.org/10.1103/PhysRevLett.103.181101">
     Andrew W. Steiner and Anna L. Watts</a>,
     Phys. Rev. Lett. \b 103 (2009) 181101.
     \comment
     Title: Constraints on Neutron Star Crusts from Oscillations in Giant Flares
+    \endcomment
+
+    \anchor crust_Steiner12 crust_Steiner12:
+    <a href="http://dx.doi.org/10.1103/PhysRevC.85.055804">
+    A. W. Steiner</a>,
+    Phys. Rev. C \b 85 (2012) 055804.
+    \comment
+    Title: Deep crustal heating in a multicomponent accreted neutron star crust
+    \endcomment
+
+    \anchor crust_Yakovlev06 crust_Yakovlev06:
+    <a href="http://dx.doi.org/10.1103/PhysRevC.74.035803">
+    D. G. Yakovlev, L. R. Gasques, A. V. Afanasjev, M. Beard, and M. Wiescher</a>,
+    Phys. Rev. C \b 74 (2006) 035803.
+    \comment
+    Title: Fusion reactions in multicomponent dense matter
+    \endcomment
+
+    \anchor crust_Yakovlev06b crust_Yakovlev06b:
+    <a href="http://dx.doi.org/10.1111/j.1365-2966.2006.10753.x">
+    D. G. Yakovlev, L. Gasques, and M. Wiescher</a>,
+    Mon. Not. R. Astron Soc. \b 371 (2006) 1322.
+    \comment
+    Title: Pycnonuclear burning of Ne-34 in accreting neutron stars
+    \endcomment
+
+    \anchor crust_Yakovlev10 crust_Yakovlev10:
+    <a href="http://dx.doi.org/10.1103/PhysRevC.82.044609">
+    D. G. Yakovlev, M. Beard, L. R. Gasques, and M. Wiescher</a>,
+    Phys. Rev. C \b C82 (2010) 044609.
+    \comment
+    Title: A simple analytic model for astrophysical S-factors
     \endcomment
 
 */

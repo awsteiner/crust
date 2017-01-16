@@ -56,7 +56,7 @@ namespace crust {
       Rates tend to decrease with Z and increase with A, so this
       choice minimizes fusion.
       
-      \ref Beard10 gives computes the S-factors for several
+      \ref crust_Beard10 gives computes the S-factors for several
       reactions and fits each to the same functional form
       \f[
       S(E) = \exp \left\{ B_1 + B_2 E + B_3 E^2 + 
@@ -70,7 +70,7 @@ namespace crust {
       be equal to those for \f$ A > A_{\mathrm{max}} \f$ (which
       increases fusion slightly for heavier isotopes).
 
-      \ref Yakovlev10 gives a fit in Eqs. 5 and 6 in terms of four
+      \ref crust_Yakovlev10 gives a fit in Eqs. 5 and 6 in terms of four
       quantities, \f$ S_0, E_C, \delta \f$ and \f$ \xi \f$:
       \f[
       S(E) = 
@@ -107,7 +107,7 @@ namespace crust {
       \f}
 
       The default values of \ref Cpyc, \ref Cexp, and \ref Cpl
-      are from the "optimal" model in Table II in \ref Yakovlev06.
+      are from the "optimal" model in Table II in \ref crust_Yakovlev06.
   */
   class pyc_rates {
 
@@ -121,7 +121,7 @@ namespace crust {
     double Cexp;
     /// Coefficient controlling power of \f$ \lambda \f$ (default 1.25)
     double Cpl;
-    /// Table of S-factor coefficients from \ref Beard10
+    /// Table of S-factor coefficients from \ref crust_Beard10
     o2scl::table<> b10;
   
     /// Convert units
@@ -136,10 +136,10 @@ namespace crust {
     /// If true, add fusions from Z=14 nuclei (default false)
     bool add14;
 
-    /// If true, use fit from \ref Yakovlev10 (default false)
+    /// If true, use fit from \ref crust_Yakovlev10 (default false)
     bool use_fit;
 
-    /// Fit coefficients from Table II in \ref Yakovlev10
+    /// Fit coefficients from Table II in \ref crust_Yakovlev10
     double fit[10][13];
     
     /// Initialize with "Optimal" rate
@@ -179,7 +179,7 @@ namespace crust {
 	Density \c n12 should be in \f$ \mathrm{fm}^{-3} \f$ and reduced
 	mass \c mu12 should be in 1/fm.
 
-	From Eq. 10 in \ref Yakovlev06 this gives the plasma temperature as
+	From Eq. 10 in \ref crust_Yakovlev06 this gives the plasma temperature as
 	\f[
 	T_p = \sqrt{ \frac{4 \pi Z_1 Z_2 e^2 n_{12}}{2 \mu_{12}} }
 	\f]
@@ -191,7 +191,7 @@ namespace crust {
       
 	Reduced mass \c mu12 should be in 1/fm.
 	
-	From Eq. 11 in \ref Yakovlev06 
+	From Eq. 11 in \ref crust_Yakovlev06 
 	\f[
 	r_{B12} = \frac{1}{2 \mu_{12} Z_1 Z_2 e^2}
 	\f]
@@ -207,7 +207,7 @@ namespace crust {
 	be in 1/fm, lambda is unitless, and omega is returned in 1/fm.
 
 	The quantity \c omega is computed from \ref Tp() \c lambda is
-	computed from Eq. 12 in \ref Yakovlev06
+	computed from Eq. 12 in \ref crust_Yakovlev06
 	\f[
 	\lambda_{12} = r_{B12} \left( \frac{n12}{2} \right)^{1/3}
 	\f]
@@ -225,7 +225,7 @@ namespace crust {
 	be in 1/fm, lambda is unitless, and omega is returned in 1/fm.
 
 	The quantity \c omega is computed from \ref Tp() \c lambda is
-	computed from Eq. 12 in \ref Yakovlev06
+	computed from Eq. 12 in \ref crust_Yakovlev06
 	\f[
 	\lambda_{12} = \frac{A_1 + A_2}{A_1 A_2 Z_1 Z_2
 	\left(Z_1^{1/3} + Z_2^{1/3}\right)}
@@ -255,7 +255,7 @@ namespace crust {
 	\f$ \mathrm{fm}^{-3} \f$, masses should be in 1/fm, 
 	rho should be in g/cm3, 
 
-	As in Eq. 33 in \ref Yakovlev06, we define 
+	As in Eq. 33 in \ref crust_Yakovlev06, we define 
 	\f[
 	R^{\mathrm{pyc}}_{ij} \equiv 
 	8 \times 10^{7} C_{\mathrm{pyc}} 

@@ -1,16 +1,21 @@
-/** \page page_3x Other todos
+/** \page crust_todos_page Other todos
 
     \todo
-    - The computation of the pressure using gibbs_energy_density()
+    - Convert the testing options in <tt>crust -check</tt> to a more
+    complete set of unit tests with a makefile target.
+    - Simplify interaction between this code and o2scl
+    - [From 2013] The computation of the pressure using gibbs_energy_density()
     in compute_sna() may be overkill, and it's possible that this
     function could be simplified
-    - Move some public functions to protected
-    - It would be great if full_eq2() was as accurate and or
+    - [From 2013] Move some public functions to protected
+    - [From 2013] It would be great if full_eq2() was as accurate and or
     nearly as fast as full_eq()
-    - Compute one proton separation energy
-    - Directly compute entropy
-    - Rewrite full_eq_dist() to properly handle constant baryon density?
-    - Always use solver in nucleus_be()?
-    - Move the hadronic_eos pointer and temperature into the matter object?
+    - [From 2013] Compute one proton separation energy
+    - [From 2013] Directly compute entropy
+    - [From 2013] Rewrite full_eq_dist() to properly handle constant
+      baryon density?
+    - [From 2013] Always use solver in nucleus_be()?
+    - [From 2013] Move the hadronic_eos pointer and temperature 
+    into the matter object?
 
 */
