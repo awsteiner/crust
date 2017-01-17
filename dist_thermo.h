@@ -42,7 +42,7 @@ namespace crust {
       \chi_i \equiv \left( \frac{R_{n,i}}{R_{\mathrm{WS},i}} \right)^3
       \f]
 
-      \todo It would be nice to simplify free_energy_dist(),
+      \todo [From 2013] It would be nice to simplify free_energy_dist(),
       free_energy_sna(), and other related functions so there
       isn't so much code repetition.
   */
@@ -56,8 +56,6 @@ namespace crust {
 
     /// For the electron thermodynamics
     o2scl::fermion_rel relf;
-    /// For neutron and protons
-    o2scl::fermion_nonrel nrelf;
     /// For the thermodynamics of the nuclei
     o2scl::classical cla;
     /// Thermodynamics in the magnetic field
@@ -110,11 +108,11 @@ namespace crust {
     };
     
     /// Convert units
-    o2scl::convert_units *cng;
+    o2scl::convert_units &cng;
 
     /** \brief Solve for the pressure
 	
-	Used in crust_driver::gibbs_energy_pressure()
+	Used in \ref dist_thermo::gibbs_fixp()
     */
     class funct_solve_pressure : public dt_funct_base {
       
@@ -148,7 +146,7 @@ namespace crust {
 
     /** \brief Solve for the pressure
     
-	Used in crust_driver::gibbs_energy_pressure_neutron()
+	Used in \ref dist_thermo::gibbs_fixp_neutron()
     */
     class funct_solve_pressure2 : public o2scl::mm_funct11, dt_funct_base {
   
@@ -191,7 +189,7 @@ namespace crust {
 
     /** \brief Solve for the pressure
     
-	Used in crust_driver::gibbs_energy_pressure_neutron()
+	Used in \ref dist_thermo::gibbs_fixp_neutron()
     */
     class funct_solve_pressure3 : public o2scl::mm_funct11, dt_funct_base {
   
@@ -236,13 +234,12 @@ namespace crust {
 
     /** \brief Create with the specified unit conversion class
     */
-    dist_thermo(o2scl::convert_units &conv) {
+  dist_thermo(o2scl::convert_units &conv) :
+    cng(o2scl::o2scl_settings.get_convert_units()) {
       elec_B.init(o2scl::o2scl_settings.get_convert_units().convert
 		  ("kg","1/fm",o2scl_mks::mass_electron),2.0);
       elec_B.inc_rest_mass=true;
       elec_B.non_interacting=true;
-
-      cng=&conv;
 
       check=0;
     }
@@ -284,7 +281,7 @@ namespace crust {
 	chemical potentials and stores them in \ref matter::mu and
 	\ref matter::mun.
 
-	\todo Offer a direct method of computing derivatives
+	\todo [From 2013] Offer a direct method of computing derivatives
 	from an o2scl deriv object.
     */
     int free_energy_dist(matter &m, double T, bool eval_chem_pots=false);
@@ -437,6 +434,9 @@ namespace crust {
 
     /** \brief Return the free energy as a one-dimensional function
 	of the nuclear number density
+
+	Used in \ref dist_thermo::free_energy_dist_sna() but
+	currently commented out .
     */
     class funct_dist_sna : public dt_funct_base {
 	
@@ -469,9 +469,12 @@ namespace crust {
 
     };
     
-    /// For computing the derivative of the free energy wrt alpha
+    /** \brief For computing the derivative of the free energy wrt alpha
+	in \ref dist_thermo::check_pressure()
+     */
     class free_dist_deriv_alpha {
     public:
+
       free_dist_deriv_alpha(dist_thermo &dt, matter &m, 
 			    double &T, size_t pt=0) {
 	dtp=&dt;
@@ -481,6 +484,8 @@ namespace crust {
       }
       virtual ~free_dist_deriv_alpha() {}
 
+      /** \brief Desc
+       */
       virtual double operator()(double x) {
 	double ret;
 	dtp->free_energy_dist_alpha(*m_,T_,x);
@@ -497,8 +502,10 @@ namespace crust {
       size_t pt_;
     };
 
-    /** \brief For computing the derivative of the free energy wrt 
-	the number density of one of the nuclei
+    /** \brief For computing the derivative of the free energy wrt the
+	number density of one of the nuclei in \ref
+	dist_thermo::check_pressure()
+     */
     */
     class free_dist_deriv_nuc {
     public:
@@ -512,6 +519,8 @@ namespace crust {
 	pt_=pt;
       }
       virtual ~free_dist_deriv_nuc() {}
+      /** \brief Desc
+       */
       virtual double operator()(double x) {
 	double ret;
 	m_->dist[i_].n=x;

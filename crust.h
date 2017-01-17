@@ -108,7 +108,7 @@ namespace crust {
     std::string input_dir;
     
     /// True if the skyrme model has been set
-    bool skyrme_set;
+    bool model_set;
 
     /// The object to perform multizone calculations
     multi_zone mz;
@@ -275,17 +275,18 @@ namespace crust {
     /// Test neutron drip
     int test_ndrip(std::vector<std::string> &sv, bool itive_com);
 
-    /** \brief Set temperature (takes argument in Kelvin and sets value in 
-	\f$ \mathrm{fm}^{-1} \f$.
+    /** \brief Set temperature (takes argument in Kelvin and sets 
+	the value of \ref Tptr in \f$ \mathrm{fm}^{-1} \f$.
      */
-    int tptr(std::vector<std::string> &sv, bool itive_com);
+    int set_tptr(std::vector<std::string> &sv, bool itive_com);
     
   public:
 
     /** \brief Remove nuclei in the distribution which have vanishing
 	contribution
 
-	Used by \ref dist_switch_gb() and in rxns for summary functions.
+	Used by \ref dist_switch_gb() and in \ref crust::rxns 
+	for summary functions.
      */
     int prune_distribution(std::vector<o2scl::nucleus> &dist);
 

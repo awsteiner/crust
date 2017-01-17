@@ -239,7 +239,7 @@ int dist_thermo::free_energy_dist(matter &m, double T, bool eval_chem_pots) {
   }
 
   // Convert the result to g/cm^3
-  m.rho=cng->convert("1/fm^4","g/cm^3",m.rho);
+  m.rho=cng.convert("1/fm^4","g/cm^3",m.rho);
 
   if (eval_chem_pots) {
 
@@ -368,7 +368,7 @@ int dist_thermo::free_energy_dist(matter &m, double T, bool eval_chem_pots) {
     cout << endl;
 
     // Store old version and convert back to 1/fm^4
-    double rest1=cng->convert("g/cm^3","1/fm^4",m.rho);
+    double rest1=cng.convert("g/cm^3","1/fm^4",m.rho);
     double fr1=m.fr;
       
     m.rho=0.0;
@@ -502,7 +502,7 @@ int dist_thermo::mass_density(matter &m, double T) {
   }
     
   // Convert the result to g/cm^3
-  m.rho=cng->convert("1/fm^4","g/cm^3",m.rho);
+  m.rho=cng.convert("1/fm^4","g/cm^3",m.rho);
 
   if (check==check_mass_density) {
 
@@ -534,7 +534,7 @@ int dist_thermo::mass_density(matter &m, double T) {
     }
       
     // Convert the result to g/cm^3
-    m.rho=cng->convert("1/fm^4","g/cm^3",m.rho);
+    m.rho=cng.convert("1/fm^4","g/cm^3",m.rho);
 
     cout << "rho: " << m.rho << endl;
     cout << "Difference: "

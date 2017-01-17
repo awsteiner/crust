@@ -43,7 +43,7 @@ crust_driver::crust_driver() :
   dt(cng), nmt(lda,sk,cng), snat(lda,sk,cng) {
   
   input_dir="indata";
-  skyrme_set=false;
+  model_set=false;
 
   rho_summary=1.0e20;
 
@@ -699,8 +699,8 @@ bool crust_driver::dist_switch_gb(matter &m, matter &m_new,
 
 int crust_driver::make_table(std::vector<std::string> &sv, bool itive_com) {
 
-  if (skyrme_set==false) {
-    O2SCL_ERR("Skyrme model not set.",o2scl::exc_efailed);
+  if (model_set==false) {
+    O2SCL_ERR("Model not set.",o2scl::exc_efailed);
   }
 
   cout << "Making table." << endl;
@@ -850,7 +850,7 @@ int crust_driver::model(std::vector<std::string> &sv, bool itive_com) {
 
     cout << "Selected Skyrme model." << endl;
     skyrme_load(sk,sv[1]);
-    skyrme_set=true;
+    model_set=true;
     het=&sk;
     dt.het=&sk;
 
@@ -863,8 +863,8 @@ int crust_driver::model(std::vector<std::string> &sv, bool itive_com) {
 
 int crust_driver::full_eq(std::vector<std::string> &sv, bool itive_com) {
 
-  if (skyrme_set==false) {
-    O2SCL_ERR("Skyrme model not set.",o2scl::exc_efailed);
+  if (model_set==false) {
+    O2SCL_ERR("Model not set.",o2scl::exc_efailed);
   }
 
   if (tsh.mag_field>0.0) dt.mag_field=tsh.mag_field;
@@ -1127,8 +1127,8 @@ int crust_driver::full_eq(std::vector<std::string> &sv, bool itive_com) {
 
 int crust_driver::full_eq2(std::vector<std::string> &sv, bool itive_com) {
 
-  if (skyrme_set==false) {
-    O2SCL_ERR("Skyrme model not set.",o2scl::exc_efailed);
+  if (model_set==false) {
+    O2SCL_ERR("Model not set.",o2scl::exc_efailed);
   }
 
   if (sv.size()<2) {
@@ -1328,8 +1328,8 @@ int crust_driver::full_eq2(std::vector<std::string> &sv, bool itive_com) {
 
 int crust_driver::full_eq_dist(std::vector<std::string> &sv, bool itive_com) {
     
-  if (skyrme_set==false) {
-    O2SCL_ERR("Skyrme model not set.",o2scl::exc_efailed);
+  if (model_set==false) {
+    O2SCL_ERR("Model not set.",o2scl::exc_efailed);
   }
 
   if (sv.size()<2) {
@@ -1452,8 +1452,8 @@ int crust_driver::full_eq_dist(std::vector<std::string> &sv, bool itive_com) {
 
 int crust_driver::test_ndrip(std::vector<std::string> &sv, bool itive_com) {
 
-  if (skyrme_set==false) {
-    O2SCL_ERR("Skyrme model not set.",o2scl::exc_efailed);
+  if (model_set==false) {
+    O2SCL_ERR("Model not set.",o2scl::exc_efailed);
   }
 
   matter m;
@@ -1547,8 +1547,8 @@ int crust_driver::test_ndrip(std::vector<std::string> &sv, bool itive_com) {
 
 int crust_driver::acc(std::vector<std::string> &sv, bool itive_com) {
 
-  if (skyrme_set==false) {
-    O2SCL_ERR("Skyrme model not set.",o2scl::exc_efailed);
+  if (model_set==false) {
+    O2SCL_ERR("Model not set.",o2scl::exc_efailed);
   }
 
   // Matter objects
@@ -2067,7 +2067,7 @@ int crust_driver::acc(std::vector<std::string> &sv, bool itive_com) {
   return 0;
 }
 
-int crust_driver::tptr(std::vector<std::string> &sv, bool itive_com) {
+int crust_driver::set_tptr(std::vector<std::string> &sv, bool itive_com) {
   if (sv.size()<2) {
     cout << "Need temperature argument." << endl;
     return o2scl::exc_efailed;
@@ -2102,7 +2102,7 @@ int crust_driver::check_fun(std::vector<std::string> &sv, bool itive_com) {
     return 0;
   }
 
-  if (skyrme_set==false) {
+  if (model_set==false) {
     O2SCL_ERR("Model not set.",o2scl::exc_efailed);
   }
 
@@ -2117,7 +2117,7 @@ int crust_driver::check_fun(std::vector<std::string> &sv, bool itive_com) {
     vector<string> a;
     a.push_back("");
     a.push_back("2.0e8");
-    tptr(a,false);
+    set_tptr(a,false);
 
     dt.check=check;
     dt.mass_density(m,Tptr);
@@ -2139,7 +2139,7 @@ int crust_driver::check_fun(std::vector<std::string> &sv, bool itive_com) {
     vector<string> a;
     a.push_back("");
     a.push_back("2.0e8");
-    tptr(a,false);
+    set_tptr(a,false);
 
     dt.check=check;
     snat.check_free_energy_sna();
@@ -2163,7 +2163,7 @@ int crust_driver::check_fun(std::vector<std::string> &sv, bool itive_com) {
     vector<string> a;
     a.push_back("");
     a.push_back("2.0e8");
-    tptr(a,false);
+    set_tptr(a,false);
 
     dt.check=check;
     dt.free_energy_dist(m,Tptr,false);
@@ -2184,7 +2184,7 @@ int crust_driver::check_fun(std::vector<std::string> &sv, bool itive_com) {
     vector<string> a;
     a.push_back("");
     a.push_back("2.0e10");
-    tptr(a,false);
+    set_tptr(a,false);
 
     dt.check=check;
     m.T=Tptr;
@@ -2298,7 +2298,7 @@ int crust_driver::run(int argc, char *argv[]) {
      cli::comm_option_both},
     {0,"tptr","Set temperature",
      1,1,"<prefix>",((string)"Help here."),
-     new comm_option_mfptr<crust_driver>(this,&crust_driver::tptr),
+     new comm_option_mfptr<crust_driver>(this,&crust_driver::set_tptr),
      cli::comm_option_both},
     {0,"check","Check.",
      0,1,"[index]",((string)"Help here."),
