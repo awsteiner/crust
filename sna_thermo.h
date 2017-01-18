@@ -39,11 +39,14 @@ namespace crust {
 
     /// Electron thermodynamics
     o2scl::fermion_rel relf;
+
     /// Classical thermodynamics
     o2scl::classical cla;
 
     /// Electron in a magnetic field
     o2scl::fermion_mag_zerot mfz;
+
+    /// Electron 
     o2scl::fermion elec_B;
 
     /// Convert units

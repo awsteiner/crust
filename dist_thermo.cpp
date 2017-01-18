@@ -65,12 +65,6 @@ int dist_thermo::free_energy_dist(matter &m, double T, bool eval_chem_pots) {
   // Compute the rest mass energy density as well
   m.rho=0.0;
 
-  if (check==check_free_energy_dist) {
-    cout.precision(10);
-    m.n->n=0.01;
-    cout << "Set external neutron density to " << m.n->n << ".\n" << endl;
-  }
-
   m.fr=0.0;
 
   if (m.n->n>0.0 || m.p->n>0.0) {
@@ -167,9 +161,9 @@ int dist_thermo::free_energy_dist(matter &m, double T, bool eval_chem_pots) {
     // mass which will be added in later
     if ((dist[i].Z+dist[i].N)%2==0) dist[i].g=1.0;
     else dist[i].g=3.0;
-    double mass_neutron=o2scl_settings.get_convert_units().convert
+    double mass_neutron=cng.convert
       ("kg","1/fm",o2scl_mks::mass_neutron);
-    double mass_proton=o2scl_settings.get_convert_units().convert
+    double mass_proton=cng.convert
       ("kg","1/fm",o2scl_mks::mass_proton);
     dist[i].m=dist[i].Z*mass_proton+dist[i].N*mass_neutron+be;
     dist[i].non_interacting=true;
@@ -193,6 +187,7 @@ int dist_thermo::free_energy_dist(matter &m, double T, bool eval_chem_pots) {
     double Nprime=dist[i].N-4.0/3.0*pi*Rn3*m.n->n;
 
     if (check==check_free_energy_dist) {
+      cout.precision(10);
       cout << "i,exc,N': ";
       cout.width(2);
       cout << i << " " << lda->exc/hc_mev_fm << " " << Nprime << endl;
@@ -344,9 +339,9 @@ int dist_thermo::free_energy_dist(matter &m, double T, bool eval_chem_pots) {
       double Rn3=lda->Rn*lda->Rn*lda->Rn;
       double Nprime=dist[i].N-geo*Rn3*m.n->n;
       
-      double mass_neutron=o2scl_settings.get_convert_units().convert
+      double mass_neutron=cng.convert
 	("kg","1/fm",o2scl_mks::mass_neutron);
-      double mass_proton=o2scl_settings.get_convert_units().convert
+      double mass_proton=cng.convert
 	("kg","1/fm",o2scl_mks::mass_proton);
       m.mu[i]+=m.n->mu*dnnout_dni[i]+dist[i].Z*m.e.mu+
 	be+dist[i].Z*mass_proton+Nprime*mass_neutron;
@@ -394,9 +389,9 @@ int dist_thermo::free_energy_dist(matter &m, double T, bool eval_chem_pots) {
       
       if ((dist[i].Z+dist[i].N)%2==0) dist[i].g=1.0;
       else dist[i].g=3.0;
-      double mass_neutron=o2scl_settings.get_convert_units().convert
+      double mass_neutron=cng.convert
 	("kg","1/fm",o2scl_mks::mass_neutron);
-      double mass_proton=o2scl_settings.get_convert_units().convert
+      double mass_proton=cng.convert
 	("kg","1/fm",o2scl_mks::mass_proton);
       dist[i].m=dist[i].Z*mass_proton+dist[i].N*mass_neutron+be;
       dist[i].non_interacting=true;
@@ -494,10 +489,8 @@ int dist_thermo::mass_density(matter &m, double T) {
     // Compute Nprime
     double Nprime=dist[i].N-4.0/3.0*pi*lda->Rn*lda->Rn*lda->Rn*m.n->n;
       
-    double mass_neutron=o2scl_settings.get_convert_units().convert
-      ("kg","1/fm",o2scl_mks::mass_neutron);
-    double mass_proton=o2scl_settings.get_convert_units().convert
-      ("kg","1/fm",o2scl_mks::mass_proton);
+    double mass_neutron=cng.convert("kg","1/fm",o2scl_mks::mass_neutron);
+    double mass_proton=cng.convert("kg","1/fm",o2scl_mks::mass_proton);
     m.rho+=dist[i].n*(dist[i].Z*mass_proton+Nprime*mass_neutron);
   }
     
@@ -521,10 +514,8 @@ int dist_thermo::mass_density(matter &m, double T) {
       double be=lda->nucleus_be(dist[i].Z,dist[i].N,m.p->n,m.n->n,T,m.e.n,
 				Rws,chi);
       phi+=4.0/3.0*pi*pow(lda->Rn,3.0)*dist[i].n;
-      double mass_neutron=o2scl_settings.get_convert_units().convert
-	("kg","1/fm",o2scl_mks::mass_neutron);
-      double mass_proton=o2scl_settings.get_convert_units().convert
-	("kg","1/fm",o2scl_mks::mass_proton);
+      double mass_neutron=cng.convert("kg","1/fm",o2scl_mks::mass_neutron);
+      double mass_proton=cng.convert("kg","1/fm",o2scl_mks::mass_proton);
       m.rho+=dist[i].n*(dist[i].Z*mass_proton+dist[i].N*mass_neutron);
     }
       
@@ -1018,9 +1009,9 @@ int dist_thermo::free_energy_cell(matter &m, double T, int ix, double &fr,
   // mass which will be added in later
   if ((dist[ix].Z+dist[ix].N)%2==0) dist[ix].g=1.0;
   else dist[ix].g=3.0;
-  double mass_neutron=o2scl_settings.get_convert_units().convert
+  double mass_neutron=cng.convert
     ("kg","1/fm",o2scl_mks::mass_neutron);
-  double mass_proton=o2scl_settings.get_convert_units().convert
+  double mass_proton=cng.convert
     ("kg","1/fm",o2scl_mks::mass_proton);
   dist[ix].m=dist[ix].Z*mass_proton+dist[ix].N*mass_neutron+be;
   dist[ix].non_interacting=true;

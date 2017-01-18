@@ -280,6 +280,11 @@ namespace crust {
 	chemical potentials and stores them in \ref matter::mu and
 	\ref matter::mun.
 
+	If \ref check is equal to \ref check_free_energy_dist, then
+	this function checks the free energy calculation by computing
+	the free energy using a different method and comparing the
+	results.
+
 	\todo [From 2013] Offer a direct method of computing derivatives
 	from an o2scl deriv object.
     */
@@ -297,6 +302,10 @@ namespace crust {
 	energy) at temperature \c T
 
 	Results are stored in \ref matter::rho .
+
+	If \ref check is equal to \ref check_mass_density,
+	then this function computes the rest mass density with
+	an alternative approach as a check. 
     */
     int mass_density(matter &m, double T);
 
@@ -392,7 +401,6 @@ namespace crust {
     int check;
     static const int check_none=0;
     static const int check_mass_density=1;
-    static const int check_free_energy_sna=2;
     static const int check_free_energy_dist=3;
     static const int check_ldrop_derivs=5;
     static const int check_free_energy_cell=8;

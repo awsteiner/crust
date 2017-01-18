@@ -2129,24 +2129,11 @@ int crust_driver::check_fun(std::vector<std::string> &sv, bool itive_com) {
 
     cout << "Checking free_energy_sna()." << endl;
     check=check_free_energy_sna;
-
-    cout << "Initializing for X-ray bust ashes distribution." << endl;
-    matter m;
-    init_dist("ashes",m);
-    for(size_t i=0;i<m.dist.size();i++) {
-      m.dist[i].n*=1.0e5;
-    }
-    
-    vector<string> a;
-    a.push_back("");
-    a.push_back("2.0e8");
-    set_tptr(a,false);
-
-    dt.check=check;
     snat.check_free_energy_sna();
 
     return 0;
   }
+  
   if (o2scl::stoi(sv[1])==check_free_energy_dist) {
 
     cout << "\nChecking free_energy_dist().\n" << endl;
@@ -2160,6 +2147,9 @@ int crust_driver::check_fun(std::vector<std::string> &sv, bool itive_com) {
       // Make sure these nuclei aren't in the mass table
       m.dist[i].N+=2*m.dist[i].Z;
     }
+    
+    m.n->n=0.01;
+    cout << "Set external neutron density to " << m.n->n << ".\n" << endl;
     
     vector<string> a;
     a.push_back("");
