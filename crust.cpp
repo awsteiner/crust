@@ -1034,7 +1034,7 @@ int crust_driver::full_eq(std::vector<std::string> &sv, bool itive_com) {
     matter nm;
     if (m.rho>1.0e9) {
       m.T=T;
-      nmt.calc_dist_x(m,nm);
+      nmt.calc_nm_from_dist(m,nm);
     } else {
       nm.fr=0.0;
       nm.pr=0.0;
@@ -1246,7 +1246,7 @@ int crust_driver::full_eq2(std::vector<std::string> &sv, bool itive_com) {
 
     matter nm;
     m.T=T;
-    nmt.calc_dist_x(m,nm);
+    nmt.calc_nm_from_dist(m,nm);
       
     cout << nm.fr << " " << (m.fr>nm.fr) << " ";
 
@@ -1830,7 +1830,7 @@ int crust_driver::acc(std::vector<std::string> &sv, bool itive_com) {
     //cout << m.e.pr << " ";
       
     m.T=T;
-    nmt.calc_dist_x(m,nm);
+    nmt.calc_nm_from_dist(m,nm);
 
     dt.free_energy_dist(m,T,false);
     cout.setf(ios::showpos);
@@ -2129,7 +2129,31 @@ int crust_driver::check_fun(std::vector<std::string> &sv, bool itive_com) {
 
     cout << "Checking free_energy_sna()." << endl;
     check=check_free_energy_sna;
-    snat.check_free_energy_sna();
+
+    {
+      double T=cng.convert("K","1/fm",2.0e8);
+      
+      matter m;
+      m.dist.resize(1);
+      m.dist[0].Z=40;
+      m.dist[0].N=60;
+      m.dist[0].n=0.0001;
+      m.n->n=0.01;
+      vector<nucleus> &dist=m.dist;
+      
+      double rest=0.0, be=0.0, Rws=0.0, chi=0.0;
+      
+      cout.precision(10);
+      
+      snat.free_energy_sna(m,T);
+      double fr1=m.fr;
+      cout << "From sna_thermo: " << m.fr << endl;
+      dt.free_energy_dist(m,T);
+      double fr2=m.fr;
+      cout << "From dist_thermo_thermo: " << m.fr << endl;
+    }
+    
+    snat.check_free_energy_sna(dt);
 
     return 0;
   }
@@ -2179,7 +2203,7 @@ int crust_driver::check_fun(std::vector<std::string> &sv, bool itive_com) {
 
     dt.check=check;
     m.T=Tptr;
-    nmt.calc_dist_x(m,nm);
+    nmt.calc_nm_from_dist(m,nm);
     return 0;
   }
   if (o2scl::stoi(sv[1])==check_ldrop_derivs) {

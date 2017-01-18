@@ -122,7 +122,7 @@ namespace crust {
     /** \brief Check \ref free_energy_sna() by computing the
 	free energy a different way
     */
-    int check_free_energy_sna();
+    int check_free_energy_sna(dist_thermo &dt);
 
     /** \brief The hadronic eos
 

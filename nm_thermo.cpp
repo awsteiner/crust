@@ -83,7 +83,7 @@ void nm_thermo::calc(matter &nm) {
 
   // Determine remaining quantities
   nm.rho=nm.e.n*nm.e.m+nm.p->m*nm.p->n+nm.n->m*nm.n->n;
-  nm.rho=cng->convert("1/fm^4","g/cm^3",nm.rho);
+  nm.rho=cng.convert("1/fm^4","g/cm^3",nm.rho);
   nm.ed=nm.drip_th.ed+nm.e.ed;
   nm.fr=nm.drip_th.ed+nm.e.ed-nm.T*(nm.drip_th.en+nm.e.en);
   nm.pr=nm.drip_th.pr+nm.e.pr;
@@ -94,7 +94,7 @@ void nm_thermo::calc(matter &nm) {
   return;
 }
 
-void nm_thermo::calc_dist_x(matter &m, matter &nm) {
+void nm_thermo::calc_nm_from_dist(matter &m, matter &nm) {
     
   vector<nucleus> &dist=m.dist;
 
@@ -166,7 +166,7 @@ void nm_thermo::calc_dist_x(matter &m, matter &nm) {
 int nm_thermo::check_free_energy_x(matter &m, double T, matter &nm) {
   
   m.T=T;
-  calc_dist_x(m,nm);
+  calc_nm_from_dist(m,nm);
 
   if (m.dist.size()!=1) {
     O2SCL_ERR("Wrong distribution size for check_free_energy_x.",

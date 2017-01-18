@@ -43,7 +43,7 @@ namespace crust {
     o2scl::fermion_rel relf;
 
     /// Convert units
-    o2scl::convert_units *cng;
+    o2scl::convert_units &cng;
 
     /// Solver for free_energy()
     o2scl::mroot_hybrids<> cmr2;
@@ -62,8 +62,8 @@ namespace crust {
 	unit conversion class
     */
     nm_thermo(ldrop_crust &lc, o2scl::eos_had_temp_base &he, 
-	      o2scl::convert_units &conv) {
-      cng=&conv;
+	      o2scl::convert_units &conv) :
+    cng(o2scl::o2scl_settings.get_convert_units()) {
       het=&he;
       lda=&lc;
     }
@@ -77,12 +77,12 @@ namespace crust {
     void calc(matter &nm);
 
     /** \brief Compute the free energy density of nuclear matter in
-	\f$ \mathrm{fm}^{-4} \f$ with the same composition as a
-	distribution
+	\f$ \mathrm{fm}^{-4} \f$ with the same proton fraction and
+	baryon density as a distribution
     */
-    void calc_dist_x(matter &m, matter &nm);
+    void calc_nm_from_dist(matter &m, matter &nm);
 
-    /** \brief Desc
+    /** \brief Test \ref calc_nm_from_dist() 
      */
     int check_free_energy_x(matter &m, double T, matter &nm);
 

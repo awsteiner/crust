@@ -83,8 +83,8 @@ check: crust
 	crust -model SLy4 -rf data/SLy4_moller.fit -check 3 > check_3.scr
 	tail -n 2 check_3.scr
 
-check3: crust
-	crust -model SLy4 -rf data/SLy4_moller.fit -check 3
+check2: crust
+	crust -model SLy4 -rf data/SLy4_moller.fit -check 2
 
 #----------------------------------------------------------------------
 

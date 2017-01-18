@@ -179,8 +179,10 @@ int sna_thermo::free_energy_sna_fix_nb_nnuc(double nb, matter &m, double T) {
   return 0;
 }
 
-int sna_thermo::check_free_energy_sna() {
+int sna_thermo::check_free_energy_sna(dist_thermo &dt) {
   
+  cout.precision(10);
+
   double T=cng.convert("K","1/fm",2.0e8);
 
   matter m;
@@ -188,18 +190,22 @@ int sna_thermo::check_free_energy_sna() {
   m.dist[0].Z=40;
   m.dist[0].N=60;
   m.dist[0].n=0.0001;
+  m.n->n=0.01;
   vector<nucleus> &dist=m.dist;
   
   double rest=0.0, be=0.0, Rws=0.0, chi=0.0;
-
-  cout.precision(10);
-  m.n->n=0.01;
-  cout << "Set external neutron density to " << m.n->n << " ." << endl;
   
   free_energy_sna(m,T);
+  double fr1=m.fr;
+  cout << "From sna_thermo: " << m.fr << endl;
+  dt.free_energy_dist(m,T);
+  double fr2=m.fr;
+  cout << "From dist_thermo_thermo: " << m.fr << endl;
+
+  dt.mass_density(m,T);
+  rest=cng.convert("g/cm^3","1/fm^4",m.rho);
 
   cout << "Normal: rest, fr: " << rest << " " << m.fr << endl;
-  double fr1=m.fr;
   double rest1=rest;
     
   rest=0.0;
@@ -233,7 +239,6 @@ int sna_thermo::check_free_energy_sna() {
     m.n->nu=m.n->m*1.0001;
     m.p->nu=m.p->m*1.0001;
     
-    cout << m.n->n << " " << m.p->n << " " << T << endl;
     het->calc_temp_e(*m.n,*m.p,T,drip_th);
     m.fr+=(1.0-phi)*(drip_th.ed-T*drip_th.en);
     rest+=(1.0-phi)*(m.n->n*m.n->m);
