@@ -78,13 +78,21 @@ crust: $(OBJS)
 #----------------------------------------------------------------------
 
 check: crust
-	crust -model SLy4 -rf data/SLy4_moller.fit -check 1 > check_1.scr
+	crust -check 1 > check_1.scr
 	tail -n 2 check_1.scr
-	crust -model SLy4 -rf data/SLy4_moller.fit -check 3 > check_3.scr
+	crust -check 3 > check_3.scr
 	tail -n 2 check_3.scr
+	crust -check 8 > check_8.scr
+	tail -n 2 check_8.scr
 
 check2: crust
 	crust -model SLy4 -rf data/SLy4_moller.fit -check 2
+
+check9: crust
+	crust -model SLy4 -rf data/SLy4_moller.fit -check 9
+
+check11: crust
+	crust -check 11
 
 #----------------------------------------------------------------------
 

@@ -52,6 +52,10 @@ namespace crust {
 
   /** \brief An object which describes the composition and 
       thermodynamics of matter at some specified density or pressure
+
+      Note that, because of the way the formalism works in 
+      \ref crust_Steiner12, the operation of this class is
+      qualitatively different from \ref o2scl::nucmass_densmat .
   */
   class matter {
   

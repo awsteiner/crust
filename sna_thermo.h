@@ -80,9 +80,8 @@ namespace crust {
 
   public:
 
-    /** \brief Create with the specified mass model, EOS, and 
-	unit conversion class
-    */
+    /** \brief Create with the specified mass model and EOS
+     */
   sna_thermo(ldrop_crust &lc, o2scl::eos_had_temp_base &he)
     : cng(o2scl::o2scl_settings.get_convert_units()) {
       

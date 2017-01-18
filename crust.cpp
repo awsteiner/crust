@@ -51,10 +51,9 @@ crust_driver::crust_driver() :
   simple_pyc=false;
   more_reactions=true;
     
-  n_lda.init(o2scl_settings.get_convert_units().convert
-	     ("kg","1/fm",o2scl_mks::mass_neutron),2.0);
-  p_lda.init(o2scl_settings.get_convert_units().convert
-	     ("kg","1/fm",o2scl_mks::mass_proton),2.0);
+  n_lda.init(cng.convert("kg","1/fm",o2scl_mks::mass_neutron),2.0);
+  p_lda.init(cng.convert("kg","1/fm",o2scl_mks::mass_proton),2.0);
+	     
   n_lda.inc_rest_mass=true;
   p_lda.inc_rest_mass=true;
   n_lda.non_interacting=false;
@@ -734,10 +733,10 @@ int crust_driver::make_table(std::vector<std::string> &sv, bool itive_com) {
   t3d.tab.new_slice("mun");
   t3d.tab.new_slice("mup");
 
-  fermion ne_mt(o2scl_settings.get_convert_units().convert
-		("kg","1/fm",o2scl_mks::mass_neutron),2.0);
-  fermion pmt(o2scl_settings.get_convert_units().convert
-	      ("kg","1/fm",o2scl_mks::mass_proton),2.0);
+  fermion ne_mt(cng.convert("kg","1/fm",o2scl_mks::mass_neutron),2.0);
+		
+  fermion pmt(cng.convert("kg","1/fm",o2scl_mks::mass_proton),2.0);
+	      
   ne_mt.inc_rest_mass=true;
   pmt.inc_rest_mass=true;
   ne_mt.non_interacting=false;
@@ -993,10 +992,10 @@ int crust_driver::full_eq(std::vector<std::string> &sv, bool itive_com) {
     cout << be*hc_mev_fm/(m.dist[0].N+m.dist[0].Z) << " ";
       
     // Total mass in fm^{-1}.
-    double mass_neutron=o2scl_settings.get_convert_units().convert
-      ("kg","1/fm",o2scl_mks::mass_neutron);
-    double mass_proton=o2scl_settings.get_convert_units().convert
-      ("kg","1/fm",o2scl_mks::mass_proton);
+    double mass_neutron=cng.convert("kg","1/fm",o2scl_mks::mass_neutron);
+      
+    double mass_proton=cng.convert("kg","1/fm",o2scl_mks::mass_proton);
+      
     double mnuc=be+m.dist[0].Z*mass_proton+m.dist[0].N*mass_neutron;
       
     cout << chi << " ";
@@ -1090,10 +1089,10 @@ int crust_driver::full_eq(std::vector<std::string> &sv, bool itive_com) {
     cns.nb_start=0.02;
     cns.include_muons=false;
 
-    fermion nx(o2scl_settings.get_convert_units().convert
-	       ("kg","1/fm",o2scl_mks::mass_neutron),2.0);
-    fermion px(o2scl_settings.get_convert_units().convert
-	       ("kg","1/fm",o2scl_mks::mass_proton),2.0);
+    fermion nx(cng.convert("kg","1/fm",o2scl_mks::mass_neutron),2.0);
+	       
+    fermion px(cng.convert("kg","1/fm",o2scl_mks::mass_proton),2.0);
+	       
     nx.non_interacting=false;
     px.non_interacting=false;
     //cns.set_n_and_p(nx,px);
@@ -1219,10 +1218,10 @@ int crust_driver::full_eq2(std::vector<std::string> &sv, bool itive_com) {
     }
     cout << be*hc_mev_fm/(m.dist[0].N+m.dist[0].Z) << " ";
       
-    double mass_neutron=o2scl_settings.get_convert_units().convert
-      ("kg","1/fm",o2scl_mks::mass_neutron);
-    double mass_proton=o2scl_settings.get_convert_units().convert
-      ("kg","1/fm",o2scl_mks::mass_proton);
+    double mass_neutron=cng.convert("kg","1/fm",o2scl_mks::mass_neutron);
+      
+    double mass_proton=cng.convert("kg","1/fm",o2scl_mks::mass_proton);
+      
     double mnuc=be+m.dist[0].Z*mass_proton+m.dist[0].N*mass_neutron;
       
     cout << chi << " ";
@@ -1290,10 +1289,10 @@ int crust_driver::full_eq2(std::vector<std::string> &sv, bool itive_com) {
   cns.nb_start=0.02;
   cns.include_muons=false;
   
-  fermion nx(o2scl_settings.get_convert_units().convert
-	     ("kg","1/fm",o2scl_mks::mass_neutron),2.0);
-  fermion px(o2scl_settings.get_convert_units().convert
-	     ("kg","1/fm",o2scl_mks::mass_proton),2.0);
+  fermion nx(cng.convert("kg","1/fm",o2scl_mks::mass_neutron),2.0);
+	     
+  fermion px(cng.convert("kg","1/fm",o2scl_mks::mass_proton),2.0);
+	     
   nx.non_interacting=false;
   px.non_interacting=false;
   //cns.set_n_and_p(nx,px);
@@ -2099,11 +2098,10 @@ int crust_driver::check_fun(std::vector<std::string> &sv, bool itive_com) {
     cout << "check_free_energy_cell: " << check_free_energy_cell << endl;
     cout << "check_pressure: " << check_pressure << endl;
     cout << "check_rate2: " << check_rate2 << endl;
+    cout << "check_feq_numbers: " << check_feq_numbers << endl;
+    cout << "check_acc_numbers: " << check_acc_numbers << endl;
+    cout << "check_fit_numbers: " << check_fit_numbers << endl;
     return 0;
-  }
-
-  if (model_set==false) {
-    O2SCL_ERR("Model not set.",o2scl::exc_efailed);
   }
 
   if (o2scl::stoi(sv[1])==check_mass_density) {
@@ -2111,6 +2109,11 @@ int crust_driver::check_fun(std::vector<std::string> &sv, bool itive_com) {
     cout << "Checking mass_density()." << endl;
     check=check_mass_density;
     
+    std::vector<std::string> sv1={"model","SLy4"};
+    model(sv1,false);
+    std::vector<std::string> sv2={"rf","data/SLy4_moller.fit"};
+    cf.read_fit(sv2,false);
+
     matter m;
     init_dist("ashes",m);
 
@@ -2163,6 +2166,11 @@ int crust_driver::check_fun(std::vector<std::string> &sv, bool itive_com) {
     cout << "\nChecking free_energy_dist().\n" << endl;
     check=check_free_energy_dist;
     
+    std::vector<std::string> sv1={"model","SLy4"};
+    model(sv1,false);
+    std::vector<std::string> sv2={"rf","data/SLy4_moller.fit"};
+    cf.read_fit(sv2,false);
+
     cout << "Initializing for X-ray bust ashes distribution." << endl;
     matter m;
     init_dist("ashes",m);
@@ -2184,6 +2192,7 @@ int crust_driver::check_fun(std::vector<std::string> &sv, bool itive_com) {
     dt.free_energy_dist(m,Tptr,false);
     return 0;
   }
+
   if (o2scl::stoi(sv[1])==check_free_energy_nm_x) {
 
     cout << "\nChecking free_energy_nm_x().\n" << endl;
@@ -2206,6 +2215,7 @@ int crust_driver::check_fun(std::vector<std::string> &sv, bool itive_com) {
     nmt.calc_nm_from_dist(m,nm);
     return 0;
   }
+
   if (o2scl::stoi(sv[1])==check_ldrop_derivs) {
 
     cout << "\nChecking ldrop_crust derivatives().\n" << endl;
@@ -2215,6 +2225,7 @@ int crust_driver::check_fun(std::vector<std::string> &sv, bool itive_com) {
     lda.test_derivatives();
     return 0;
   }
+
   if (o2scl::stoi(sv[1])==check_mixture) {
 
     cout << "\nChecking pycnonuclear fusion in a mixture().\n" << endl;
@@ -2223,26 +2234,71 @@ int crust_driver::check_fun(std::vector<std::string> &sv, bool itive_com) {
     pyc.test_mixture();
     return 0;
   }
+
   if (o2scl::stoi(sv[1])==check_sfactor) {
     check=check_sfactor;
     pyc.test_Sfactor();
     pyc.test_rate();
     return 0;
   }
+
   if (o2scl::stoi(sv[1])==check_free_energy_cell) {
     check=check_free_energy_cell;
+    std::vector<std::string> sv1={"model","SLy4"};
+    model(sv1,false);
+    std::vector<std::string> sv2={"rf","data/SLy4_moller.fit"};
+    cf.read_fit(sv2,false);
     check_free_energy_cell_fun();
     return 0;
   }
+
   if (o2scl::stoi(sv[1])==check_pressure) {
     check=check_pressure;
     matter m;
     dt.check_pressure(m,0.0);
     return 0;
   }
+
   if (o2scl::stoi(sv[1])==check_rate2) {
     check=check_rate2;
     pyc.test_rate2();
+    return 0;
+  }
+
+  if (o2scl::stoi(sv[1])==check_feq_numbers) {
+    check=check_feq_numbers;
+    std::vector<std::string> sv1={"model","SLy4"};
+    model(sv1,false);
+    std::vector<std::string> sv2={"rf","data/SLy4_moller.fit"};
+    cf.read_fit(sv2,false);
+    std::vector<std::string> sv3={"feq","check11","0.02","20","28",
+				 "0.01","0.0201"};
+    full_eq(sv3,false);
+    return 0;
+  }
+
+  if (o2scl::stoi(sv[1])==check_acc_numbers) {
+    check=check_feq_numbers;
+    std::vector<std::string> sv1={"model","SLy4"};
+    model(sv1,false);
+    std::vector<std::string> sv2={"rf","data/SLy4_moller.fit"};
+    cf.read_fit(sv2,false);
+
+    dist_type="ashes";
+    std::vector<std::string> sv3={"acc","check11","0.02","40","200",
+				 "0.01","0.0201"};
+    acc(sv3,false);
+    return 0;
+  }
+  
+  if (o2scl::stoi(sv[1])==check_fit_numbers) {
+    check=check_feq_numbers;
+    std::vector<std::string> sv1={"model","SLy4"};
+    model(sv1,false);
+    std::vector<std::string> sv3={"mf"};
+    cf.perform_fit(sv3,false);
+    std::vector<std::string> sv2={"rf","data/SLy4_moller.fit"};
+    cf.read_fit(sv2,false);
     return 0;
   }
   return 0;
