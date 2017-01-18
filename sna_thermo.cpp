@@ -181,11 +181,16 @@ int sna_thermo::free_energy_sna_fix_nb_nnuc(double nb, matter &m, double T) {
 
 int sna_thermo::check_free_energy_sna() {
   
-  matter m;
-  double T=0.0;
+  double T=cng.convert("K","1/fm",2.0e8);
 
-  double rest=0.0, be=0.0, Rws=0.0, chi=0.0;
+  matter m;
+  m.dist.resize(1);
+  m.dist[0].Z=40;
+  m.dist[0].N=60;
+  m.dist[0].n=0.0001;
   vector<nucleus> &dist=m.dist;
+  
+  double rest=0.0, be=0.0, Rws=0.0, chi=0.0;
 
   cout.precision(10);
   m.n->n=0.01;
@@ -199,13 +204,16 @@ int sna_thermo::check_free_energy_sna() {
     
   rest=0.0;
   m.fr=m.e.ed-T*m.e.en;
-    
+
+  std::cout << "Here1." << std::endl;
   lda->exc_volume=false;
+  std::cout << "Here2." << std::endl;
 
   be=lda->nucleus_be(dist[0].Z,dist[0].N,m.p->n,m.n->n,T,m.e.n,Rws,chi);
       
   double phi=4.0/3.0*pi*pow(lda->Rn,3.0)*dist[0].n;
       
+  std::cout << "Here3." << std::endl;
   if ((dist[0].Z+dist[0].N)%2==0) dist[0].g=1.0;
   else dist[0].g=3.0;
     double mass_neutron=o2scl_settings.get_convert_units().convert
@@ -215,10 +223,12 @@ int sna_thermo::check_free_energy_sna() {
   dist[0].m=dist[0].Z*mass_proton+dist[0].N*mass_neutron+be;
   dist[0].non_interacting=true;
   dist[0].inc_rest_mass=false;
+  std::cout << "Here4b." << std::endl;
   cla.calc_density(dist[0],T);
   m.fr+=dist[0].n*(be+dist[0].Z*mass_proton+dist[0].N*mass_neutron)+
     dist[0].ed-T*dist[0].en;
   rest+=dist[0].n*(dist[0].Z*mass_proton+dist[0].N*mass_neutron);
+  std::cout << "Here2." << std::endl;
 
   {
     // Compute neutron drip free energy
@@ -227,8 +237,10 @@ int sna_thermo::check_free_energy_sna() {
     // Ensure a consistent guess for the chemical potentials
     m.n->nu=m.n->m*1.0001;
     m.p->nu=m.p->m*1.0001;
-
+    
+    std::cout << "Here3." << std::endl;
     het->calc_temp_e(*m.n,*m.p,T,drip_th);
+    std::cout << "Here4." << std::endl;
     m.fr+=(1.0-phi)*(drip_th.ed-T*drip_th.en);
     rest+=(1.0-phi)*(m.n->n*m.n->m);
   }

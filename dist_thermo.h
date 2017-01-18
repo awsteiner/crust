@@ -236,8 +236,7 @@ namespace crust {
     */
   dist_thermo(o2scl::convert_units &conv) :
     cng(o2scl::o2scl_settings.get_convert_units()) {
-      elec_B.init(o2scl::o2scl_settings.get_convert_units().convert
-		  ("kg","1/fm",o2scl_mks::mass_electron),2.0);
+      elec_B.init(cng.convert("kg","1/fm",o2scl_mks::mass_electron),2.0);
       elec_B.inc_rest_mass=true;
       elec_B.non_interacting=true;
 
@@ -505,7 +504,6 @@ namespace crust {
     /** \brief For computing the derivative of the free energy wrt the
 	number density of one of the nuclei in \ref
 	dist_thermo::check_pressure()
-     */
     */
     class free_dist_deriv_nuc {
     public:

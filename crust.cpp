@@ -40,7 +40,7 @@ bool crust::compare_Z(const nucleus &n1, const nucleus &n2) {
 
 crust_driver::crust_driver() : 
   cng(o2scl_settings.get_convert_units()),
-  dt(cng), nmt(lda,sk,cng), snat(lda,sk,cng) {
+  dt(cng), nmt(lda,sk,cng), snat(lda,sk) {
   
   input_dir="indata";
   model_set=false;
@@ -2124,6 +2124,7 @@ int crust_driver::check_fun(std::vector<std::string> &sv, bool itive_com) {
 
     return 0;
   }
+
   if (o2scl::stoi(sv[1])==check_free_energy_sna) {
 
     cout << "Checking free_energy_sna()." << endl;

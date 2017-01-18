@@ -47,7 +47,7 @@ namespace crust {
     o2scl::fermion elec_B;
 
     /// Convert units
-    o2scl::convert_units *cng;
+    o2scl::convert_units &cng;
 
     /// \name Different parts of the free energy
     //@{
@@ -80,15 +80,13 @@ namespace crust {
     /** \brief Create with the specified mass model, EOS, and 
 	unit conversion class
     */
-    sna_thermo(ldrop_crust &lc, o2scl::eos_had_temp_base &he, 
-	       o2scl::convert_units &conv) {
-
-      cng=&conv;
+  sna_thermo(ldrop_crust &lc, o2scl::eos_had_temp_base &he)
+    : cng(o2scl::o2scl_settings.get_convert_units()) {
+      
       het=&he;
       lda=&lc;
 
-      elec_B.init(o2scl::o2scl_settings.get_convert_units().convert
-		  ("kg","1/fm",o2scl_mks::mass_electron),2.0);
+      elec_B.init(cng.convert("kg","1/fm",o2scl_mks::mass_electron),2.0);
       elec_B.inc_rest_mass=true;
       elec_B.non_interacting=true;
     }
