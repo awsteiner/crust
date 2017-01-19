@@ -38,27 +38,28 @@ ldrop_crust::ldrop_crust() {
 
 int ldrop_crust::test_derivatives() {
 
+  test_mgr t;
+  t.set_output_level(2);
+
   use_ame=false;
   use_moller=false;
 
   // First basic test
-  run_test(80,124,0.01,0.01,0.02,0.01);
+  run_test(80,124,0.01,0.01,0.02,0.01,t);
 
   // Test with AME
   use_ame=true;
   use_moller=false;
   extra_corr=true;
-  run_test(80,124,0.01,0.01,0.02,0.01);
-  run_test(2,2,0.01,0.01,0.02,0.01);
-  cout << "Here." << endl;
-  run_test(1,0,0.01,0.01,0.02,0.01);
-  cout << "Here." << endl;
-  run_test(0,1,0.01,0.01,0.02,0.01);
+  run_test(80,124,0.01,0.01,0.02,0.01,t);
+  run_test(2,2,0.01,0.01,0.02,0.01,t);
+  run_test(1,0,0.01,0.01,0.02,0.01,t);
+  run_test(0,1,0.01,0.01,0.02,0.01,t);
   extra_corr=false;
-  run_test(80,124,0.01,0.01,0.02,0.01);
-  run_test(2,2,0.01,0.01,0.02,0.01);
-  run_test(1,0,0.01,0.01,0.02,0.01);
-  run_test(0,1,0.01,0.01,0.02,0.01);
+  run_test(80,124,0.01,0.01,0.02,0.01,t);
+  run_test(2,2,0.01,0.01,0.02,0.01,t);
+  run_test(1,0,0.01,0.01,0.02,0.01,t);
+  run_test(0,1,0.01,0.01,0.02,0.01,t);
   extra_corr=true;
   use_ame=false;
   use_moller=false;
@@ -67,40 +68,37 @@ int ldrop_crust::test_derivatives() {
   use_ame=false;
   use_moller=true;
   extra_corr=true;
-  run_test(80,124,0.01,0.01,0.02,0.01);
+  run_test(80,124,0.01,0.01,0.02,0.01,t);
   extra_corr=false;
-  run_test(80,124,0.01,0.01,0.02,0.01);
+  run_test(80,124,0.01,0.01,0.02,0.01,t);
   extra_corr=true;
   use_ame=false;
   use_moller=false;
 
   // Test for chi -> 0
-  run_test(80,124,0.01,0.01,2.0e-4,0.01);
-
-  // Can't do chi<1.0e-4 b/c the value of 'h' for gsl_deriv is 1.0e-4
-  //run_test(80,124,0.01,0.01,2.0e-6,0.01);
-  //run_test(80,124,0.01,0.01,2.0e-8,0.01);
+  run_test(80,124,0.01,0.01,2.0e-4,0.01,t);
 
   // Other misc. tests
-  run_test(20,20,0.01,0.01,0.02,0.01);
-  run_test(124,80,0.01,0.01,0.02,0.01);
-  run_test(80,124,0.0,0.0,0.02,0.0);
-  run_test(80,124,0.0,0.04,0.1,0.1);
+  run_test(20,20,0.01,0.01,0.02,0.01,t);
+  run_test(124,80,0.01,0.01,0.02,0.01,t);
+  run_test(80,124,0.0,0.0,0.02,0.0,t);
+  run_test(80,124,0.0,0.04,0.1,0.1,t);
+
+  t.report();
+  
   return 0;
 }
 
 int ldrop_crust::run_test(double Z, double N, double npout,
-			  double nnout, double chi, double T) {
+			  double nnout, double chi, double T,
+			  test_mgr &t) {
   double d1, d2, d3, d4, d5, d6, d7, d8, d9, d10;
 
   // Derivative object
   deriv_gsl<ldrop_be_deriv> gd;
   gd.h=1.0e-4;
-  deriv_cern<ldrop_be_deriv> cd;
-  // The cern_deriv class doesn't seem to give better results, but we
-  // leave the option to use it here.
-  deriv_base<ldrop_be_deriv> *dp=&gd;
-  double der, dere, xx;
+
+  double der, dere;
 
   cout.setf(ios::showpos);
   
@@ -127,9 +125,14 @@ int ldrop_crust::run_test(double Z, double N, double npout,
 
   // dbulk_dchi
   ldrop_be_deriv flc1(*this,Z,N,npout,nnout,chi,T,1,4);
-  dp->deriv_err(chi,flc1,der,dere);
+  gd.h/=100.0;
+  gd.deriv_err(chi,flc1,der,dere);
+  gd.h*=100.0;
   cout << "dbulk_dchi: " 
        << der << " " << dere << " " << d1 << " " << fabs(der-d1) << endl;
+  if (der!=0.0) {
+    t.test_rel(fabs(der-d1),0.0,dere*2.0,"dbulk_dchi");
+  }
   if (fabs(der-d1)>dere*2.0) {
     cout << "Z,N,np,nn,chi,T: " << Z << " " << N << endl;
     cout << "\t" << npout << " " << nnout << " " << chi << " " << T << endl;
@@ -138,9 +141,12 @@ int ldrop_crust::run_test(double Z, double N, double npout,
   
   // dcoul_dchi
   ldrop_be_deriv flc2(*this,Z,N,npout,nnout,chi,T,3,4);
-  dp->deriv_err(chi,flc2,der,dere);
+  gd.deriv_err(chi,flc2,der,dere);
   cout << "dcoul_dchi: " 
        << der << " " << dere << " " << d2 << " " << fabs(der-d2) << endl;
+  if (der!=0.0) {
+    t.test_rel(fabs(der-d2),0.0,dere*2.0,"dcoul_dchi");
+  }
   if (fabs(der-d2)>dere*2.0) {
     cout << "Z,N,np,nn,chi,T: " << Z << " " << N << endl;
     cout << "\t" << npout << " " << nnout << " " << chi << " " << T << endl;
@@ -149,9 +155,12 @@ int ldrop_crust::run_test(double Z, double N, double npout,
 
   // dexc_dchi
   ldrop_be_deriv flc3(*this,Z,N,npout,nnout,chi,T,6,4);
-  dp->deriv_err(chi,flc3,der,dere);
+  gd.deriv_err(chi,flc3,der,dere);
   cout << "dexc_dchi : " 
        << der << " " << dere << " " << d7 << " " << fabs(der-d7) << endl;
+  if (der!=0.0) {
+    t.test_rel(fabs(der-d7),0.0,dere*2.0,"dexc_dchi");
+  }
   if (fabs(der-d7)>dere*2.0) {
     cout << "Z,N,np,nn,chi,T: " << Z << " " << N << endl;
     cout << "\t" << npout << " " << nnout << " " << chi << " " << T << endl;
@@ -160,9 +169,12 @@ int ldrop_crust::run_test(double Z, double N, double npout,
 
   // dsurf_dchi
   ldrop_be_deriv flc4(*this,Z,N,npout,nnout,chi,T,2,4);
-  dp->deriv_err(chi,flc4,der,dere);
+  gd.deriv_err(chi,flc4,der,dere);
   cout << "dsurf_dchi: " 
        << der << " " << dere << " " << d8 << " " << fabs(der-d8) << endl;
+  if (der!=0.0) {
+    t.test_rel(fabs(der-d8),0.0,dere*2.0,"dsurf_dchi");
+  }
   if (fabs(der-d8)>dere*2.0) {
     cout << "Z,N,np,nn,chi,T: " << Z << " " << N << endl;
     cout << "\t" << npout << " " << nnout << " " << chi << " " << T << endl;
@@ -171,9 +183,12 @@ int ldrop_crust::run_test(double Z, double N, double npout,
 
   // dshell_dchi
   ldrop_be_deriv flc4xx(*this,Z,N,npout,nnout,chi,T,5,4);
-  dp->deriv_err(chi,flc4xx,der,dere);
+  gd.deriv_err(chi,flc4xx,der,dere);
   cout << "dshel_dchi: " 
        << der << " " << dere << " " << d9 << " " << fabs(der-d9) << endl;
+  if (der!=0.0) {
+    t.test_rel(fabs(der-d9),0.0,dere*2.0,"dshel_dchi");
+  }
   if (fabs(der-d9)>dere*2.0) {
     cout << "Z,N,np,nn,chi,T: " << Z << " " << N << endl;
     cout << "\t" << npout << " " << nnout << " " << chi << " " << T << endl;
@@ -182,10 +197,13 @@ int ldrop_crust::run_test(double Z, double N, double npout,
   
   // Total of chi derivatives
   ldrop_be_deriv flc4b(*this,Z,N,npout,nnout,chi,T,0,4);
-  dp->deriv_err(chi,flc4b,der,dere);
+  gd.deriv_err(chi,flc4b,der,dere);
   cout << "dfull_dchi: " 
        << der << " " << dere << " " << d1+d2+d7+d8+d9 << " " 
        << fabs(der-d1-d2-d7-d8-d9) << endl;
+  if (der!=0.0) {
+    t.test_rel(fabs(der-d1-d2-d7-d8-d9),0.0,dere*2.0,"dfull_dchi");
+  }
   if (fabs(der-d1-d2-d7-d8-d9)>dere*4.0) {
     cout << "Z,N,np,nn,chi,T: " << Z << " " << N << endl;
     cout << "\t" << npout << " " << nnout << " " << chi << " " << T << endl;
@@ -200,9 +218,14 @@ int ldrop_crust::run_test(double Z, double N, double npout,
 
     // dexc_dnn
     ldrop_be_deriv flc5(*this,Z,N,npout,nnout,chi,T,6,3);
-    dp->deriv_err(nnout,flc5,der,dere);
+    gd.h*=10.0;
+    gd.deriv_err(nnout,flc5,der,dere);
+    gd.h/=10.0;
     cout << "dexc_dnn  : " 
 	 << der << " " << dere << " " << d3 << " " << fabs(der-d3) << endl;
+    if (der!=0.0) {
+      t.test_rel(fabs(der-d3),0.0,dere*2.0,"dexc_dnn");
+    }
     if (fabs(der-d3)>dere*2.0) {
       cout << "Z,N,np,nn,chi,T: " << Z << " " << N << endl;
       cout << "\t" << npout << " " << nnout << " " << chi << " " << T << endl;
@@ -211,9 +234,12 @@ int ldrop_crust::run_test(double Z, double N, double npout,
 
     // dshell_dnn
     ldrop_be_deriv flc6(*this,Z,N,npout,nnout,chi,T,5,3);
-    dp->deriv_err(nnout,flc6,der,dere);
+    gd.deriv_err(nnout,flc6,der,dere);
     cout << "dshel_dnn : " 
 	 << der << " " << dere << " " << d6 << " " << fabs(der-d6) << endl;
+    if (der!=0.0) {
+      t.test_rel(fabs(der-d6),0.0,dere*2.0,"dshel_dnn");
+    }
     if (fabs(der-d6)>dere*2.0) {
       cout << "Z,N,np,nn,chi,T: " << Z << " " << N << endl;
       cout << "\t" << npout << " " << nnout << " " << chi << " " << T << endl;
@@ -222,9 +248,12 @@ int ldrop_crust::run_test(double Z, double N, double npout,
 
     // Total of nn derivatives
     ldrop_be_deriv flc7(*this,Z,N,npout,nnout,chi,T,0,3);
-    dp->deriv_err(nnout,flc7,der,dere);
+    gd.deriv_err(nnout,flc7,der,dere);
     cout << "dfull_dnn : " << der << " " << dere << " " << d6+d3 << " " 
 	 << fabs(der-d6-d3) << endl;
+    if (der!=0.0) {
+      t.test_rel(fabs(der-d3-d6),0.0,dere*2.0,"dfull_dnn");
+    }
     if (fabs(der-d3-d6)>dere*2.0) {
       cout << "Z,N,np,nn,chi,T: " << Z << " " << N << endl;
       cout << "\t" << npout << " " << nnout << " " << chi << " " << T << endl;
@@ -241,9 +270,12 @@ int ldrop_crust::run_test(double Z, double N, double npout,
 
     // dexc_dnp
     ldrop_be_deriv flc8(*this,Z,N,npout,nnout,chi,T,6,2);
-    dp->deriv_err(npout,flc8,der,dere);
+    gd.deriv_err(npout,flc8,der,dere);
     cout << "dexc_dnp  : " 
 	 << der << " " << dere << " " << d4 << " " << fabs(der-d4) << endl;
+    if (der!=0.0) {
+      t.test_rel(fabs(der-d4),0.0,dere*20.0,"dexc_dnp");
+    }
     if (fabs(der-d4)>dere*20.0) {
       cout << "Z,N,np,nn,chi,T: " << Z << " " << N << endl;
       cout << "\t" << npout << " " << nnout << " " << chi << " " << T << endl;
@@ -252,9 +284,12 @@ int ldrop_crust::run_test(double Z, double N, double npout,
 
     // dshell_dnp
     ldrop_be_deriv flc9(*this,Z,N,npout,nnout,chi,T,5,2);
-    dp->deriv_err(npout,flc9,der,dere);
+    gd.deriv_err(npout,flc9,der,dere);
     cout << "dshel_dnp : " 
 	 << der << " " << dere << " " << d5 << " " << fabs(der-d5) << endl;
+    if (der!=0.0) {
+      t.test_rel(fabs(der-d5),0.0,dere*2.0,"dshel_dnp");
+    }
     if (fabs(der-d5)>dere*2.0) {
       cout << "Z,N,np,nn,chi,T: " << Z << " " << N << endl;
       cout << "\t" << npout << " " << nnout << " " << chi << " " << T << endl;
@@ -263,9 +298,12 @@ int ldrop_crust::run_test(double Z, double N, double npout,
 
     // dcoul_dnp
     ldrop_be_deriv flc9b(*this,Z,N,npout,nnout,chi,T,3,2);
-    dp->deriv_err(npout,flc9b,der,dere);
+    gd.deriv_err(npout,flc9b,der,dere);
     cout << "dcoul_dnp : " << der << " " << dere << " "
 	 << d10 << " " << fabs(der-d10) << endl;
+    if (der!=0.0) {
+      t.test_rel(fabs(der-d10),0.0,dere*2.0,"dcoul_dnp");
+    }
     if (fabs(der-d10)>dere*2.0) {
       cout << "Z,N,np,nn,chi,T: " << Z << " " << N << endl;
       cout << "\t" << npout << " " << nnout << " " << chi << " " << T << endl;
@@ -274,10 +312,13 @@ int ldrop_crust::run_test(double Z, double N, double npout,
 
     // Total of np derivatives
     ldrop_be_deriv flc10(*this,Z,N,npout,nnout,chi,T,0,2);
-    dp->deriv_err(npout,flc10,der,dere);
+    gd.deriv_err(npout,flc10,der,dere);
     cout << "dfull_dnp : " 
 	 << der << " " << dere << " " << d5+d4+d10 << " " 
 	 << fabs(der-d5-d4-d10) << endl;
+    if (der!=0.0) {
+      t.test_rel(fabs(der-d4-d5-d10),0.0,dere*2.0,"dfull_dnp");
+    }
     if (fabs(der-d4-d5-d10)>dere*2.0) {
       cout << "Z,N,np,nn,chi,T: " << Z << " " << N << endl;
       cout << "\t" << npout << " " << nnout << " " << chi << " " << T << endl;

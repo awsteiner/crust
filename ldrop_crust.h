@@ -43,6 +43,7 @@
 #include <o2scl/ode_iv_solve.h>
 #include <o2scl/nucmass_ldrop_shell.h>
 #include <o2scl/hdf_io.h>
+#include <o2scl/test_mgr.h>
 
 #ifndef DOXYGENP
 namespace crust {
@@ -155,7 +156,7 @@ namespace crust {
 	and thermodynamics from the EOS
     */
     int run_test(double Z, double N, double npout, double nnout, 
-		 double chi, double T);
+		 double chi, double T, o2scl::test_mgr &t);
 
     /// Compute the shell energy for nucleus Z and N
     virtual double shell_energy(double Z, double N, double pfact, 

@@ -91,8 +91,20 @@ check2: crust
 check9: crust
 	crust -model SLy4 -rf data/SLy4_moller.fit -check 9
 
+check5: crust
+	crust -model SLy4 -rf data/SLy4_moller.fit -check 5
+
+check5_old: crust
+	crust -check 5
+
 check11: crust
 	crust -check 11
+
+check12: crust
+	crust -check 12
+
+check13: crust
+	crust -check 13
 
 #----------------------------------------------------------------------
 
