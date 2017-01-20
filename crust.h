@@ -218,9 +218,9 @@ namespace crust {
     static const int check_free_energy_cell=8;
     static const int check_pressure=9;
     static const int check_rate2=10;
-    static const int check_feq_numbers=11;
-    static const int check_acc_numbers=12;
-    static const int check_fit_numbers=13;
+    static const int check_mass_fit=11;
+    static const int check_feq_numbers=12;
+    static const int check_acc_numbers=13;
     //@}
 
     /** \brief Factor to increase pressure or density by for 

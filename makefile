@@ -82,8 +82,14 @@ check: crust
 	tail -n 2 check_1.scr
 	crust -check 3 > check_3.scr
 	tail -n 2 check_3.scr
+	crust -check 5 > check_5.scr
+	tail -n 2 check_5.scr
 	crust -check 8 > check_8.scr
 	tail -n 2 check_8.scr
+	crust -check 11 > check_11.scr
+	tail -n 2 check_11.scr
+	crust -check 12 > check_12.scr
+	tail -n 2 check_12.scr
 
 check2: crust
 	crust -model SLy4 -rf data/SLy4_moller.fit -check 2
@@ -91,17 +97,8 @@ check2: crust
 check9: crust
 	crust -model SLy4 -rf data/SLy4_moller.fit -check 9
 
-check5: crust
-	crust -model SLy4 -rf data/SLy4_moller.fit -check 5
-
-check5_old: crust
-	crust -check 5
-
-check11: crust
-	crust -check 11
-
-check12: crust
-	crust -check 12
+check14: crust
+	crust -check 14
 
 check13: crust
 	crust -check 13

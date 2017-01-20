@@ -1717,6 +1717,14 @@ int crust_driver::acc(std::vector<std::string> &sv, bool itive_com) {
 
   double mub_last=0.0;
 
+  if (check==check_acc_numbers) {
+    cout << "Checking acc numbers." << endl;
+    for(size_t i=0;i<current.size();i++) {
+      current[i].n*=1.0e6;
+    }
+    //max_rho=
+  }
+  
   // Increase the density slowly
   for(size_t i=0;rho<max_rho;i++) {
 
@@ -2098,9 +2106,9 @@ int crust_driver::check_fun(std::vector<std::string> &sv, bool itive_com) {
     cout << "check_free_energy_cell: " << check_free_energy_cell << endl;
     cout << "check_pressure: " << check_pressure << endl;
     cout << "check_rate2: " << check_rate2 << endl;
+    cout << "check_mass_fit: " << check_mass_fit << endl;
     cout << "check_feq_numbers: " << check_feq_numbers << endl;
     cout << "check_acc_numbers: " << check_acc_numbers << endl;
-    cout << "check_fit_numbers: " << check_fit_numbers << endl;
     return 0;
   }
 
@@ -2222,6 +2230,11 @@ int crust_driver::check_fun(std::vector<std::string> &sv, bool itive_com) {
 
     check=check_ldrop_derivs;
 
+    std::vector<std::string> sv1={"model","SLy4"};
+    model(sv1,false);
+    std::vector<std::string> sv2={"rf","data/SLy4_moller.fit"};
+    cf.read_fit(sv2,false);
+
     lda.test_derivatives();
     return 0;
   }
@@ -2265,42 +2278,98 @@ int crust_driver::check_fun(std::vector<std::string> &sv, bool itive_com) {
     return 0;
   }
 
+  if (o2scl::stoi(sv[1])==check_mass_fit) {
+    
+    test_mgr t;
+    t.set_output_level(2);
+    
+    check=check_mass_fit;
+    std::vector<std::string> sv1={"model","SLy4"};
+    model(sv1,false);
+    std::vector<std::string> sv2={"rf","data/SLy4_moller.fit"};
+    cf.read_fit(sv2,false);
+
+    // Load initial guess from mass formula
+    ubvector x(lda.nfit), y(lda.nfit);
+    lda.guess_fun(lda.nfit,x);
+
+    std::vector<std::string> sv3={"mf"};
+    cf.perform_fit(sv3,false);
+    lda.guess_fun(lda.nfit,y);
+    t.test_rel_vec(lda.nfit,x,y,2.0e-5,"mass fit");
+
+    t.report();
+  }
+  
   if (o2scl::stoi(sv[1])==check_feq_numbers) {
+
+    test_mgr t;
+    t.set_output_level(2);
+    
     check=check_feq_numbers;
     std::vector<std::string> sv1={"model","SLy4"};
     model(sv1,false);
     std::vector<std::string> sv2={"rf","data/SLy4_moller.fit"};
     cf.read_fit(sv2,false);
-    std::vector<std::string> sv3={"feq","check11","0.02","20","28",
+    std::vector<std::string> sv3={"feq","check","0.02","20","28",
 				 "0.01","0.0201"};
     full_eq(sv3,false);
+
+    o2scl_hdf::hdf_file hf;
+    hf.open("check_feq.o2");
+    string name;
+    table_units<> tab;
+    hdf_input(hf,tab,name);
+    hf.close();
+
+    t.test_rel(tab.get("rho",0),3.349758e13,1.0e-6,"feq rho");
+    t.test_rel(tab.get("coul",0),3.270779e-1,1.0e-6,"feq coul");
+    t.test_rel(tab.get("fr_x",0),9.571164e-2,1.0e-6,"feq fr_x");
+    t.test_rel(tab.get("nun",0),4.703074,1.0e-6,"feq nun");
+    t.test_rel(tab.get("pr",0),2.499303e-4,1.0e-6,"feq pr");
+
+    t.report();
+    
     return 0;
   }
 
   if (o2scl::stoi(sv[1])==check_acc_numbers) {
-    check=check_feq_numbers;
+
+    test_mgr t;
+    t.set_output_level(2);
+    
+    check=check_acc_numbers;
+
     std::vector<std::string> sv1={"model","SLy4"};
     model(sv1,false);
     std::vector<std::string> sv2={"rf","data/SLy4_moller.fit"};
     cf.read_fit(sv2,false);
 
     dist_type="ashes";
-    std::vector<std::string> sv3={"acc","check11","0.02","40","200",
-				 "0.01","0.0201"};
+    
+    std::vector<std::string> sv3={"acc","check"};
     acc(sv3,false);
+
+    o2scl_hdf::hdf_file hf;
+    hf.open("check_acc.o2");
+    string name;
+    table_units<> tab;
+    hdf_input(hf,tab,name);
+    hf.close();
+
+    /*
+      t.test_rel(tab.get("rho",0),3.349758e13,1.0e-6,"feq rho");
+      t.test_rel(tab.get("coul",0),3.270779e-1,1.0e-6,"feq coul");
+      t.test_rel(tab.get("fr_x",0),9.577481e-2,1.0e-6,"feq fr_x");
+      t.test_rel(tab.get("nun",0),4.703074,1.0e-6,"feq nun");
+      t.test_rel(tab.get("pr",0),2.499303e-4,1.0e-6,"feq pr");
+    */
+
+    t.report();
+
     return 0;
   }
   
-  if (o2scl::stoi(sv[1])==check_fit_numbers) {
-    check=check_feq_numbers;
-    std::vector<std::string> sv1={"model","SLy4"};
-    model(sv1,false);
-    std::vector<std::string> sv3={"mf"};
-    cf.perform_fit(sv3,false);
-    std::vector<std::string> sv2={"rf","data/SLy4_moller.fit"};
-    cf.read_fit(sv2,false);
-    return 0;
-  }
   return 0;
 }
 
