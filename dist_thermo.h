@@ -294,8 +294,11 @@ namespace crust {
 
     /** \brief Compute the Gibbs energy density from the free energy density
 	
-	Also computes the free energy, pressure, rest mass energy
-	density, and baryon density as a by-product.
+	This function calls \ref free_energy_dist() and then computes
+	the gibbs energy density afterwards from a sum of the product
+	of densities and chemical potentials. It also computes the
+	free energy, pressure, rest mass energy density, and baryon
+	density as a by-product.
     */
     int gibbs_energy_dist(matter &m, double T);
 
@@ -329,9 +332,8 @@ namespace crust {
 	\phi \equiv \sum_i \phi_i \equiv \sum_i 
 	\frac{4}{3} \pi R_{n,i}^3 n_i 
 	\f]
-	
-	Used in rxns and in crust(), but can probably be called directly
-	from gibbs_fixp_neutron() and/or gibbs_fixp().
+	It is used in \ref crust::rxns, \ref crust::pyc_rates
+	and in \ref crust::crust_driver::compute_sna().
     */
     double get_phi(matter &m, double T);
 
@@ -352,7 +354,7 @@ namespace crust {
 	the quantity <tt>m.n.n*(1-phi)</tt>, it is typically only
 	used with <tt>m.n.n</tt> is zero. 
 	
-	Uses gibbs_pressure_func().
+	Uses \ref gibbs_pressure_func().
 	
 	Currently, this function uses a local \ref o2scl::root_cern
 	object to solve for pressure equality, but there is some

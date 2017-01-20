@@ -2353,6 +2353,22 @@ int crust_driver::check_fun(std::vector<std::string> &sv, bool itive_com) {
     t.test_rel(tab.get("fr_x",0),9.571164e-2,1.0e-6,"feq fr_x");
     t.test_rel(tab.get("nun",0),4.703074,1.0e-6,"feq nun");
     t.test_rel(tab.get("pr",0),2.499303e-4,1.0e-6,"feq pr");
+    
+    std::vector<std::string> sv4={"feqd","check","0.02","12","44",
+				  "0.01","0.0201"};
+    full_eq_dist(sv4,false);
+
+    hf.open("check_feqd.o2");
+    hdf_input(hf,tab,name);
+    hf.close();
+
+    /*
+      t.test_rel(tab.get("rho",0),3.349758e13,1.0e-6,"feq rho");
+      t.test_rel(tab.get("coul",0),3.270779e-1,1.0e-6,"feq coul");
+      t.test_rel(tab.get("fr_x",0),9.571164e-2,1.0e-6,"feq fr_x");
+      t.test_rel(tab.get("nun",0),4.703074,1.0e-6,"feq nun");
+      t.test_rel(tab.get("pr",0),2.499303e-4,1.0e-6,"feq pr");
+    */
 
     t.report();
     

@@ -181,7 +181,7 @@ namespace crust {
     /** \brief Return the free energy as a one-dimensional function
 	of the neutron number density
       
-	Used in crust_driver::compute_sna2().
+	Used in \ref crust::crust_driver::compute_sna2().
     */
     class solve_nn_ni_fixed_nb_nnhat : public snat_funct_base {
     
@@ -235,7 +235,7 @@ namespace crust {
     /** \brief To test minimization with respect to \f$ {\hat n}_n \f$
 	instead of \f$ n_n \f$. 
 	
-	Used at the end of compute_sna().
+	Used at the end of \ref crust::crust_driver::compute_sna().
     */
     class free_energy_sna_fix_nb_nnhat : snat_funct_base {
   
