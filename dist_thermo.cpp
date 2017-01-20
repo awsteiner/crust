@@ -607,9 +607,7 @@ int dist_thermo::check_pressure(matter &m, double T) {
   // Return to original values
   m.n->n=7.0e-3;
   m.dist[0].n=1.0e-5;
-  cout << "Fixme." << endl;
-  exit(-1);
-  //free_energy_sna(m,T);
+  free_energy_dist(m,T);
 
   t.test_rel(mu1,m.mun,1.0e-10,"mu1");
   t.test_rel(mu2,m.mu[0],1.0e-10,"mu2");
@@ -684,7 +682,7 @@ int dist_thermo::check_pressure(matter &m, double T) {
   // Return to original values
   m.n->n=xn;
   m.dist[0].n=xnuc;
-  //free_energy_sna(m,T);
+  free_energy_dist(m,T);
 
   t.test_rel(mu1,m.mun,1.0e-8,"mu1");
   t.test_rel(mu2,m.mu[0],1.0e-10,"mu2");

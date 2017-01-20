@@ -33,6 +33,8 @@
 namespace crust {
 #endif
 
+  class sna_thermo;
+  
   /** \brief An object to compute the thermodynamic properties
       of a distribution
 

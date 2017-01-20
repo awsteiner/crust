@@ -1722,7 +1722,7 @@ int crust_driver::acc(std::vector<std::string> &sv, bool itive_com) {
     for(size_t i=0;i<current.size();i++) {
       current[i].n*=1.0e6;
     }
-    //max_rho=
+    max_rho=1.75e12;
   }
   
   // Increase the density slowly
@@ -2095,20 +2095,37 @@ int crust_driver::set_tptr(std::vector<std::string> &sv, bool itive_com) {
 int crust_driver::check_fun(std::vector<std::string> &sv, bool itive_com) {
 
   if (sv.size()<2) {
+    cout.setf(ios::left);
+    size_t width=24;
+    cout.width(width);
     cout << "check_none: " << check_none << endl;
+    cout.width(width);
     cout << "check_mass_density: " << check_mass_density << endl;
+    cout.width(width);
     cout << "check_free_energy_sna: " << check_free_energy_sna << endl;
+    cout.width(width);
     cout << "check_free_energy_dist: " << check_free_energy_dist << endl;
-    cout << "check_free_energy_nm: " << check_free_energy_nm_x << endl;
+    cout.width(width);
+    cout << "check_free_energy_nm: " << check_nm_from_dist << endl;
+    cout.width(width);
     cout << "check_ldrop_derivs: " << check_ldrop_derivs << endl;
+    cout.width(width);
     cout << "check_mixture: " << check_mixture << endl;
+    cout.width(width);
     cout << "check_sfactor: " << check_sfactor << endl;
+    cout.width(width);
     cout << "check_free_energy_cell: " << check_free_energy_cell << endl;
+    cout.width(width);
     cout << "check_pressure: " << check_pressure << endl;
+    cout.width(width);
     cout << "check_rate2: " << check_rate2 << endl;
+    cout.width(width);
     cout << "check_mass_fit: " << check_mass_fit << endl;
+    cout.width(width);
     cout << "check_feq_numbers: " << check_feq_numbers << endl;
+    cout.width(width);
     cout << "check_acc_numbers: " << check_acc_numbers << endl;
+    cout.unsetf(ios::left);
     return 0;
   }
 
@@ -2201,10 +2218,14 @@ int crust_driver::check_fun(std::vector<std::string> &sv, bool itive_com) {
     return 0;
   }
 
-  if (o2scl::stoi(sv[1])==check_free_energy_nm_x) {
+  if (o2scl::stoi(sv[1])==check_nm_from_dist) {
+    
+    cout << "\nChecking nm_thermo::calc_nm_from_dist().\n" << endl;
 
-    cout << "\nChecking free_energy_nm_x().\n" << endl;
-    check=check_free_energy_nm_x;
+    check=check_nm_from_dist;
+
+    test_mgr t;
+    t.set_output_level(2);
 
     matter m, nm;
     nucleus nuc;
@@ -2221,6 +2242,11 @@ int crust_driver::check_fun(std::vector<std::string> &sv, bool itive_com) {
     dt.check=check;
     m.T=Tptr;
     nmt.calc_nm_from_dist(m,nm);
+
+    t.test_rel(nm.n->n,30.0*1.1e-6,1.0e-12,"nm_from_dist nn");
+    t.test_rel(nm.p->n,26.0*1.1e-6,1.0e-12,"nm_from_dist np");
+
+    t.report();
     return 0;
   }
 
@@ -2357,13 +2383,12 @@ int crust_driver::check_fun(std::vector<std::string> &sv, bool itive_com) {
     hdf_input(hf,tab,name);
     hf.close();
 
-    /*
-      t.test_rel(tab.get("rho",0),3.349758e13,1.0e-6,"feq rho");
-      t.test_rel(tab.get("coul",0),3.270779e-1,1.0e-6,"feq coul");
-      t.test_rel(tab.get("fr_x",0),9.577481e-2,1.0e-6,"feq fr_x");
-      t.test_rel(tab.get("nun",0),4.703074,1.0e-6,"feq nun");
-      t.test_rel(tab.get("pr",0),2.499303e-4,1.0e-6,"feq pr");
-    */
+    t.test_rel(tab.get("rho",0),1.751791e12,1.0e-6,"acc rho");
+    t.test_rel(tab.get("nb",0),1.046106e-3,1.0e-6,"acc nb");
+    t.test_rel(tab.get("fr_x",0),5.019352e-3,1.0e-6,"acc fr_x");
+    t.test_rel(tab.get("pr",0),1.253753e-5,1.0e-6,"acc pr");
+    t.test_rel(tab.get("t_C",0),1.968930e-10,1.0e-6,"acc t_C");
+    t.test_gen(tab.get_nlines()==1,"acc nlines");
 
     t.report();
 

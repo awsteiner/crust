@@ -211,7 +211,7 @@ namespace crust {
     static const int check_mass_density=1;
     static const int check_free_energy_sna=2;
     static const int check_free_energy_dist=3;
-    static const int check_free_energy_nm_x=4;
+    static const int check_nm_from_dist=4;
     static const int check_ldrop_derivs=5;
     static const int check_mixture=6;
     static const int check_sfactor=7;
