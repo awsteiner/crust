@@ -139,14 +139,13 @@ int dist_thermo::free_energy_dist(matter &m, double T, bool eval_chem_pots) {
       cout << m << endl;
       O2SCL_ERR("Density negative in free_energy_dist().",o2scl::exc_efailed);
     }
-    double Rws, chi;
-    double be;
+    double Rws, chi, be;
       
     if (!finite(m.n->n) || !finite(m.e.n)) {
       cout << "T: " << T << endl;
       cout << m << endl;
-      O2SCL_ERR("Not finite in free_energy_dist() [point 2].",
-		o2scl::exc_efailed);
+      O2SCL_ERR2("Neutron or electron density not finite in ",
+		 "free_energy_dist() [point 2].",o2scl::exc_efailed);
     }
       
     //if (use_pasta) {
@@ -161,10 +160,9 @@ int dist_thermo::free_energy_dist(matter &m, double T, bool eval_chem_pots) {
     // mass which will be added in later
     if ((dist[i].Z+dist[i].N)%2==0) dist[i].g=1.0;
     else dist[i].g=3.0;
-    double mass_neutron=cng.convert
-      ("kg","1/fm",o2scl_mks::mass_neutron);
-    double mass_proton=cng.convert
-      ("kg","1/fm",o2scl_mks::mass_proton);
+    double mass_neutron=cng.convert("kg","1/fm",o2scl_mks::mass_neutron);
+    double mass_proton=cng.convert("kg","1/fm",o2scl_mks::mass_proton);
+
     dist[i].m=dist[i].Z*mass_proton+dist[i].N*mass_neutron+be;
     dist[i].non_interacting=true;
     dist[i].inc_rest_mass=false;

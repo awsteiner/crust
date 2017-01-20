@@ -34,7 +34,15 @@ int sna_thermo::free_energy_sna(matter &m, double T) {
   vector<nucleus> &dist=m.dist;
 
   // This doesn't work with free protons at the moment
-  m.p->n=0.0;
+  if (m.p->n!=0.0) {
+    O2SCL_ERR2("Function sna_thermo::free_energy_sna() doesn't work with ",
+	       "free protons.",o2scl::exc_eunimpl);
+  }
+
+  if (m.dist.size()!=1) {
+    O2SCL_ERR2("Function sna_thermo::free_energy_sna() doesn't work with ",
+	       "a distribution size not equal to 1.",o2scl::exc_efailed);
+  }
 
   // Drip contribution 
   if (m.n->n>0.0) {
@@ -97,10 +105,9 @@ int sna_thermo::free_energy_sna(matter &m, double T) {
   // mass which will be added in later
   if ((m.dist[0].Z+m.dist[0].N)%2==0) m.dist[0].g=1.0;
   else m.dist[0].g=3.0;
-    double mass_neutron=o2scl_settings.get_convert_units().convert
-      ("kg","1/fm",o2scl_mks::mass_neutron);
-    double mass_proton=o2scl_settings.get_convert_units().convert
-      ("kg","1/fm",o2scl_mks::mass_proton);
+  double mass_neutron=cng.convert("kg","1/fm",o2scl_mks::mass_neutron);
+  double mass_proton=cng.convert("kg","1/fm",o2scl_mks::mass_proton);
+    
   m.dist[0].m=m.dist[0].Z*mass_proton+m.dist[0].N*mass_neutron+be;
   m.dist[0].non_interacting=true;
   m.dist[0].inc_rest_mass=false;
@@ -219,9 +226,9 @@ int sna_thermo::check_free_energy_sna(dist_thermo &dt) {
       
   if ((dist[0].Z+dist[0].N)%2==0) dist[0].g=1.0;
   else dist[0].g=3.0;
-    double mass_neutron=o2scl_settings.get_convert_units().convert
+    double mass_neutron=cng.convert
       ("kg","1/fm",o2scl_mks::mass_neutron);
-    double mass_proton=o2scl_settings.get_convert_units().convert
+    double mass_proton=cng.convert
       ("kg","1/fm",o2scl_mks::mass_proton);
   dist[0].m=dist[0].Z*mass_proton+dist[0].N*mass_neutron+be;
   dist[0].non_interacting=true;
