@@ -100,7 +100,7 @@ int pyc_rates::fusion_times(dist_thermo &dt, matter &m, double T,
 
 int pyc_rates::load_data(string dir) {
   hdf_file hf;
-  string fn="indata/beard10.o2";
+  string fn="data/beard10.o2";
   string name;
   hf.open(fn);
   hdf_input(hf,b10,name);

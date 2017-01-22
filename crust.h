@@ -104,9 +104,6 @@ namespace crust {
     double feq_dnb;
     //@}
     
-    /// Directory for input files
-    std::string input_dir;
-    
     /// True if the skyrme model has been set
     bool model_set;
 

@@ -42,7 +42,6 @@ crust_driver::crust_driver() :
   cng(o2scl_settings.get_convert_units()),
   dt(cng), nmt(lda,sk,cng), snat(lda,sk) {
   
-  input_dir="indata";
   model_set=false;
 
   rho_summary=1.0e20;
@@ -157,7 +156,7 @@ int crust_driver::init_dist(string mode, matter &m) {
   } else if (mode=="schatz") {
 
     if (verbose>0) cout << "Ashes from Schatz et al." << endl;
-    string fn=input_dir+"/schatz_edit.dat";
+    string fn="data/schatz_edit.dat";
     ifstream fin(fn.c_str());
     int sZ, sA;
     double abun;
