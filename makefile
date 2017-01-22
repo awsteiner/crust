@@ -80,28 +80,24 @@ crust: $(OBJS)
 check: crust
 	crust -check 1 > check_1.scr
 	tail -n 2 check_1.scr
+	crust -check 2 > check_2.scr
+	tail -n 2 check_2.scr
 	crust -check 3 > check_3.scr
 	tail -n 2 check_3.scr
 	crust -check 4 > check_4.scr
 	tail -n 2 check_4.scr
+	crust -check 5 > check_5.scr
+	tail -n 2 check_5.scr
 	crust -check 8 > check_8.scr
 	tail -n 2 check_8.scr
 	crust -check 11 > check_11.scr
 	tail -n 2 check_11.scr
-
-check13:
-	crust -check 13 > check_13.scr
-	tail -n 2 check_13.scr
-
-# Works on isospin but not on laptop?!
-check_lap:
-	crust -check 5 > check_5.scr
-	tail -n 2 check_5.scr
 	crust -check 12 > check_12.scr
 	tail -n 2 check_12.scr
 
-check2: crust
-	crust -model SLy4 -rf data/SLy4_moller.fit -check 2
+check13: crust
+	crust -check 13 > check_13.scr
+	tail -n 2 check_13.scr
 
 check9: crust
 	crust -model SLy4 -rf data/SLy4_moller.fit -check 9

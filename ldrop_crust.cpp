@@ -202,7 +202,7 @@ int ldrop_crust::run_test(double Z, double N, double npout,
        << der << " " << dere << " " << d1+d2+d7+d8+d9 << " " 
        << fabs(der-d1-d2-d7-d8-d9) << endl;
   if (der!=0.0) {
-    t.test_rel(fabs(der-d1-d2-d7-d8-d9),0.0,dere*2.0,"dfull_dchi");
+    t.test_rel(fabs(der-d1-d2-d7-d8-d9),0.0,dere*4.0,"dfull_dchi");
   }
   if (fabs(der-d1-d2-d7-d8-d9)>dere*4.0) {
     cout << "Z,N,np,nn,chi,T: " << Z << " " << N << endl;
