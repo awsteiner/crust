@@ -2155,6 +2155,9 @@ int crust_driver::check_fun(std::vector<std::string> &sv, bool itive_com) {
 
   if (o2scl::stoi(sv[1])==check_free_energy_sna) {
 
+    test_mgr t;
+    t.set_output_level(2);
+    
     cout << "Checking free_energy_sna()." << endl;
     check=check_free_energy_sna;
 
@@ -2167,21 +2170,23 @@ int crust_driver::check_fun(std::vector<std::string> &sv, bool itive_com) {
       m.dist[0].N=60;
       m.dist[0].n=0.0001;
       m.n->n=0.01;
+      m.p->n=0.0;
       vector<nucleus> &dist=m.dist;
       
       double rest=0.0, be=0.0, Rws=0.0, chi=0.0;
       
-      cout.precision(10);
-      
       snat.free_energy_sna(m,T);
       double fr1=m.fr;
-      cout << "From sna_thermo: " << m.fr << endl;
       dt.free_energy_dist(m,T);
       double fr2=m.fr;
-      cout << "From dist_thermo_thermo: " << m.fr << endl;
+      t.test_rel(snat.part1,dt.part1,1.0e-12,"part1");
+      t.test_rel(snat.part2,dt.part2,1.0e-12,"part2");
+      t.test_rel(snat.part3,dt.part3,1.0e-12,"part3");
+      t.test_rel(snat.part4,dt.part4,1.0e-12,"part4");
+      t.test_rel(fr1,fr2,1.0e-12,"fr");
     }
     
-    snat.check_free_energy_sna(dt);
+    snat.check_free_energy_sna(dt,t);
 
     return 0;
   }

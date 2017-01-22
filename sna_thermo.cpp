@@ -78,6 +78,7 @@ int sna_thermo::free_energy_sna(matter &m, double T) {
   // Compute electron contribution
   m.e.n=nptot;
   relf.calc_density(m.e,T);
+  rest+=m.e.n*m.e.m;
   
   // If there's a magnetic field, correct accordingly
   if (mag_field>1.0e-20) {
@@ -115,17 +116,21 @@ int sna_thermo::free_energy_sna(matter &m, double T) {
 
   // Compute Nprime
   double Rn3=lda->Rn*lda->Rn*lda->Rn;
-  double Nprime=dist[0].N-4.0/3.0*pi*Rn3*m.n->n;
-      
+  double Nprime=m.dist[0].N-4.0/3.0*pi*Rn3*m.n->n;
+  
   // Add nuclear contribution to free energy, including the rest
   // mass energy density. Note that only N' and Z' are used to
   // compute the nuclear rest mass, since the remaining part of
   // the rest mass is in the drip.
-  m.fr+=m.dist[0].n*(be+dist[0].Z*mass_proton+Nprime*mass_neutron)+
-    m.dist[0].ed-T*m.dist[0].en;
-  rest+=m.dist[0].n*(dist[0].Z*mass_proton+Nprime*mass_neutron);
+  m.fr+=m.dist[0].n*(be+m.dist[0].Z*mass_proton+Nprime*mass_neutron);
+  if (inc_nuc_trans) {
+    m.fr+=m.dist[0].ed-T*m.dist[0].en;
+  }
+  rest+=m.dist[0].n*(m.dist[0].Z*mass_proton+Nprime*mass_neutron);
   part3=m.dist[0].n*be;
-  part4=m.dist[0].n*(dist[0].Z*mass_proton+Nprime*mass_neutron);
+  part4=m.dist[0].n*(m.dist[0].Z*mass_proton+Nprime*mass_neutron);
+
+  m.rho=cng.convert("1/fm^4","g/cm^3",rest);
 
   return 0;
 }
@@ -186,7 +191,7 @@ int sna_thermo::free_energy_sna_fix_nb_nnuc(double nb, matter &m, double T) {
   return 0;
 }
 
-int sna_thermo::check_free_energy_sna(dist_thermo &dt) {
+int sna_thermo::check_free_energy_sna(dist_thermo &dt, test_mgr &t) {
   
   cout.precision(10);
 
@@ -198,44 +203,41 @@ int sna_thermo::check_free_energy_sna(dist_thermo &dt) {
   m.dist[0].N=60;
   m.dist[0].n=0.0001;
   m.n->n=0.01;
+  m.p->n=0.0;
   vector<nucleus> &dist=m.dist;
   
   double rest=0.0, be=0.0, Rws=0.0, chi=0.0;
   
   free_energy_sna(m,T);
   double fr1=m.fr;
-  cout << "From sna_thermo: " << m.fr << endl;
   dt.free_energy_dist(m,T);
   double fr2=m.fr;
-  cout << "From dist_thermo_thermo: " << m.fr << endl;
 
   dt.mass_density(m,T);
-  rest=cng.convert("g/cm^3","1/fm^4",m.rho);
 
-  cout << "Normal: rest, fr: " << rest << " " << m.fr << endl;
-  double rest1=rest;
-    
-  rest=0.0;
+  double rest1=m.rho;
+
   m.fr=m.e.ed-T*m.e.en;
+  rest=m.e.n*m.e.m;
 
   lda->exc_volume=false;
 
   be=lda->nucleus_be(dist[0].Z,dist[0].N,m.p->n,m.n->n,T,m.e.n,Rws,chi);
       
   double phi=4.0/3.0*pi*pow(lda->Rn,3.0)*dist[0].n;
-      
+  
   if ((dist[0].Z+dist[0].N)%2==0) dist[0].g=1.0;
   else dist[0].g=3.0;
-    double mass_neutron=cng.convert
-      ("kg","1/fm",o2scl_mks::mass_neutron);
-    double mass_proton=cng.convert
-      ("kg","1/fm",o2scl_mks::mass_proton);
+  double mass_neutron=cng.convert("kg","1/fm",o2scl_mks::mass_neutron);
+  double mass_proton=cng.convert("kg","1/fm",o2scl_mks::mass_proton);
   dist[0].m=dist[0].Z*mass_proton+dist[0].N*mass_neutron+be;
   dist[0].non_interacting=true;
   dist[0].inc_rest_mass=false;
   cla.calc_density(dist[0],T);
-  m.fr+=dist[0].n*(be+dist[0].Z*mass_proton+dist[0].N*mass_neutron)+
+  m.fr+=dist[0].n*(be+dist[0].Z*mass_proton+dist[0].N*mass_neutron);
+  if (inc_nuc_trans) {
     dist[0].ed-T*dist[0].en;
+  }
   rest+=dist[0].n*(dist[0].Z*mass_proton+dist[0].N*mass_neutron);
 
   {
@@ -251,14 +253,9 @@ int sna_thermo::check_free_energy_sna(dist_thermo &dt) {
     rest+=(1.0-phi)*(m.n->n*m.n->m);
   }
 
-  cout << "Alt   : rest, fr: " << rest << " " << m.fr << endl;
-  cout << "Difference      : " 
-       << fabs(rest-rest1)/fabs(rest) << " "
-       << fabs(m.fr-fr1)/fabs(m.fr) << endl;
+  m.rho=cng.convert("1/fm^4","g/cm^3",rest);
 
-  test_mgr t;
-  t.set_output_level(2);
-  t.test_rel(rest,rest1,1.0e-15,"free_energy_sna() 1");
+  t.test_rel(m.rho,rest1,1.0e-15,"free_energy_sna() 1");
   t.test_rel(m.fr,fr1,4.0e-14,"free_energy_sna() 2");
   t.report();
 

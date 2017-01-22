@@ -195,6 +195,8 @@ int dist_thermo::free_energy_dist(matter &m, double T, bool eval_chem_pots) {
     m.nb+=dist[i].n*(dist[i].Z+Nprime);
 
     // Correct the density by the appropriate factor first
+    // This correction only affects the translational energy
+    // which is included only if inc_nuc_trans is true.
     double fact=Rws3/(Rws3-Rn3);
     dist[i].n*=fact;
 
@@ -228,7 +230,6 @@ int dist_thermo::free_energy_dist(matter &m, double T, bool eval_chem_pots) {
     m.rho+=dist[i].n*(dist[i].Z*mass_proton+Nprime*mass_neutron);
     part3+=dist[i].n*be;
     part4+=dist[i].n*(dist[i].Z*mass_proton+Nprime*mass_neutron);
-    
   }
 
   // Convert the result to g/cm^3

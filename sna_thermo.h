@@ -37,6 +37,8 @@ namespace crust {
 
   protected:
 
+    bool inc_nuc_trans;
+    
     /// Electron thermodynamics
     o2scl::fermion_rel relf;
 
@@ -52,11 +54,6 @@ namespace crust {
     /// Convert units
     o2scl::convert_units &cng;
 
-    /// \name Different parts of the free energy
-    //@{
-    double part1, part2, part3, part4;
-    //@}
-    
     /// The mass model
     ldrop_crust *lda;
     
@@ -80,6 +77,11 @@ namespace crust {
 
   public:
 
+    /// \name Different parts of the free energy
+    //@{
+    double part1, part2, part3, part4;
+    //@}
+    
     /** \brief Create with the specified mass model and EOS
      */
   sna_thermo(ldrop_crust &lc, o2scl::eos_had_temp_base &he)
@@ -91,6 +93,8 @@ namespace crust {
       elec_B.init(cng.convert("kg","1/fm",o2scl_mks::mass_electron),2.0);
       elec_B.inc_rest_mass=true;
       elec_B.non_interacting=true;
+
+      inc_nuc_trans=false;
     }
 
     /// The magnetic field in Gauss
@@ -121,7 +125,7 @@ namespace crust {
     /** \brief Check \ref free_energy_sna() by computing the
 	free energy a different way
     */
-    int check_free_energy_sna(dist_thermo &dt);
+    int check_free_energy_sna(dist_thermo &dt, o2scl::test_mgr &t);
 
     /** \brief The hadronic eos
 
