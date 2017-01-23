@@ -2245,6 +2245,8 @@ int crust_driver::check_fun(std::vector<std::string> &sv, bool itive_com) {
 
     dt.check=check;
     m.T=Tptr;
+    m.n->n=0.0;
+    m.p->n=0.0;
     nmt.calc_nm_from_dist(m,nm);
 
     t.test_rel(nm.n->n,30.0*1.1e-6,1.0e-12,"nm_from_dist nn");
