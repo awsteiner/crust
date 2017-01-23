@@ -14,26 +14,6 @@ OBJS = crust.o main.o ldrop_crust.o pyc_rates.o eigen.o \
 
 #----------------------------------------------------------------------
 
-fit_test:
-	crust -model SLy4 -mf
-
-#----------------------------------------------------------------------
-
-feq_all:
-	crust -model SLy4 -mf data/SLy4_moller.fit \
-		-rf data/SLy4_moller.fit -feq data/SLy4_moller \
-		> data/SLy4_moller.scr 2> data/SLy4_moller.err &
-	crust -set fit_moller 0 -model SLy4 -mf data/SLy4_ame.fit \
-		-rf data/SLy4_ame.fit -feq data/SLy4_ame \
-		> data/SLy4_ame.scr 2> data/SLy4_ame.err &
-
-acc:
-	crust -set dist_type ashes \
-		-model SLy4 -rf data/SLy4_moller.fit -acc data/SLy4_moller
-#		> data/SLy4_moller_acc.scr 2> data/SLy4_moller_acc.err &
-
-#----------------------------------------------------------------------
-
 crust.o: crust.cpp crust.h
 	$(CXX) $(FLAGS) -o crust.o -c crust.cpp
 
@@ -94,13 +74,11 @@ check: crust
 	tail -n 2 check_11.scr
 	crust -check 12 > check_12.scr
 	tail -n 2 check_12.scr
-
-check13: crust
 	crust -check 13 > check_13.scr
 	tail -n 2 check_13.scr
 
 check9: crust
-	crust -model SLy4 -rf data/SLy4_moller.fit -check 9
+	crust -check 9
 
 
 #----------------------------------------------------------------------
