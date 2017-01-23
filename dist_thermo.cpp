@@ -33,7 +33,7 @@ int dist_thermo::free_energy_dist_alpha(matter &m, double &T, double alpha) {
   free_energy_dist(m,T,false);
   double phi=get_phi(m,T);
   double alpha2=m.n->n*(1.0-phi);
-
+  
   size_t i;
   for(i=0;i<20 && fabs(alpha2-alpha)/fabs(alpha)>1.0e-8;i++) {
     m.n->n=alpha/(1.0-phi);
@@ -544,13 +544,13 @@ int dist_thermo::mass_density(matter &m, double T) {
 int dist_thermo::check_pressure(matter &m, double T) {
 
   test_mgr t;
-  t.set_output_level(1);
+  t.set_output_level(2);
 
   lda->use_ame=false;
 
-  double mu1, mu2, mu3, mu4, pr1, gb1;
+  double mu1, mu2, mu3, mu4, mu5, pr1, gb1;
   deriv_gsl<free_dist_deriv_alpha> gd;
-  double xn, xnuc, xnuc2, xnuc3;
+  double xn, xnuc, xnuc2, xnuc3, xnuc4;
 
   m.dist.clear();
   nucleus nuc;
@@ -559,6 +559,7 @@ int dist_thermo::check_pressure(matter &m, double T) {
   nuc.n=1.0e-5;
   m.dist.push_back(nuc);
   m.n->n=7.0e-3;
+  m.p->n=0.0;
 
   cout.precision(6);
   cout << "------------------------------------------------------" << endl;
@@ -794,8 +795,9 @@ int dist_thermo::check_pressure(matter &m, double T) {
     cout << "\t" << i << " " << m.dist[i].n << " " << m.mu[i] << endl;
   }
   cout << "gb,fr,pr: " << m.gb << " " << m.fr << " " << m.pr << endl;
+  cout << "phi: " << get_phi(m,T) << endl;
   cout << endl;
-
+  
   cout << "------------------------------------------------------" << endl;
   cout << "Test distribution with three nuclei:\n" << endl;
 
@@ -847,6 +849,7 @@ int dist_thermo::check_pressure(matter &m, double T) {
   m.dist[0].n=xnuc;
   m.dist[1].n=xnuc2;
   m.dist[2].n=xnuc3;
+  free_energy_dist(m,T);
 
   gd2.h=1.0e-8;
 
@@ -860,6 +863,7 @@ int dist_thermo::check_pressure(matter &m, double T) {
   m.dist[0].n=xnuc;
   m.dist[1].n=xnuc2;
   m.dist[2].n=xnuc3;
+  free_energy_dist(m,T);
 
   free_dist_deriv_nuc fdi51(*this,m,T,m.n->n*(1.0-get_phi(m,T)),1);
   xx=m.dist[1].n;
@@ -871,6 +875,7 @@ int dist_thermo::check_pressure(matter &m, double T) {
   m.dist[0].n=xnuc;
   m.dist[1].n=xnuc2;
   m.dist[2].n=xnuc3;
+  free_energy_dist(m,T);
 
   free_dist_deriv_nuc fdi52(*this,m,T,m.n->n*(1.0-get_phi(m,T)),2);
   xx=m.dist[2].n;
@@ -906,6 +911,143 @@ int dist_thermo::check_pressure(matter &m, double T) {
     cout << "\t" << i << " " << m.dist[i].n << " " << m.mu[i] << endl;
   }
   cout << "gb,fr,pr: " << m.gb << " " << m.fr << " " << m.pr << endl;
+  cout << "phi: " << get_phi(m,T) << endl;
+  cout << endl;
+
+  cout << "------------------------------------------------------" << endl;
+  cout << "Test distribution with four nuclei:\n" << endl;
+
+  xn=7.0e-3;
+  xnuc=1.0e-5;
+  xnuc2=2.1e-5;
+  xnuc3=1.0e-6;
+  xnuc4=4.0e-6;
+
+  m.n->n=xn;
+
+  m.dist[0].Z=32;
+  m.dist[0].N=126;
+  m.dist[0].n=xnuc;
+  m.dist[1].Z=50;
+  m.dist[1].N=40;
+  m.dist[1].n=xnuc2;
+  m.dist[2].Z=40;
+  m.dist[2].N=80;
+  m.dist[2].n=xnuc3;
+
+  nucleus nuc4;
+  nuc4.Z=41;
+  nuc4.N=89;
+  nuc4.n=xnuc4;
+  m.dist.push_back(nuc4);
+  
+  gibbs_energy_dist(m,T);
+  
+  cout << "Neutrons (n,nu): " << m.n->n << " " << m.mun << endl;
+  cout << "Nuclei: " << endl;
+  for(size_t i=0;i<m.dist.size();i++) {
+    cout << "\t" << i << " " << m.dist[i].n << " " << m.mu[i] << endl;
+  }
+  cout << "gb,fr,pr: " << m.gb << " " << m.fr << " " << m.pr << endl;
+  cout << endl;
+
+  mu1=m.mun;
+  mu2=m.mu[0];
+  mu3=m.mu[1];
+  mu4=m.mu[2];
+  mu5=m.mu[3];
+  pr1=m.pr;
+  gb1=m.gb;
+  
+  xx=m.n->n*(1.0-get_phi(m,T));
+  gd.h=1.0e-4;
+  gd.deriv_err(xx,fda,der,dere);
+  cout << "alpha,dfda,err: " << xx << " " << der << " " << dere << endl;
+  m.mun=der*(1.0-get_phi(m,T));
+  cout << "dfdn: " << m.mun << endl;
+
+  m.n->n=xn;
+  m.dist[0].n=xnuc;
+  m.dist[1].n=xnuc2;
+  m.dist[2].n=xnuc3;
+  m.dist[3].n=xnuc4;
+
+  gd2.h=1.0e-8;
+
+  free_dist_deriv_nuc fdi60(*this,m,T,m.n->n*(1.0-get_phi(m,T)),0);
+  xx=m.dist[0].n;
+  gd2.deriv_err(xx,fdi60,der,dere);
+  cout << "n_nuc,dfdi,err: " << xx << " " << der << " " << dere << endl;
+  m.mu[0]=der;
+
+  m.n->n=xn;
+  m.dist[0].n=xnuc;
+  m.dist[1].n=xnuc2;
+  m.dist[2].n=xnuc3;
+  m.dist[3].n=xnuc4;
+
+  free_dist_deriv_nuc fdi61(*this,m,T,m.n->n*(1.0-get_phi(m,T)),1);
+  xx=m.dist[1].n;
+  gd2.deriv_err(xx,fdi61,der,dere);
+  cout << "n_nuc,dfdi,err: " << xx << " " << der << " " << dere << endl;
+  m.mu[1]=der;
+
+  m.n->n=xn;
+  m.dist[0].n=xnuc;
+  m.dist[1].n=xnuc2;
+  m.dist[2].n=xnuc3;
+  m.dist[3].n=xnuc4;
+
+  free_dist_deriv_nuc fdi62(*this,m,T,m.n->n*(1.0-get_phi(m,T)),2);
+  xx=m.dist[2].n;
+  gd2.deriv_err(xx,fdi62,der,dere);
+  cout << "n_nuc,dfdi,err: " << xx << " " << der << " " << dere << endl;
+  m.mu[2]=der;
+  cout << endl;
+
+  m.n->n=xn;
+  m.dist[0].n=xnuc;
+  m.dist[1].n=xnuc2;
+  m.dist[2].n=xnuc3;
+  m.dist[3].n=xnuc4;
+
+  free_dist_deriv_nuc fdi63(*this,m,T,m.n->n*(1.0-get_phi(m,T)),3);
+  xx=m.dist[3].n;
+  gd2.deriv_err(xx,fdi63,der,dere);
+  cout << "n_nuc,dfdi,err: " << xx << " " << der << " " << dere << endl;
+  m.mu[3]=der;
+  cout << endl;
+
+  t.test_rel(mu1,m.mun,1.0e-10,"mu1");
+  t.test_rel(mu2,m.mu[0],1.0e-10,"mu2");
+  t.test_rel(mu3,m.mu[1],1.0e-10,"mu3");
+  t.test_rel(mu4,m.mu[2],1.0e-10,"mu4");
+  t.test_rel(mu5,m.mu[3],1.0e-10,"mu5");
+
+  m.n->n=xn;
+  m.dist[0].n=xnuc;
+  m.dist[1].n=xnuc2;
+  m.dist[2].n=xnuc3;
+  m.dist[3].n=xnuc4;
+  free_energy_dist(m,T);
+
+  // Combine to form the gibbs energy density and pressure
+  m.gb=m.n->n*m.mun;
+  for(size_t j=0;j<m.dist.size();j++) {
+    m.gb+=m.dist[j].n*m.mu[j];
+  }
+  m.pr=m.gb-m.fr;
+
+  t.test_rel(m.pr,pr1,1.0e-9,"pr1");
+  t.test_rel(m.gb,gb1,1.0e-10,"gb1");
+
+  cout << "Neutrons (n,nu): " << m.n->n << " " << m.mun << endl;
+  cout << "Nuclei: " << endl;
+  for(size_t i=0;i<m.dist.size();i++) {
+    cout << "\t" << i << " " << m.dist[i].n << " " << m.mu[i] << endl;
+  }
+  cout << "gb,fr,pr: " << m.gb << " " << m.fr << " " << m.pr << endl;
+  cout << "phi: " << get_phi(m,T) << endl;
   cout << endl;
 
   t.report();
