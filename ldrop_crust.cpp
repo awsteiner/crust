@@ -457,7 +457,7 @@ double ldrop_crust::drip_binding_energy_full_d
   }
   
   if (ext_mass) {
-    
+
     // Use frdm_mass to determine densities and radii
     frdm.drip_binding_energy_d(Z,N,npout,nnout,chi);
     np=frdm.np;
@@ -466,9 +466,14 @@ double ldrop_crust::drip_binding_energy_full_d
     Rp=frdm.Rp;
     Rn=frdm.Rn;
 
+    dRn_dchi=0.0;
+    dRp_dchi=0.0;
+    df_dchi=0.0;
+
     // Excluded volume part
     if (extra_corr && exc_volume && N>0.0 && Z>0.0 && 
 	(nnout>0.0 || npout>0.0)) {
+
       n->n=nnout;
       p->n=npout;
       n->mu=n->m;
@@ -505,7 +510,7 @@ double ldrop_crust::drip_binding_energy_full_d
       dexc_dnn=0.0;
       dexc_dnp=0.0;
     }
-    
+
     if (extra_corr==false || Rp==0.0 || Z==0.0 || N==0.0 || Rn==0.0) {
 
       coul=0.0;

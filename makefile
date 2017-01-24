@@ -70,15 +70,14 @@ check: crust
 	tail -n 2 check_5.scr
 	crust -check 8 > check_8.scr
 	tail -n 2 check_8.scr
+	crust -check 9 > check_9.scr
+	tail -n 2 check_9.scr
 	crust -check 11 > check_11.scr
 	tail -n 2 check_11.scr
 	crust -check 12 > check_12.scr
 	tail -n 2 check_12.scr
 	crust -check 13 > check_13.scr
 	tail -n 2 check_13.scr
-
-check9: crust
-	crust -check 9
 
 #----------------------------------------------------------------------
 
