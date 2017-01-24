@@ -545,8 +545,9 @@ int dist_thermo::check_pressure(matter &m, double T) {
 
   test_mgr t;
   t.set_output_level(2);
-
+  
   lda->use_ame=false;
+  lda->use_moller=false;
 
   double mu1, mu2, mu3, mu4, mu5, pr1, gb1;
   deriv_gsl<free_dist_deriv_alpha> gd;
@@ -797,7 +798,7 @@ int dist_thermo::check_pressure(matter &m, double T) {
   cout << "gb,fr,pr: " << m.gb << " " << m.fr << " " << m.pr << endl;
   cout << "phi: " << get_phi(m,T) << endl;
   cout << endl;
-  
+
   cout << "------------------------------------------------------" << endl;
   cout << "Test distribution with three nuclei:\n" << endl;
 
@@ -849,7 +850,6 @@ int dist_thermo::check_pressure(matter &m, double T) {
   m.dist[0].n=xnuc;
   m.dist[1].n=xnuc2;
   m.dist[2].n=xnuc3;
-  free_energy_dist(m,T);
 
   gd2.h=1.0e-8;
 
@@ -863,7 +863,6 @@ int dist_thermo::check_pressure(matter &m, double T) {
   m.dist[0].n=xnuc;
   m.dist[1].n=xnuc2;
   m.dist[2].n=xnuc3;
-  free_energy_dist(m,T);
 
   free_dist_deriv_nuc fdi51(*this,m,T,m.n->n*(1.0-get_phi(m,T)),1);
   xx=m.dist[1].n;
@@ -875,7 +874,6 @@ int dist_thermo::check_pressure(matter &m, double T) {
   m.dist[0].n=xnuc;
   m.dist[1].n=xnuc2;
   m.dist[2].n=xnuc3;
-  free_energy_dist(m,T);
 
   free_dist_deriv_nuc fdi52(*this,m,T,m.n->n*(1.0-get_phi(m,T)),2);
   xx=m.dist[2].n;
@@ -884,16 +882,16 @@ int dist_thermo::check_pressure(matter &m, double T) {
   m.mu[2]=der;
   cout << endl;
 
-  t.test_rel(mu1,m.mun,1.0e-10,"mu1");
-  t.test_rel(mu2,m.mu[0],1.0e-10,"mu2");
-  t.test_rel(mu3,m.mu[1],1.0e-10,"mu3");
-  t.test_rel(mu4,m.mu[2],1.0e-10,"mu4");
-
   m.n->n=xn;
   m.dist[0].n=xnuc;
   m.dist[1].n=xnuc2;
   m.dist[2].n=xnuc3;
   free_energy_dist(m,T);
+
+  t.test_rel(mu1,m.mun,1.0e-10,"mu1");
+  t.test_rel(mu2,m.mu[0],1.0e-10,"mu2");
+  t.test_rel(mu3,m.mu[1],1.0e-10,"mu3");
+  t.test_rel(mu4,m.mu[2],1.0e-10,"mu4");
 
   // Combine to form the gibbs energy density and pressure
   m.gb=m.n->n*m.mun;
@@ -915,13 +913,14 @@ int dist_thermo::check_pressure(matter &m, double T) {
   cout << endl;
 
   cout << "------------------------------------------------------" << endl;
-  cout << "Test distribution with four nuclei:\n" << endl;
+  cout << "Test distribution with three nuclei and use_moller=true:\n" << endl;
 
+  lda->use_moller=true;
+  
   xn=7.0e-3;
   xnuc=1.0e-5;
   xnuc2=2.1e-5;
   xnuc3=1.0e-6;
-  xnuc4=4.0e-6;
 
   m.n->n=xn;
 
@@ -935,12 +934,6 @@ int dist_thermo::check_pressure(matter &m, double T) {
   m.dist[2].N=80;
   m.dist[2].n=xnuc3;
 
-  nucleus nuc4;
-  nuc4.Z=41;
-  nuc4.N=89;
-  nuc4.n=xnuc4;
-  m.dist.push_back(nuc4);
-  
   gibbs_energy_dist(m,T);
   
   cout << "Neutrons (n,nu): " << m.n->n << " " << m.mun << endl;
@@ -955,7 +948,6 @@ int dist_thermo::check_pressure(matter &m, double T) {
   mu2=m.mu[0];
   mu3=m.mu[1];
   mu4=m.mu[2];
-  mu5=m.mu[3];
   pr1=m.pr;
   gb1=m.gb;
   
@@ -970,7 +962,6 @@ int dist_thermo::check_pressure(matter &m, double T) {
   m.dist[0].n=xnuc;
   m.dist[1].n=xnuc2;
   m.dist[2].n=xnuc3;
-  m.dist[3].n=xnuc4;
 
   gd2.h=1.0e-8;
 
@@ -984,7 +975,6 @@ int dist_thermo::check_pressure(matter &m, double T) {
   m.dist[0].n=xnuc;
   m.dist[1].n=xnuc2;
   m.dist[2].n=xnuc3;
-  m.dist[3].n=xnuc4;
 
   free_dist_deriv_nuc fdi61(*this,m,T,m.n->n*(1.0-get_phi(m,T)),1);
   xx=m.dist[1].n;
@@ -996,7 +986,6 @@ int dist_thermo::check_pressure(matter &m, double T) {
   m.dist[0].n=xnuc;
   m.dist[1].n=xnuc2;
   m.dist[2].n=xnuc3;
-  m.dist[3].n=xnuc4;
 
   free_dist_deriv_nuc fdi62(*this,m,T,m.n->n*(1.0-get_phi(m,T)),2);
   xx=m.dist[2].n;
@@ -1009,27 +998,12 @@ int dist_thermo::check_pressure(matter &m, double T) {
   m.dist[0].n=xnuc;
   m.dist[1].n=xnuc2;
   m.dist[2].n=xnuc3;
-  m.dist[3].n=xnuc4;
-
-  free_dist_deriv_nuc fdi63(*this,m,T,m.n->n*(1.0-get_phi(m,T)),3);
-  xx=m.dist[3].n;
-  gd2.deriv_err(xx,fdi63,der,dere);
-  cout << "n_nuc,dfdi,err: " << xx << " " << der << " " << dere << endl;
-  m.mu[3]=der;
-  cout << endl;
+  free_energy_dist(m,T);
 
   t.test_rel(mu1,m.mun,1.0e-10,"mu1");
   t.test_rel(mu2,m.mu[0],1.0e-10,"mu2");
   t.test_rel(mu3,m.mu[1],1.0e-10,"mu3");
   t.test_rel(mu4,m.mu[2],1.0e-10,"mu4");
-  t.test_rel(mu5,m.mu[3],1.0e-10,"mu5");
-
-  m.n->n=xn;
-  m.dist[0].n=xnuc;
-  m.dist[1].n=xnuc2;
-  m.dist[2].n=xnuc3;
-  m.dist[3].n=xnuc4;
-  free_energy_dist(m,T);
 
   // Combine to form the gibbs energy density and pressure
   m.gb=m.n->n*m.mun;
