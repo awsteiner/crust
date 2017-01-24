@@ -2416,12 +2416,12 @@ int crust_driver::check_fun(std::vector<std::string> &sv, bool itive_com) {
     hdf_input(hf,tab,name);
     hf.close();
 
-    t.test_rel(tab.get("rho",0),1.882493e12,1.0e-6,"acc rho");
-    t.test_rel(tab.get("nb",0),1.124159e-3,1.0e-6,"acc nb");
-    t.test_rel(tab.get("fr_x",0),5.395385e-3,1.0e-6,"acc fr_x");
-    t.test_rel(tab.get("pr",0),1.404249e-5,1.0e-6,"acc pr");
-    t.test_rel(tab.get("t_C",0),8.618467e-12,1.0e-6,"acc t_C");
-    t.test_rel(tab.get("Si56",0),2.007427e-5,1.0e-6,"acc Si56");
+    t.test_rel(tab.get("rho",0),1.882486e12,1.0e-6,"acc rho");
+    t.test_rel(tab.get("nb",0),1.124155e-3,1.0e-6,"acc nb");
+    t.test_rel(tab.get("fr_x",0),5.395366e-3,1.0e-6,"acc fr_x");
+    t.test_rel(tab.get("pr",0),1.404242e-5,1.0e-6,"acc pr");
+    t.test_rel(tab.get("t_C",0),8.618829e-12,1.0e-6,"acc t_C");
+    t.test_rel(tab.get("Si56",0),2.007420e-5,1.0e-6,"acc Si56");
     t.test_gen(tab.get_nlines()==1,"acc nlines");
 
     t.report();
