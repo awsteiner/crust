@@ -1302,6 +1302,9 @@ int dist_thermo::gibbs_fixp_neutron(double pr_old, double nn_full_old,
   // just bypasses the solver if the neutron density is very small
   if (retx!=0) {
     if (nn_full_old<1.0e-10) {
+      fsp2(2,x,y);
+      cout << "Solver warning: " << x[0] << " " << x[1] << " " << y[0] << " "
+	   << y[1] << endl;
       return -3;
     } else {
       O2SCL_ERR("Solver failed in gibbs_fixp_neutron().",o2scl::exc_efailed);
