@@ -213,7 +213,10 @@ int nm_thermo::check_free_energy_x(matter &m, double T, matter &nm) {
   test_mgr t;
   t.set_output_level(2);
   t.test_rel(nm.fr,fr1,1.0e-12,"free_energy_nm_x()");
-  t.report();
+
+        if (!t.report()) {
+    exit(-1);
+  }
 
   return 0;
 }

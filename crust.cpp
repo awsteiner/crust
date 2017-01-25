@@ -329,7 +329,9 @@ int crust_driver::check_free_energy_cell_fun() {
   test_mgr t;
   t.set_output_level(2);
   t.test_rel(m.fr,tot,1.0e-10,"free_energy_call().");
-  t.report();
+  if (!t.report()) {
+    exit(-1);
+  }
 
   return 0;
 }
@@ -2252,7 +2254,9 @@ int crust_driver::check_fun(std::vector<std::string> &sv, bool itive_com) {
     t.test_rel(nm.n->n,30.0*1.1e-6,1.0e-12,"nm_from_dist nn");
     t.test_rel(nm.p->n,26.0*1.1e-6,1.0e-12,"nm_from_dist np");
 
-    t.report();
+  if (!t.report()) {
+    exit(-1);
+  }
     return 0;
   }
 
@@ -2342,7 +2346,9 @@ int crust_driver::check_fun(std::vector<std::string> &sv, bool itive_com) {
     lda.guess_fun(lda.nfit,y);
     t.test_rel_vec(lda.nfit,x,y,2.0e-5,"mass fit");
 
-    t.report();
+  if (!t.report()) {
+    exit(-1);
+  }
   }
   
   if (o2scl::stoi(sv[1])==check_feq_numbers) {
@@ -2389,7 +2395,9 @@ int crust_driver::check_fun(std::vector<std::string> &sv, bool itive_com) {
       t.test_rel(tab.get("pr",0),2.499303e-4,1.0e-6,"feq pr");
     */
 
-    t.report();
+  if (!t.report()) {
+    exit(-1);
+  }
     
     return 0;
   }
@@ -2424,7 +2432,9 @@ int crust_driver::check_fun(std::vector<std::string> &sv, bool itive_com) {
     t.test_rel(tab.get("Si56",0),2.007420e-5,1.0e-6,"acc Si56");
     t.test_gen(tab.get_nlines()==1,"acc nlines");
 
-    t.report();
+  if (!t.report()) {
+    exit(-1);
+  }
 
     return 0;
   }

@@ -257,7 +257,10 @@ int sna_thermo::check_free_energy_sna(dist_thermo &dt, test_mgr &t) {
 
   t.test_rel(m.rho,rest1,1.0e-15,"free_energy_sna() 1");
   t.test_rel(m.fr,fr1,4.0e-14,"free_energy_sna() 2");
-  t.report();
+
+  if (!t.report()) {
+    exit(-1);
+  }
 
   return 0;
 }

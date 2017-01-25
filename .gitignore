@@ -4,3 +4,4 @@ err.out
 crust
 *.o
 .cli_hist
+.travis.yml~

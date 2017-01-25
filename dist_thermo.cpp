@@ -426,7 +426,10 @@ int dist_thermo::free_energy_dist(matter &m, double T, bool eval_chem_pots) {
     t.set_output_level(2);
     t.test_rel(m.rho,rest1,4.0e-6,"free_energy_dist() 1");
     t.test_rel(m.fr,fr1,3.0e-8,"free_energy_dist() 2");
-    t.report();
+
+    if (!t.report()) {
+    exit(-1);
+  }
     
   }
 
@@ -533,7 +536,10 @@ int dist_thermo::mass_density(matter &m, double T) {
     test_mgr t;
     t.set_output_level(2);
     t.test_rel(temp,m.rho,1.0e-10,"mass_density");
-    t.report();
+
+        if (!t.report()) {
+    exit(-1);
+  }
 
     return 0;
   }
@@ -1024,7 +1030,9 @@ int dist_thermo::check_pressure(matter &m, double T) {
   cout << "phi: " << get_phi(m,T) << endl;
   cout << endl;
 
-  t.report();
+        if (!t.report()) {
+    exit(-1);
+  }
   
   return 0;
 }

@@ -84,7 +84,9 @@ int ldrop_crust::test_derivatives() {
   run_test(80,124,0.0,0.0,0.02,0.0,t);
   run_test(80,124,0.0,0.04,0.1,0.1,t);
 
-  t.report();
+        if (!t.report()) {
+    exit(-1);
+  }
   
   return 0;
 }
