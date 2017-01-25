@@ -1,3 +1,17 @@
+ifeq ($(USER),awsteiner)
+
+else
+
+GSL_INC = .
+O2SCL_INC = .
+EIGEN_INC = .
+HDF5_INC = .
+GSL_LIB = .
+O2SCL_LIB = .
+HDF5_LIB = .
+
+endif
+
 FLAGS = -std=c++0x -ggdb -Wreturn-type -Wparentheses -Wall \
 	-Wno-unused -Wno-array-bounds -O3 -DO2SCL_READLINE \
 	-I$(O2SCL_INC) -I$(GSL_INC) -I$(HDF5_INC) -I$(BOOST_INC) \
