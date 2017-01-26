@@ -72,25 +72,25 @@ crust: $(OBJS)
 #----------------------------------------------------------------------
 
 check: crust
-	crust -check 1 > check_1.scr
+	./crust -check 1 > check_1.scr
 	tail -n 2 check_1.scr
-	crust -check 2 > check_2.scr
+	./crust -check 2 > check_2.scr
 	tail -n 2 check_2.scr
-	crust -check 3 > check_3.scr
+	./crust -check 3 > check_3.scr
 	tail -n 2 check_3.scr
-	crust -check 4 > check_4.scr
+	./crust -check 4 > check_4.scr
 	tail -n 2 check_4.scr
-	crust -check 5 > check_5.scr
+	./crust -check 5 > check_5.scr
 	tail -n 2 check_5.scr
-	crust -check 8 > check_8.scr
+	./crust -check 8 > check_8.scr
 	tail -n 2 check_8.scr
-	crust -check 9 > check_9.scr
+	./crust -check 9 > check_9.scr
 	tail -n 2 check_9.scr
-	crust -check 11 > check_11.scr
+	./crust -check 11 > check_11.scr
 	tail -n 2 check_11.scr
-	crust -check 12 > check_12.scr
+	./crust -check 12 > check_12.scr
 	tail -n 2 check_12.scr
-	crust -check 13 > check_13.scr
+	./crust -check 13 > check_13.scr
 	tail -n 2 check_13.scr
 
 #----------------------------------------------------------------------
