@@ -107,7 +107,7 @@ doc: empty
 		 > doc/rev.txt
 # Parse bibliography
 	cd doc; cat refs_head.txt > refs.dox
-	cd doc; btmanip -p crust.bib -dox /tmp/btmanip
+	cd doc; btmanip -p crust.bib -dox /tmp/btmanip crust_
 	cd doc; cat /tmp/btmanip >> refs.dox
 	cd doc; cat refs_foot.txt >> refs.dox
 # Run Doxygen

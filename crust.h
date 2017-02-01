@@ -143,7 +143,7 @@ namespace crust {
 	Either "nickel", "heavy", "schatz" or "ashes" .
 
 	Option "ashes" gives the X-ray burst ashes from
-	\ref crust_Horowitz07
+	\ref crust_Horowitz07 "Horowitz07"
 
     */
     std::string dist_type;
