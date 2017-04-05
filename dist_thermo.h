@@ -150,7 +150,7 @@ namespace crust {
     
 	Used in \ref dist_thermo::gibbs_fixp_neutron()
     */
-    class funct_solve_pressure2 : public o2scl::mm_funct11, dt_funct_base {
+    class funct_solve_pressure2 : public o2scl::mm_funct, dt_funct_base {
   
     public:
   
@@ -193,7 +193,7 @@ namespace crust {
     
 	Used in \ref dist_thermo::gibbs_fixp_neutron()
     */
-    class funct_solve_pressure3 : public o2scl::mm_funct11, dt_funct_base {
+    class funct_solve_pressure3 : public o2scl::mm_funct, dt_funct_base {
   
     public:
   

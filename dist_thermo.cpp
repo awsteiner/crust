@@ -1279,13 +1279,13 @@ int dist_thermo::gibbs_fixp_neutron(double pr_old, double nn_full_old,
   }
     
   funct_solve_pressure2 fsp2(*this,m_new,T,pr_old,nn_full_old);
-  mm_funct11 fmp2=std::bind
+  mm_funct fmp2=std::bind
     (std::mem_fn<int(size_t,const ubvector &,ubvector &)>
      (&funct_solve_pressure2::operator()),&fsp2,
      std::placeholders::_1,std::placeholders::_2,
      std::placeholders::_3);
   funct_solve_pressure3 fsp3(*this,m_new,T,pr_old,nn_full_old);
-  mm_funct11 fmp3=std::bind
+  mm_funct fmp3=std::bind
     (std::mem_fn<int(size_t,const ubvector &,ubvector &)>
      (&funct_solve_pressure3::operator()),&fsp3,
      std::placeholders::_1,std::placeholders::_2,

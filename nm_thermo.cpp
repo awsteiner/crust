@@ -55,7 +55,7 @@ int nm_thermo::solve_fun(size_t nv, const ubvector &x,
 void nm_thermo::calc(matter &nm) {
 
   // Function to solve
-  mm_funct11 fmp=std::bind
+  mm_funct fmp=std::bind
     (std::mem_fn<int(size_t,const ubvector &,ubvector &,matter &)>
      (&nm_thermo::solve_fun),this,std::placeholders::_1,std::placeholders::_2,
      std::placeholders::_3,std::ref(nm));

@@ -268,7 +268,7 @@ namespace crust {
        */
       virtual double operator()(double nnhat) {
 	mfna.set(*stp,nb_,nnhat,*mp,T_);
-	o2scl::mm_funct11 fmp=std::bind
+	o2scl::mm_funct fmp=std::bind
 	  (std::mem_fn<int(size_t,const ubvector &,ubvector &)>
 	   (&solve_nn_ni_fixed_nb_nnhat::operator()),&mfna,
 	   std::placeholders::_1,std::placeholders::_2,
