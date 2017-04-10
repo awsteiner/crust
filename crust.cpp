@@ -2431,11 +2431,11 @@ int crust_driver::check_fun(std::vector<std::string> &sv, bool itive_com) {
     t.test_rel(tab.get("t_C",0),8.618829e-12,1.0e-6,"acc t_C");
     t.test_rel(tab.get("Si56",0),2.007420e-5,1.0e-6,"acc Si56");
     t.test_gen(tab.get_nlines()==1,"acc nlines");
-
-  if (!t.report()) {
-    exit(-1);
-  }
-
+    
+    if (!t.report()) {
+      exit(-1);
+    }
+    
     return 0;
   }
   
@@ -2452,10 +2452,23 @@ int crust_driver::run(int argc, char *argv[]) {
 #else
   cli cl;
 #endif
+  
   cl.prompt="crust> ";
   cl.gnu_intro=false;
-    
+  
   // ---------------------------------------
+  // Setup CLI readline history
+  
+#ifdef O2SCL_READLINE
+  char *hd=getenv("HOME");
+  std::string histfile;
+  if (hd) {
+    histfile=((std::string)hd)+"/.crust_hist";
+    cl.set_histfile(histfile);
+  }
+#endif
+
+    // ---------------------------------------
   // Set options
 
   static const int nopt=13;
