@@ -94,7 +94,7 @@ crust_driver::crust_driver() :
   calc_heating=true;
   ec_heating=0.25;
   verbose=1;
-  dist_type="nickel";
+  dist_type="iron";
   allow_palpha=false;
   acc_inc_factor=1.01;
 
@@ -121,9 +121,9 @@ int crust_driver::init_dist(string mode, matter &m) {
   vector<nucleus> &current=m.dist;
 
   size_t ninit;
-  if (mode=="nickel") {
+  if (mode=="iron") {
 
-    if (verbose>0) cout << "Nickel-56" << endl;
+    if (verbose>0) cout << "Iron-56" << endl;
     ninit=1;
     int Z[1]={26};
     int N[1]={30};
@@ -1725,7 +1725,12 @@ int crust_driver::acc(std::vector<std::string> &sv, bool itive_com) {
     }
     max_rho=1.0e12;
   }
-  
+
+  if (check==check_hz_single) {
+    cout << "Checking HZ single-component model." << endl;
+    max_rho=2.0e13;
+  }
+
   // Increase the density slowly
   for(size_t i=0;rho<max_rho;i++) {
 
@@ -2126,6 +2131,8 @@ int crust_driver::check_fun(std::vector<std::string> &sv, bool itive_com) {
     cout << "check_feq_numbers: " << check_feq_numbers << endl;
     cout.width(width);
     cout << "check_acc_numbers: " << check_acc_numbers << endl;
+    cout.width(width);
+    cout << "check_hz_single: " << check_hz_single << endl;
     cout.unsetf(ios::left);
     return 0;
   }
@@ -2438,6 +2445,23 @@ int crust_driver::check_fun(std::vector<std::string> &sv, bool itive_com) {
     
     return 0;
   }
+
+  if (o2scl::stoi(sv[1])==check_hz_single) {
+    
+    check=check_hz_single;
+
+    std::vector<std::string> sv1={"model","SLy4"};
+    model(sv1,false);
+    std::vector<std::string> sv2={"rf","data/SLy4_moller.fit"};
+    cf.read_fit(sv2,false);
+
+    rn.delta_n=1.0;
+    dist_type="iron";
+    
+    std::vector<std::string> sv3={"acc","test"};
+    acc(sv3,false);
+
+  }
   
   return 0;
 }
@@ -2682,7 +2706,7 @@ int crust_driver::run(int argc, char *argv[]) {
 
   cli::parameter_string p_dist_type;
   p_dist_type.str=&dist_type;
-  p_dist_type.help="Distribution type (default nickel).";
+  p_dist_type.help="Distribution type (default iron).";
   cl.par_list.insert(make_pair("dist_type",&p_dist_type));
     
   cli::parameter_double p_delta_n;

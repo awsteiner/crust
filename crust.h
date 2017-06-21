@@ -138,9 +138,9 @@ namespace crust {
     */
     bool inc_nuc_trans;
 
-    /** \brief Initial distribution type (default "nickel")
+    /** \brief Initial distribution type (default "iron")
       
-	Either "nickel", "heavy", "schatz" or "ashes" .
+	Either "iron", "heavy", "schatz" or "ashes" .
 
 	Option "ashes" gives the X-ray burst ashes from
 	\ref crust_Horowitz07 "Horowitz07"
@@ -218,6 +218,7 @@ namespace crust {
     static const int check_mass_fit=11;
     static const int check_feq_numbers=12;
     static const int check_acc_numbers=13;
+    static const int check_hz_single=14;
     //@}
 
     /** \brief Factor to increase pressure or density by for 
