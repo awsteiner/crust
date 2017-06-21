@@ -103,15 +103,18 @@ doc: empty
 	cd doc; cp ~/o2scl/doc/o2scl/eos/o2scl_eos.tag .
 # Get most recent commit hash
 	git rev-parse HEAD | awk \
-		'{print "<a href=\"http://github.com/awsteiner/crust/tree/" $$1 "\">" $$1 "</a> ."}' \
-		 > doc/rev.txt
+		'{print "`" $$1 " <http://github.com/awsteiner/bamr/tree/" $$1 ">`_"}' \
+		 > sphinx/commit.rst
 # Parse bibliography
-	cd doc; cat refs_head.txt > refs.dox
-	cd doc; btmanip -p crust.bib -dox /tmp/btmanip crust_
-	cd doc; cat /tmp/btmanip >> refs.dox
-	cd doc; cat refs_foot.txt >> refs.dox
+	cd sphinx/static; cat bib_header.txt > ../bib.rst
+	cd sphinx/static; btmanip -parse crust.bib -rst ../bib_temp.rst
+	cd sphinx; cat bib_temp.rst >> bib.rst; rm -f bib_temp.rst
 # Run Doxygen
 	cd doc; doxygen doxyfile
+# Run sphinx
+	cd sphinx; make html
+# Copy to web
+	cp -r sphinx/build/html/* $(HOME)/wcs/int4/web/utk/crust
 
 empty:
 
