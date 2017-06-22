@@ -2452,10 +2452,15 @@ int crust_driver::check_fun(std::vector<std::string> &sv, bool itive_com) {
 
     std::vector<std::string> sv1={"model","SLy4"};
     model(sv1,false);
+
+    cf.fit_moller=1;
+    
     std::vector<std::string> sv2={"rf","data/SLy4_moller.fit"};
     cf.read_fit(sv2,false);
 
     rn.delta_n=1.0;
+    simple_pyc=true;
+    lda.hd_coeff=0.1;
     dist_type="iron";
     
     std::vector<std::string> sv3={"acc","test"};

@@ -65,46 +65,6 @@ tov_shear
    :protected-members:
    :undoc-members:
 
-dt_funct_base
--------------
-      
-.. doxygenclass:: crust::dt_funct_base
-   :members:
-   :protected-members:
-   :undoc-members:
-
-funct_solve_pressure
---------------------
-      
-.. doxygenclass:: crust::funct_solve_pressure
-   :members:
-   :protected-members:
-   :undoc-members:
-
-funct_dist_sna
---------------
-      
-.. doxygenclass:: crust::funct_dist_sna
-   :members:
-   :protected-members:
-   :undoc-members:
-
-free_energy_dist_neut
----------------------
-      
-.. doxygenclass:: crust::free_energy_dist_neut
-   :members:
-   :protected-members:
-   :undoc-members:
-
-solve_nn_ni_fixed_nb_nnhat
---------------------------
-      
-.. doxygenclass:: crust::solve_nn_ni_fixed_nb_nnhat
-   :members:
-   :protected-members:
-   :undoc-members:
-
 table3d_eos
 -----------
       

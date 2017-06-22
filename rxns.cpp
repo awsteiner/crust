@@ -235,6 +235,7 @@ int rxns::elec_capture(crust_driver *a, matter &m, matter &m_new,
               a->dist_switch_gb(m,m_new,cnt,restart,heat2,T,"ec");
               heat2*=a->ec_heating;
               heat+=heat2;
+	      cout << "heat2 ec: " << heat2 << endl;
             }
             
           }
@@ -382,7 +383,6 @@ int rxns::emit_neutron(crust_driver *a, matter &m, matter &m_new,
       if (nshift>0.0) {
 	
 	// Fix pressure of new distribution
-	//gibbs_fixp(m,m_new,T);
 	a->dt.gibbs_energy_dist(m,T);
 	double phi_old=a->dt.get_phi(m,T);
       
@@ -401,6 +401,7 @@ int rxns::emit_neutron(crust_driver *a, matter &m, matter &m_new,
 	    double heat2=0.0;
 	    a->dist_switch_gb(m,m_new,cnt,restart,heat2,T,"en");
 	    heat+=heat2;
+	    cout << "heat2 en: " << heat2 << endl;
 	  }
 	}
 	
@@ -545,7 +546,6 @@ int rxns::neut_capture(crust_driver *a, matter &m, matter &m_new,
       if (nshift>0.0) {
 	
 	// Fix pressure of new distribution
-	//gibbs_fixp(m,m_new,T);
 	a->dt.gibbs_energy_dist(m,T);
 	double phi_old=a->dt.get_phi(m,T);
 
@@ -815,6 +815,7 @@ int rxns::pyc_fusion(crust_driver *a, matter &m, matter &m_new,
 		  double heat2=0.0;
 		  a->dist_switch_gb(m,m_new,cnt,restart,heat2,T,"pf");
 		  heat+=heat2;
+		  cout << "heat2 pf: " << heat2 << endl;
 		  
 		  // End of (gpb2<gpb1) if statement
 		}
