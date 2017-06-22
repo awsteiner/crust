@@ -117,6 +117,10 @@ int crust_driver::init_dist(string mode, matter &m) {
 
   m.n->n=0.0;
   m.p->n=0.0;
+  m.n->ed=0.0;
+  m.p->ed=0.0;
+  m.n->pr=0.0;
+  m.p->pr=0.0;
 
   vector<nucleus> &current=m.dist;
 
@@ -693,6 +697,8 @@ bool crust_driver::dist_switch_gb(matter &m, matter &m_new,
   restart=true;
   
   prune_distribution(m.dist);
+
+  dt.gibbs_energy_dist(m,T);
     
   return true;
 }
@@ -2038,6 +2044,7 @@ int crust_driver::acc(std::vector<std::string> &sv, bool itive_com) {
       dt.gibbs_fixp(m.pr*acc_inc_factor,m,T);
     }
     dt.gibbs_energy_dist(m,T);
+    cout << "new nb: " << m.nb << endl;
   }
     
   // ------------------------------------------------------

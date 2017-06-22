@@ -1070,6 +1070,9 @@ int dist_thermo::gibbs_energy_dist(matter &m, double T) {
     m.gb+=m.dist[j].n*m.mu[j];
   }
 
+  // Note that no electron contribution is necessary here
+  // (see eq. A4 in Steiner, 2012)
+
   // Compute pressure
   m.pr=m.gb-m.fr;
 

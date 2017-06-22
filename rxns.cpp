@@ -225,6 +225,7 @@ int rxns::elec_capture(crust_driver *a, matter &m, matter &m_new,
             }
             
 	    if (gpb2<gpb1) {
+	      cout << "H1: " << m.nb << " " << m_new.nb << endl;
 	      // It's important that update_flow() is before
 	      // dist_switch_gb() because dist_switch_gb() 
 	      // rearranges the distribution
@@ -236,6 +237,9 @@ int rxns::elec_capture(crust_driver *a, matter &m, matter &m_new,
               heat2*=a->ec_heating;
               heat+=heat2;
 	      cout << "heat2 ec: " << heat2 << endl;
+	      cout << "H2: " << m.nb << " " << m_new.nb << endl;
+	      //a->dt.gibbs_energy_dist(m,T);
+	      cout << "H3: " << m.nb << endl;
             }
             
           }
@@ -396,6 +400,35 @@ int rxns::emit_neutron(crust_driver *a, matter &m, matter &m_new,
 	  double gpb2=m_new.gb/m_new.nb;
 
 	  if (gpb2<gpb1) {
+
+	    cout.precision(6);
+	    cout << m.nb << endl;
+	    a->dt.free_energy_dist(m,T);
+	    cout << m.nb << endl;
+	    a->dt.gibbs_energy_dist(m,T);
+	    cout << m.nb << endl;
+	    
+	    for(size_t ik=0;ik<m.dist.size();ik++) {
+	      cout << m.dist[ik].Z << " " << m.dist[ik].N << " ";
+	      cout << m.dist[ik].n*m.mu[ik] << " ";
+	    }
+	    cout << m.n->n*m.mun << " "
+		 << m.gb << " " << m.nb << " ";
+	    cout.precision(10);
+	    cout << gpb1 << endl;
+	    cout.precision(3);
+	    cout.precision(6);
+	    for(size_t ik=0;ik<m_new.dist.size();ik++) {
+	      cout << m_new.dist[ik].Z << " " << m_new.dist[ik].N << " ";
+	      cout << m_new.dist[ik].n*m_new.mu[ik] << " ";
+	    }
+	    cout << m_new.n->n*m_new.n->mu << " "
+		 << m_new.gb << " " << m_new.nb << " ";
+	    cout.precision(10);
+	    cout << gpb2 << endl;
+	    cout.precision(3);
+	    //exit(-1);
+	    
 	    a->update_flow(m.dist[i].Z,m.dist[i].N,newZ,newN,"en",
 			   (m.gb/m.nb-m_new.gb/m_new.nb)*hc_mev_fm,m.rho);
 	    double heat2=0.0;
