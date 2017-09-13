@@ -27,9 +27,7 @@
 #include "ldrop_crust.h"
 #include "dist_thermo.h"
 
-#ifndef DOXYGENP
 namespace crust {
-#endif
 
   /** \brief Thermodynamics in the single-nucleus approximation
    */
@@ -354,8 +352,6 @@ namespace crust {
 
   };
 
-#ifndef DOXYGENP
 }
-#endif
 
 #endif

@@ -41,9 +41,7 @@
 #include <o2scl/nucmass_ldrop_shell.h>
 #include <o2scl/hdf_io.h>
 
-#ifndef DOXYGENP
 namespace crust {
-#endif
 
   /** \brief Compute eigenfrequencies from a crust table
 
@@ -229,6 +227,4 @@ namespace crust {
 
   };
 
-#ifndef DOXYGENP
 }
-#endif

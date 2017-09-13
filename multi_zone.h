@@ -26,9 +26,7 @@
 #include <o2scl/mmin_simp2.h>
 #include <o2scl/table_units.h>
 
-#ifndef DOXYGENP
 namespace crust {
-#endif
 
   /** \brief Multi-zone stability test
    */
@@ -151,6 +149,4 @@ namespace crust {
 
   };
 
-#ifndef DOXYGENP
 }
-#endif

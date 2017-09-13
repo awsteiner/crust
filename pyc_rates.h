@@ -43,9 +43,7 @@
 
 #include "dist_thermo.h"
 
-#ifndef DOXYGENP
 namespace crust {
-#endif
 
   /** \brief Compute pycnonuclear reaction rates
 
@@ -358,6 +356,4 @@ namespace crust {
 
   };
 
-#ifndef DOXYGENP
 }
-#endif

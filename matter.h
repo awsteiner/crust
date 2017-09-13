@@ -46,9 +46,7 @@
 
 #include "ldrop_crust.h"
 
-#ifndef DOXYGENP
 namespace crust {
-#endif
 
   /** \brief An object which describes the composition and 
       thermodynamics of matter at some specified density or pressure
@@ -131,8 +129,6 @@ namespace crust {
   /// Output a matter object
   std::ostream &operator<<(std::ostream &os, const matter &m);
 
-#ifndef DOXYGENP
 }
-#endif
 
 #endif

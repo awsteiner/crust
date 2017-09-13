@@ -29,9 +29,7 @@
 #include "matter.h"
 #include "ldrop_crust.h"
 
-#ifndef DOXYGENP
 namespace crust {
-#endif
 
   class sna_thermo;
   
@@ -551,8 +549,6 @@ namespace crust {
 
   };
 
-#ifndef DOXYGENP
 }
-#endif
 
 #endif

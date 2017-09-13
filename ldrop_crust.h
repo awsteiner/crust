@@ -45,9 +45,7 @@
 #include <o2scl/hdf_io.h>
 #include <o2scl/test_mgr.h>
 
-#ifndef DOXYGENP
 namespace crust {
-#endif
   
   /** \brief Liquid droplet model for the neutron star crust
 
@@ -279,8 +277,6 @@ namespace crust {
     
   };
 
-#ifndef DOXYGENP
 }
-#endif
 
 #endif

@@ -28,9 +28,7 @@
 #include <o2scl/eos_had_apr.h>
 #include <o2scl/table3d.h>
 
-#ifndef DOXYGENP
 namespace crust {
-#endif
 
   /** \brief EOS from a table3d for the NS crust
 
@@ -145,8 +143,6 @@ namespace crust {
 
   };
 
-#ifndef DOXYGENP
 }
-#endif
 
 #endif

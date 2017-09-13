@@ -46,9 +46,7 @@
 
 #include "matter.h"
 
-#ifndef DOXYGENP
 namespace crust {
-#endif
 
   // Forward definition
   class crust_driver;
@@ -150,8 +148,6 @@ namespace crust {
 		      int &cnt, double &heat);
   };
   
-#ifndef DOXYGENP
 }
-#endif
 
 #endif

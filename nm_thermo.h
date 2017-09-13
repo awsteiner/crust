@@ -27,9 +27,7 @@
 #include "matter.h"
 #include "ldrop_crust.h"
 
-#ifndef DOXYGENP
 namespace crust {
-#endif
 
   /** \brief Compute the properties of nuclear matter
    */
@@ -95,8 +93,6 @@ namespace crust {
 
   };
 
-#ifndef DOXYGENP
 }
-#endif
 
 #endif

@@ -56,9 +56,7 @@
 #include "table3d_eos.h"
 #include "multi_zone.h"
 
-#ifndef DOXYGENP
 namespace crust {
-#endif
 
   /** \brief To sort the nuclear distribution with decreasing 
       density
@@ -364,8 +362,6 @@ namespace crust {
 
   };
 
-#ifndef DOXYGENP
 }
-#endif
 
 #endif
