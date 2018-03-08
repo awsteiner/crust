@@ -1,4 +1,11 @@
 
+help:
+	@echo "crust: "
+	@echo "clean: "
+	@echo "check: "
+	@echo "doc: "
+	@echo "sync-doc: "
+
 ifeq ($(USER),awsteiner)
 
 else
@@ -103,7 +110,7 @@ doc: empty
 	cd doc; cp ~/o2scl/doc/o2scl/eos/o2scl_eos.tag .
 # Get most recent commit hash
 	git rev-parse HEAD | awk \
-		'{print "`" $$1 " <http://github.com/awsteiner/bamr/tree/" $$1 ">`_"}' \
+		'{print "`" $$1 " <http://github.com/awsteiner/crust/tree/" $$1 ">`_"}' \
 		 > sphinx/commit.rst
 # Parse bibliography
 	cd sphinx/static; cat bib_header.txt > ../bib.rst
@@ -113,8 +120,10 @@ doc: empty
 	cd doc; doxygen doxyfile
 # Run sphinx
 	cd sphinx; make html
-# Copy to web
-	cp -r sphinx/build/html/* $(HOME)/wcs/int4/web/utk/crust
+
+sync-doc:
+	sudo cp -r sphinx/build/html/* $(STATIC_DOC_DIR)/crust
+
 
 empty:
 
