@@ -6,11 +6,11 @@ the work referred to using its DOI identifer.
 
 
 .. [Beard10] `M. Beard, A. V. Afanasjev, L. C. Chamon, L. R. Gasques, M. Wiescher, and D. G. Yakovlev
-   <10.1016/j.adt.2010.02.005>`_,
+   <https://doi.org/10.1016/j.adt.2010.02.005>`_,
    Atom. Data Nucl. Data Tables **96** (2010) 541.
 
 .. [Deibel14] `A. T. Deibel, A. W. Steiner, and E. F. Brown
-   <10.1103/PhysRevC.90.025802>`_,
+   <https://doi.org/10.1103/PhysRevC.90.025802>`_,
    Phys. Rev. C **90** (2014) 025802.
 
 .. [Horowitz07] `C. J. Horowitz, D. K. Berry, and E. F. Brown
@@ -18,15 +18,15 @@ the work referred to using its DOI identifer.
    Phys. Rev. E **75** (2007) 066101.
 
 .. [Steiner08] `A. W. Steiner
-   <10.1103/PhysRevC.77.035805>`_,
+   <https://doi.org/10.1103/PhysRevC.77.035805>`_,
    Phys. Rev. C **77** (2008) 035805.
 
 .. [Steiner09] `A. W. Steiner and A. L. Watts
-   <10.1103/PhysRevLett.103.181101>`_,
+   <https://doi.org/10.1103/PhysRevLett.103.181101>`_,
    Phys. Rev. Lett. **103** (2009) 181101.
 
 .. [Steiner12] `A. W. Steiner
-   <10.1103/PhysRevC.85.055804>`_,
+   <https://doi.org/10.1103/PhysRevC.85.055804>`_,
    Phys. Rev. C **85** (2012) 055804.
 
 .. [Yakovlev06] `D. G. Yakovlev, L. R. Gasques, A. V. Afanasjev, M. Beard, and M. Wiescher
@@ -38,6 +38,6 @@ the work referred to using its DOI identifer.
    Mon. Not. R. Astron Soc. **371** (2006) 1322.
 
 .. [Yakovlev10] `D. G. Yakovlev, M. Beard, L. R. Gasques, and M. Wiescher
-   <10.1103/PhysRevC.82.044609>`_,
+   <https://doi.org/10.1103/PhysRevC.82.044609>`_,
    Phys. Rev. C **C82** (2010) 044609.
 

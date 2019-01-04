@@ -5,6 +5,7 @@ help:
 	@echo "check: "
 	@echo "doc: "
 	@echo "sync-doc: "
+	@echo "test-sync: "
 
 ifeq ($(USER),awsteiner)
 
@@ -122,7 +123,10 @@ doc: empty
 	cd sphinx; make html
 
 sync-doc:
-	sudo cp -r sphinx/build/html/* $(STATIC_DOC_DIR)/crust
+	rsync -Cavzu sphinx/build/html/* $(STATIC_DOC_DIR)/crust
+
+test-sync:
+	rsync -Cavzun sphinx/build/html/* $(STATIC_DOC_DIR)/crust
 
 
 empty:
