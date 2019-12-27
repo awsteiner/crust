@@ -1,7 +1,7 @@
 /*
   -------------------------------------------------------------------
   
-  Copyright (C) 2011-2018, Andrew W. Steiner
+  Copyright (C) 2011-2020, Andrew W. Steiner
   
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -40,7 +40,7 @@ namespace crust {
     double schwarz_km;
 
     /// Object to convert units
-    o2scl::convert_units cng;
+    o2scl::convert_units<double> cng;
 
     /// To interpret element labels in accreted crust table
     o2scl::nucmass_info nmi;

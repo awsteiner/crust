@@ -1,7 +1,7 @@
 /*
   -------------------------------------------------------------------
   
-  Copyright (C) 2011-2018, Andrew W. Steiner
+  Copyright (C) 2011-2020, Andrew W. Steiner
   
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -125,7 +125,7 @@ namespace crust {
     o2scl::table<> b10;
   
     /// Convert units
-    o2scl::convert_units &cng;
+    o2scl::convert_units<double> &cng;
     
     /// If true, use debug mode (default false)
     bool debug;

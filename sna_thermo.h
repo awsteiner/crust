@@ -1,7 +1,7 @@
 /*
   -------------------------------------------------------------------
   
-  Copyright (C) 2011-2018, Andrew W. Steiner
+  Copyright (C) 2011-2020, Andrew W. Steiner
   
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -41,7 +41,7 @@ namespace crust {
     o2scl::fermion_rel relf;
 
     /// Classical thermodynamics
-    o2scl::classical cla;
+    o2scl::classical_thermo cla;
 
     /// Electron in a magnetic field
     o2scl::fermion_mag_zerot mfz;
@@ -50,7 +50,7 @@ namespace crust {
     o2scl::fermion elec_B;
 
     /// Convert units
-    o2scl::convert_units &cng;
+    o2scl::convert_units<double> &cng;
 
     /// The mass model
     ldrop_crust *lda;

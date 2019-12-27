@@ -1,7 +1,7 @@
 /*
   -------------------------------------------------------------------
   
-  Copyright (C) 2011-2018, Andrew W. Steiner
+  Copyright (C) 2011-2020, Andrew W. Steiner
   
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -41,7 +41,7 @@ namespace crust {
     o2scl::fermion_rel relf;
 
     /// Convert units
-    o2scl::convert_units &cng;
+    o2scl::convert_units<double> &cng;
 
     /// Solver for free_energy()
     o2scl::mroot_hybrids<> cmr2;
@@ -60,7 +60,7 @@ namespace crust {
 	unit conversion class
     */
     nm_thermo(ldrop_crust &lc, o2scl::eos_had_temp_base &he, 
-	      o2scl::convert_units &conv) :
+	      o2scl::convert_units<double> &conv) :
     cng(o2scl::o2scl_settings.get_convert_units()) {
       het=&he;
       lda=&lc;

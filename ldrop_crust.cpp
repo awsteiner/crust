@@ -1,7 +1,7 @@
 /*
   -------------------------------------------------------------------
   
-  Copyright (C) 2011-2018, Andrew W. Steiner
+  Copyright (C) 2011-2020, Andrew W. Steiner
   
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -32,7 +32,7 @@ ldrop_crust::ldrop_crust() {
   use_moller=true;
   extra_corr=true;
 
-  o2scl_hdf::ame_load(ame);
+  o2scl_hdf::ame_load(ame,"16",true);
   o2scl_hdf::mnmsk_load(moller);
 }
 

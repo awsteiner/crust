@@ -1,7 +1,7 @@
 /*
   -------------------------------------------------------------------
   
-  Copyright (C) 2011-2018, Andrew W. Steiner
+  Copyright (C) 2011-2020, Andrew W. Steiner
   
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -57,7 +57,7 @@ namespace crust {
     /// For the electron thermodynamics
     o2scl::fermion_rel relf;
     /// For the thermodynamics of the nuclei
-    o2scl::classical cla;
+    o2scl::classical_thermo cla;
     /// Thermodynamics in the magnetic field
     o2scl::fermion_mag_zerot mfz;
     /// Electron in a magnetic field
@@ -108,7 +108,7 @@ namespace crust {
     };
     
     /// Convert units
-    o2scl::convert_units &cng;
+    o2scl::convert_units<double> &cng;
 
     /** \brief Solve for the pressure
 	
@@ -234,7 +234,7 @@ namespace crust {
 
     /** \brief Create with the specified unit conversion class
     */
-  dist_thermo(o2scl::convert_units &conv) :
+  dist_thermo(o2scl::convert_units<double> &conv) :
     cng(o2scl::o2scl_settings.get_convert_units()) {
       elec_B.init(cng.convert("kg","1/fm",o2scl_mks::mass_electron),2.0);
       elec_B.inc_rest_mass=true;
