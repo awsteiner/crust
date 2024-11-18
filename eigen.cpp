@@ -329,7 +329,8 @@ int tov_shear::tov(std::vector<std::string> &sv, bool itive_com) {
   if (true) {
     if (mag_field>0.0) {
       for(size_t i=0;i<te.get_nlines();i++) {
-	double corr=o2scl_const::gauss2_fm4*mag_field*mag_field/8.0/pi;
+	double corr=o2scl_const::gauss2_fm4_f<double>()*
+          mag_field*mag_field/8.0/pi;
 	if (corr>te["ed"][i]) corr=te["ed"][i];
 	if (corr>te["pr"][i]) corr=te["pr"][i];
 	te.set("ed",i,te.get("ed",i)+corr);

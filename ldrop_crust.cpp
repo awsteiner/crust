@@ -536,9 +536,9 @@ double ldrop_crust::drip_binding_energy_full_d
 	dfdu_dchip=0.2-0.2/cbrt(chip)/cbrt(chip);
       }
       coul=A*coul_coeff*2.0*o2scl_const::pi*o2scl_const::hc_mev_fm*
-	o2scl_const::fine_structure*Rp*Rp*pow(fabs(np-npout),2.0)/nL*fdu;
+	o2scl_const::fine_structure_f<double>()*Rp*Rp*pow(fabs(np-npout),2.0)/nL*fdu;
       dcoul_dchi=A*coul_coeff*2.0*o2scl_const::pi*o2scl_const::hc_mev_fm*
-	o2scl_const::fine_structure*Rp*Rp*pow(fabs(np-npout),2.0)/nL*dfdu_dchip*
+	o2scl_const::fine_structure_f<double>()*Rp*Rp*pow(fabs(np-npout),2.0)/nL*dfdu_dchip*
 	dchip_dchi;
 
       if (!finite(dcoul_dchi)) {
@@ -559,7 +559,7 @@ double ldrop_crust::drip_binding_energy_full_d
       }
 
       dcoul_dnp=-4.0*A*coul_coeff*o2scl_const::pi*o2scl_const::hc_mev_fm*
-	o2scl_const::fine_structure*Rp*Rp*fabs(np-npout)/nL*fdu;
+	o2scl_const::fine_structure_f<double>()*Rp*Rp*fabs(np-npout)/nL*fdu;
 
     }
 
@@ -798,14 +798,14 @@ double ldrop_crust::drip_binding_energy_full_d
   }
 
   coul=A*coul_coeff*2.0*o2scl_const::pi*o2scl_const::hc_mev_fm*
-    o2scl_const::fine_structure*Rp*Rp*pow(fabs(np-npout),2.0)/nL*fdu;
+    o2scl_const::fine_structure_f<double>()*Rp*Rp*pow(fabs(np-npout),2.0)/nL*fdu;
 
   dcoul_dchi=A*coul_coeff*4.0*o2scl_const::pi*o2scl_const::hc_mev_fm*
-    o2scl_const::fine_structure*Rp*pow(fabs(np-npout),2.0)/nL*fdu*dRp_dchi
+    o2scl_const::fine_structure_f<double>()*Rp*pow(fabs(np-npout),2.0)/nL*fdu*dRp_dchi
     +A*coul_coeff*2.0*o2scl_const::pi*o2scl_const::hc_mev_fm*
-    o2scl_const::fine_structure*Rp*Rp*pow(fabs(np-npout),2.0)/nL*dfdu_dchip*
+    o2scl_const::fine_structure_f<double>()*Rp*Rp*pow(fabs(np-npout),2.0)/nL*dfdu_dchip*
     dchip_dchi+A*coul_coeff*4.0*o2scl_const::pi*o2scl_const::hc_mev_fm*
-    o2scl_const::fine_structure*Rp*Rp*fabs(np-npout)/nL*fdu*dnp_dchi;
+    o2scl_const::fine_structure_f<double>()*Rp*Rp*fabs(np-npout)/nL*fdu*dnp_dchi;
 
   if (!finite(dcoul_dchi)) {
     dcoul_dchi=0.0;
@@ -827,7 +827,7 @@ double ldrop_crust::drip_binding_energy_full_d
   }
 
   dcoul_dnp=-4.0*A*coul_coeff*o2scl_const::pi*o2scl_const::hc_mev_fm*
-    o2scl_const::fine_structure*Rp*Rp*fabs(np-npout)/nL*fdu;
+    o2scl_const::fine_structure_f<double>()*Rp*Rp*fabs(np-npout)/nL*fdu;
     
   /*
     Preliminary code for d!=3
@@ -838,7 +838,7 @@ double ldrop_crust::drip_binding_energy_full_d
     fdu=(2.0/(dim-2.0)*(1.0-0.5*dim*pow(chip,1.0-2.0/dim))+chip)/
     (dim+2.0);
     coul=A*coul_coeff*2.0*o2scl_const::pi*o2scl_const::hc_mev_fm*
-    o2scl_const::fine_structure*Rcoul*Rcoul*pow(fabs(np-npout),2.0)/nL*fdu;
+    o2scl_const::fine_structure_f<double>()*Rcoul*Rcoul*pow(fabs(np-npout),2.0)/nL*fdu;
   */
     
   if (!finite(coul)) {

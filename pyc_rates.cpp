@@ -300,7 +300,7 @@ double pyc_rates::Sfactor(size_t Z1, size_t Z2, size_t A1, size_t A2,
       double S0=fit[row][8];
       double xi0=fit[row][9];
       double xi1=fit[row][10];
-      double alpha=Z1*Z2*o2scl_const::fine_structure;
+      double alpha=Z1*Z2*o2scl_const::fine_structure_f<double>();
       double RC=R+dR1*fabs(((double)A1)-A10)+
 	dR2*fabs(((double)A2)-A20);
       double EC=alpha/RC;
@@ -363,12 +363,12 @@ double pyc_rates::Sfactor(size_t Z1, size_t Z2, size_t A1, size_t A2,
 }
 
 double pyc_rates::Tp(size_t Z1, size_t Z2, double n12, double mu12) {
-  return (sqrt(4.0*pi*o2scl_const::fine_structure*Z1*Z2*n12/2.0/mu12));
+  return (sqrt(4.0*pi*o2scl_const::fine_structure_f<double>()*Z1*Z2*n12/2.0/mu12));
 }
   
 double pyc_rates::rB(size_t Z1, size_t Z2, double m1, double m2,
 		     double mu12) {
-  return (0.5/mu12/Z1/Z2/o2scl_const::fine_structure);
+  return (0.5/mu12/Z1/Z2/o2scl_const::fine_structure_f<double>());
 }
   
 int pyc_rates::lambda_omega(size_t Z1, size_t Z2, 
@@ -412,7 +412,7 @@ int pyc_rates::test_rate() {
   cout << "rate: " << r << endl;
   cout << "time: " << nNE/3.0/r << endl;
   for(rho=1.0e10;rho<=1.0e13;rho*=1.2) {
-    double nB=rho/o2scl_cgs::mass_neutron/1.0e39;
+    double nB=rho/o2scl_const::mass_neutron_f<double>(o2scl_const::o2scl_cgs)/1.0e39;
     nNE=nB*(1.0-Xn)/34;
     double ne=10.0*nNE;
     double mue=cbrt(3.0*pi*pi*ne);
@@ -630,7 +630,7 @@ void pyc_rates::get_times(size_t Z1, size_t Z2, size_t A1, size_t A2,
 
   // Compute mass accretion rate per unit area assuming a radius of 12
   // km in g/cm^2/s. One year is approximately 3.1557e7 seconds.
-  double sigma_dot=Mdot*o2scl_cgs::solar_mass/3.1557e7/
+  double sigma_dot=Mdot*o2scl_const::solar_mass_f<double>(o2scl_const::o2scl_cgs)/3.1557e7/
     (4.0*pi*1.2e6*1.2e6);
   
   // Compute the timescale in s

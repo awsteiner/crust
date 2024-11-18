@@ -171,7 +171,7 @@ namespace crust {
 		     int verbose=0);
 
     /// Interpolation
-    o2scl::interp<ubvector> si;
+    o2scl::interp_vec<ubvector> si;
   };
 
   /** \brief Compute neutron star and shear modulus
@@ -196,7 +196,7 @@ namespace crust {
       freq_mass=1.4;
       mag_field=0.0;
 
-      cng.units_cmd_string="units -f indata/units_hck.dat";
+      //cng.units_cmd_string="units -f indata/units_hck.dat";
       in_dir="indata";
     }
 

@@ -50,8 +50,8 @@ crust_driver::crust_driver() :
   simple_pyc=false;
   more_reactions=true;
     
-  n_lda.init(cng.convert("kg","1/fm",o2scl_mks::mass_neutron),2.0);
-  p_lda.init(cng.convert("kg","1/fm",o2scl_mks::mass_proton),2.0);
+  n_lda.init(cng.convert("kg","1/fm",o2scl_const::mass_neutron_f<double>()),2.0);
+  p_lda.init(cng.convert("kg","1/fm",o2scl_const::mass_proton_f<double>()),2.0);
 	     
   n_lda.inc_rest_mass=true;
   p_lda.inc_rest_mass=true;
@@ -740,9 +740,9 @@ int crust_driver::make_table(std::vector<std::string> &sv, bool itive_com) {
   t3d.tab.new_slice("mun");
   t3d.tab.new_slice("mup");
 
-  fermion ne_mt(cng.convert("kg","1/fm",o2scl_mks::mass_neutron),2.0);
+  fermion ne_mt(cng.convert("kg","1/fm",o2scl_const::mass_neutron_f<double>()),2.0);
 		
-  fermion pmt(cng.convert("kg","1/fm",o2scl_mks::mass_proton),2.0);
+  fermion pmt(cng.convert("kg","1/fm",o2scl_const::mass_proton_f<double>()),2.0);
 	      
   ne_mt.inc_rest_mass=true;
   pmt.inc_rest_mass=true;
@@ -999,9 +999,9 @@ int crust_driver::full_eq(std::vector<std::string> &sv, bool itive_com) {
     cout << be*hc_mev_fm/(m.dist[0].N+m.dist[0].Z) << " ";
       
     // Total mass in fm^{-1}.
-    double mass_neutron=cng.convert("kg","1/fm",o2scl_mks::mass_neutron);
+    double mass_neutron=cng.convert("kg","1/fm",o2scl_const::mass_neutron_f<double>());
       
-    double mass_proton=cng.convert("kg","1/fm",o2scl_mks::mass_proton);
+    double mass_proton=cng.convert("kg","1/fm",o2scl_const::mass_proton_f<double>());
       
     double mnuc=be+m.dist[0].Z*mass_proton+m.dist[0].N*mass_neutron;
       
@@ -1096,9 +1096,9 @@ int crust_driver::full_eq(std::vector<std::string> &sv, bool itive_com) {
     cns.nb_start=0.02;
     cns.include_muons=false;
 
-    fermion nx(cng.convert("kg","1/fm",o2scl_mks::mass_neutron),2.0);
+    fermion nx(cng.convert("kg","1/fm",o2scl_const::mass_neutron_f<double>()),2.0);
 	       
-    fermion px(cng.convert("kg","1/fm",o2scl_mks::mass_proton),2.0);
+    fermion px(cng.convert("kg","1/fm",o2scl_const::mass_proton_f<double>()),2.0);
 	       
     nx.non_interacting=false;
     px.non_interacting=false;
@@ -1225,9 +1225,9 @@ int crust_driver::full_eq2(std::vector<std::string> &sv, bool itive_com) {
     }
     cout << be*hc_mev_fm/(m.dist[0].N+m.dist[0].Z) << " ";
       
-    double mass_neutron=cng.convert("kg","1/fm",o2scl_mks::mass_neutron);
+    double mass_neutron=cng.convert("kg","1/fm",o2scl_const::mass_neutron_f<double>());
       
-    double mass_proton=cng.convert("kg","1/fm",o2scl_mks::mass_proton);
+    double mass_proton=cng.convert("kg","1/fm",o2scl_const::mass_proton_f<double>());
       
     double mnuc=be+m.dist[0].Z*mass_proton+m.dist[0].N*mass_neutron;
       
@@ -1296,9 +1296,9 @@ int crust_driver::full_eq2(std::vector<std::string> &sv, bool itive_com) {
   cns.nb_start=0.02;
   cns.include_muons=false;
   
-  fermion nx(cng.convert("kg","1/fm",o2scl_mks::mass_neutron),2.0);
+  fermion nx(cng.convert("kg","1/fm",o2scl_const::mass_neutron_f<double>()),2.0);
 	     
-  fermion px(cng.convert("kg","1/fm",o2scl_mks::mass_proton),2.0);
+  fermion px(cng.convert("kg","1/fm",o2scl_const::mass_proton_f<double>()),2.0);
 	     
   nx.non_interacting=false;
   px.non_interacting=false;

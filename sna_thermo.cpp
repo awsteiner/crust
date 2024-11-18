@@ -84,7 +84,7 @@ int sna_thermo::free_energy_sna(matter &m, double T) {
   if (mag_field>1.0e-20) {
     elec_B.n=nptot;
     elec_B.mu=m.e.mu;
-    mfz.calc_density_zerot_mag(elec_B,-mag_field*o2scl_const::ec_gauss_fm2);
+    mfz.calc_density_zerot_mag(elec_B,-mag_field*o2scl_const::ec_gauss_fm2_f<double>());
     m.e.ed=elec_B.ed;
     m.e.en=0.0;
     m.e.pr=elec_B.pr;
@@ -106,8 +106,8 @@ int sna_thermo::free_energy_sna(matter &m, double T) {
   // mass which will be added in later
   if ((m.dist[0].Z+m.dist[0].N)%2==0) m.dist[0].g=1.0;
   else m.dist[0].g=3.0;
-  double mass_neutron=cng.convert("kg","1/fm",o2scl_mks::mass_neutron);
-  double mass_proton=cng.convert("kg","1/fm",o2scl_mks::mass_proton);
+  double mass_neutron=cng.convert("kg","1/fm",o2scl_const::mass_neutron_f<double>());
+  double mass_proton=cng.convert("kg","1/fm",o2scl_const::mass_proton_f<double>());
     
   m.dist[0].m=m.dist[0].Z*mass_proton+m.dist[0].N*mass_neutron+be;
   m.dist[0].non_interacting=true;
@@ -228,8 +228,8 @@ int sna_thermo::check_free_energy_sna(dist_thermo &dt, test_mgr &t) {
   
   if ((dist[0].Z+dist[0].N)%2==0) dist[0].g=1.0;
   else dist[0].g=3.0;
-  double mass_neutron=cng.convert("kg","1/fm",o2scl_mks::mass_neutron);
-  double mass_proton=cng.convert("kg","1/fm",o2scl_mks::mass_proton);
+  double mass_neutron=cng.convert("kg","1/fm",o2scl_const::mass_neutron_f<double>());
+  double mass_proton=cng.convert("kg","1/fm",o2scl_const::mass_proton_f<double>());
   dist[0].m=dist[0].Z*mass_proton+dist[0].N*mass_neutron+be;
   dist[0].non_interacting=true;
   dist[0].inc_rest_mass=false;

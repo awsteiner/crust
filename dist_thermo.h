@@ -25,6 +25,7 @@
 #include <o2scl/classical.h>
 #include <o2scl/fermion_rel.h>
 #include <o2scl/fermion_nonrel.h>
+#include <o2scl/constants.h>
 
 #include "matter.h"
 #include "ldrop_crust.h"
@@ -154,13 +155,13 @@ namespace crust {
   
       /** \brief Specify the member function pointer
        */
-    funct_solve_pressure2(dist_thermo &dt, matter &m, double T,
-			  double pr0, double nn_full) : 
-      dt_funct_base(dt,m,T) {
+      funct_solve_pressure2(dist_thermo &dt, matter &m, double T,
+                            double pr0, double nn_full) : 
+        dt_funct_base(dt,m,T) {
 	
-	ppr0=pr0;
-	nnfull=nn_full;
-      }
+          ppr0=pr0;
+          nnfull=nn_full;
+        }
       
       virtual ~funct_solve_pressure2() {};
       
@@ -197,13 +198,13 @@ namespace crust {
   
       /** \brief Specify the member function pointer
        */
-    funct_solve_pressure3(dist_thermo &dt, matter &m, double T,
-			  double pr0, double nn_full) : 
-      dt_funct_base(dt,m,T) {
+      funct_solve_pressure3(dist_thermo &dt, matter &m, double T,
+                            double pr0, double nn_full) : 
+        dt_funct_base(dt,m,T) {
 	
-	ppr0=pr0;
-	nnfull=nn_full;
-      }
+          ppr0=pr0;
+          nnfull=nn_full;
+        }
       
       virtual ~funct_solve_pressure3() {};
       
@@ -233,13 +234,14 @@ namespace crust {
   public:
 
     /** \brief Create with the specified unit conversion class
-    */
-  dist_thermo(o2scl::convert_units<double> &conv) :
-    cng(o2scl::o2scl_settings.get_convert_units()) {
-      elec_B.init(cng.convert("kg","1/fm",o2scl_mks::mass_electron),2.0);
+     */
+    dist_thermo(o2scl::convert_units<double> &conv) :
+      cng(o2scl::o2scl_settings.get_convert_units()) {
+      elec_B.init(cng.convert("kg","1/fm",
+                              o2scl_const::mass_electron_f<double>()),2.0);
       elec_B.inc_rest_mass=true;
       elec_B.non_interacting=true;
-
+    
       check=0;
     }
     
@@ -424,8 +426,8 @@ namespace crust {
       
       /** \brief Specify the member function pointer
        */
-    free_energy_dist_neut(dist_thermo &dt, matter &m, double &T,
-			  double nb) : dt_funct_base(dt,m,T) {
+      free_energy_dist_neut(dist_thermo &dt, matter &m, double &T,
+                            double nb) : dt_funct_base(dt,m,T) {
 	nbx=nb;
       }
       
@@ -453,8 +455,8 @@ namespace crust {
 	
       /** \brief Specify the member function pointer
        */
-    funct_dist_sna(dist_thermo &dt, matter &m, double T,
-		   double nb) : dt_funct_base(dt,m,T) {
+      funct_dist_sna(dist_thermo &dt, matter &m, double T,
+                     double nb) : dt_funct_base(dt,m,T) {
 	nb_=nb;
       }
 	
@@ -480,7 +482,7 @@ namespace crust {
     
     /** \brief For computing the derivative of the free energy wrt alpha
 	in \ref dist_thermo::check_pressure()
-     */
+    */
     class free_dist_deriv_alpha {
     public:
 

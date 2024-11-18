@@ -113,7 +113,7 @@ int dist_thermo::free_energy_dist(matter &m, double T, bool eval_chem_pots) {
   if (mag_field>1.0e-20) {
     elec_B.n=nptot;
     elec_B.mu=m.e.mu;
-    mfz.calc_density_zerot_mag(elec_B,-mag_field*o2scl_const::ec_gauss_fm2);
+    mfz.calc_density_zerot_mag(elec_B,-mag_field*o2scl_const::ec_gauss_fm2_f<double>());
     m.e.ed=elec_B.ed;
     m.e.en=0.0;
     m.e.pr=elec_B.pr;
@@ -160,8 +160,8 @@ int dist_thermo::free_energy_dist(matter &m, double T, bool eval_chem_pots) {
     // mass which will be added in later
     if ((dist[i].Z+dist[i].N)%2==0) dist[i].g=1.0;
     else dist[i].g=3.0;
-    double mass_neutron=cng.convert("kg","1/fm",o2scl_mks::mass_neutron);
-    double mass_proton=cng.convert("kg","1/fm",o2scl_mks::mass_proton);
+    double mass_neutron=cng.convert("kg","1/fm",o2scl_const::mass_neutron_f<double>());
+    double mass_proton=cng.convert("kg","1/fm",o2scl_const::mass_proton_f<double>());
 
     dist[i].m=dist[i].Z*mass_proton+dist[i].N*mass_neutron+be;
     dist[i].non_interacting=true;
@@ -339,9 +339,9 @@ int dist_thermo::free_energy_dist(matter &m, double T, bool eval_chem_pots) {
       double Nprime=dist[i].N-geo*Rn3*m.n->n;
       
       double mass_neutron=cng.convert
-	("kg","1/fm",o2scl_mks::mass_neutron);
+	("kg","1/fm",o2scl_const::mass_neutron_f<double>());
       double mass_proton=cng.convert
-	("kg","1/fm",o2scl_mks::mass_proton);
+	("kg","1/fm",o2scl_const::mass_proton_f<double>());
       m.mu[i]+=m.n->mu*dnnout_dni[i]+dist[i].Z*m.e.mu+
 	be+dist[i].Z*mass_proton+Nprime*mass_neutron;
 
@@ -389,9 +389,9 @@ int dist_thermo::free_energy_dist(matter &m, double T, bool eval_chem_pots) {
       if ((dist[i].Z+dist[i].N)%2==0) dist[i].g=1.0;
       else dist[i].g=3.0;
       double mass_neutron=cng.convert
-	("kg","1/fm",o2scl_mks::mass_neutron);
+	("kg","1/fm",o2scl_const::mass_neutron_f<double>());
       double mass_proton=cng.convert
-	("kg","1/fm",o2scl_mks::mass_proton);
+	("kg","1/fm",o2scl_const::mass_proton_f<double>());
       dist[i].m=dist[i].Z*mass_proton+dist[i].N*mass_neutron+be;
       dist[i].non_interacting=true;
       dist[i].inc_rest_mass=false;
@@ -464,7 +464,7 @@ int dist_thermo::mass_density(matter &m, double T) {
   if (mag_field>1.0e-20) {
     elec_B.n=nptot;
     elec_B.mu=m.e.mu;
-    mfz.calc_density_zerot_mag(elec_B,-mag_field*o2scl_const::ec_gauss_fm2);
+    mfz.calc_density_zerot_mag(elec_B,-mag_field*o2scl_const::ec_gauss_fm2_f<double>());
     m.e.ed=elec_B.ed;
     m.e.en=0.0;
     m.e.pr=elec_B.pr;
@@ -491,8 +491,8 @@ int dist_thermo::mass_density(matter &m, double T) {
     // Compute Nprime
     double Nprime=dist[i].N-4.0/3.0*pi*lda->Rn*lda->Rn*lda->Rn*m.n->n;
       
-    double mass_neutron=cng.convert("kg","1/fm",o2scl_mks::mass_neutron);
-    double mass_proton=cng.convert("kg","1/fm",o2scl_mks::mass_proton);
+    double mass_neutron=cng.convert("kg","1/fm",o2scl_const::mass_neutron_f<double>());
+    double mass_proton=cng.convert("kg","1/fm",o2scl_const::mass_proton_f<double>());
     m.rho+=dist[i].n*(dist[i].Z*mass_proton+Nprime*mass_neutron);
   }
     
@@ -516,8 +516,8 @@ int dist_thermo::mass_density(matter &m, double T) {
       double be=lda->nucleus_be(dist[i].Z,dist[i].N,m.p->n,m.n->n,T,m.e.n,
 				Rws,chi);
       phi+=4.0/3.0*pi*pow(lda->Rn,3.0)*dist[i].n;
-      double mass_neutron=cng.convert("kg","1/fm",o2scl_mks::mass_neutron);
-      double mass_proton=cng.convert("kg","1/fm",o2scl_mks::mass_proton);
+      double mass_neutron=cng.convert("kg","1/fm",o2scl_const::mass_neutron_f<double>());
+      double mass_proton=cng.convert("kg","1/fm",o2scl_const::mass_proton_f<double>());
       m.rho+=dist[i].n*(dist[i].Z*mass_proton+dist[i].N*mass_neutron);
     }
       
@@ -1134,9 +1134,9 @@ int dist_thermo::free_energy_cell(matter &m, double T, int ix, double &fr,
   if ((dist[ix].Z+dist[ix].N)%2==0) dist[ix].g=1.0;
   else dist[ix].g=3.0;
   double mass_neutron=cng.convert
-    ("kg","1/fm",o2scl_mks::mass_neutron);
+    ("kg","1/fm",o2scl_const::mass_neutron_f<double>());
   double mass_proton=cng.convert
-    ("kg","1/fm",o2scl_mks::mass_proton);
+    ("kg","1/fm",o2scl_const::mass_proton_f<double>());
   dist[ix].m=dist[ix].Z*mass_proton+dist[ix].N*mass_neutron+be;
   dist[ix].non_interacting=true;
   dist[ix].inc_rest_mass=false;

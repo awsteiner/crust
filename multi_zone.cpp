@@ -30,7 +30,7 @@ multi_zone::multi_zone() {
   //conv=cng.convert("1/fm^4","Msun/km^3",1.0);
   conv=1.7684743e-4;
   
-  schwarz_km=o2scl_mks::schwarzchild_radius/1.0e3;
+  schwarz_km=o2scl_const::schwarzchild_radius_f<double>()/1.0e3;
 
   sdebug=0;
 }

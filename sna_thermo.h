@@ -88,7 +88,8 @@ namespace crust {
       het=&he;
       lda=&lc;
 
-      elec_B.init(cng.convert("kg","1/fm",o2scl_mks::mass_electron),2.0);
+      elec_B.init(cng.convert("kg","1/fm",
+                              o2scl_const::mass_electron_f<double>()),2.0);
       elec_B.inc_rest_mass=true;
       elec_B.non_interacting=true;
 
